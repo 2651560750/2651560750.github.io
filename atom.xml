@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-11T14:52:20.209Z</updated>
+    <updated>2021-03-14T10:56:03.078Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,17 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[封装]]></title>
+        <id>https://2651560750.github.io/post/feng-zhuang/</id>
+        <link href="https://2651560750.github.io/post/feng-zhuang/">
+        </link>
+        <updated>2021-03-14T10:55:19.000Z</updated>
+        <content type="html"><![CDATA[<p>使用private<br>
+使用private修饰成员变量时，如果需要获取该值需要定义一个get成员变量名方法，get方法需要有返回值，返回值类型与成员变量相同；如果需要设置该值需要定义set成员变量名方法，set方法需要有参数，参数类型与成员变量相同。<br>
+注意：boolean的Getter方法为is成员变量名。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://2651560750.github.io/post/hello-gridea/</id>
