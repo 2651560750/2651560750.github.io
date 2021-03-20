@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-15T12:24:54.719Z</updated>
+    <updated>2021-03-20T06:32:57.435Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,60 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[标签的基本用法]]></title>
+        <id>https://2651560750.github.io/post/biao-qian-de-ji-ben-yong-fa/</id>
+        <link href="https://2651560750.github.io/post/biao-qian-de-ji-ben-yong-fa/">
+        </link>
+        <updated>2021-03-20T06:32:09.000Z</updated>
+        <content type="html"><![CDATA[<p>基本</p>
+<html>…</html>      定义 HTML 文档
+<head>…</head>   文档的信息
+<meta>                    HTML 文档的元信息
+<title>…</title>        文档的标题
+<link>                      文档与外部资源的关系
+<style>…</style>    文档的样式信息
+<body>…</body>   可见的页面内容
+<!--…-->                 注释
+<p>文本</p>
+<h1>...</h1>               标题字大小（h1~h6）
+<p><b>...</b>                   粗体字</p>
+<p><strong>...</strong>   粗体字(强调)</p>
+<p><i>...</i>                      斜体字</p>
+<p><em>...</em>              斜体字(强调)</p>
+<center>…</center>   居中文本
+<ul>…</ul>                 无序列表 
+<ol>…</ol>                 有序列表
+<li>…</li>                    列表项目
+<p><a href=”…”>…</a>    超链接</p>
+<p><font>                         定义文本字体尺寸、颜色、大小</p>
+<p><sub>                         下标</p>
+<p><sup>                         上标</p>
+<p><br>                           换行</p>
+<p>                            段落
+<p>图形<br>
+<img src=’”…”>   定义图像</p>
+<hr>                   水平线
+<p><del>                  加删除线</p>
+<p>表格</p>
+<table>…</table>   定义表格
+<th>…</th>            定义表格中的表头单元格
+<tr>…</tr>             定义表格中的行
+<td>…</td>           定义表格中的单元
+<p>其它</p>
+<form>…</form>    定义供用户输入的 HTML 表单
+<frame>                 定义框架集的窗口或框架
+<p>转义字符</p>
+<p>&lt; &lt;</p>
+<blockquote>
+<p>&gt;<br>
+空格  <br>
+© ©<br>
+® ®<br>
+™ ™</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[封装]]></title>
         <id>https://2651560750.github.io/post/feng-zhuang/</id>
