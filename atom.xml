@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-20T06:43:10.458Z</updated>
+    <updated>2021-03-20T11:19:50.571Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,26 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Spring中三种创建对象的方法]]></title>
+        <id>https://2651560750.github.io/post/spring-zhong-san-chong-chuang-jian-dui-xiang-de-fang-fa/</id>
+        <link href="https://2651560750.github.io/post/spring-zhong-san-chong-chuang-jian-dui-xiang-de-fang-fa/">
+        </link>
+        <updated>2021-03-20T11:18:02.000Z</updated>
+        <content type="html"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<p><beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd"><br>
+<bean id="user" class="com.deng.pojo.User"></p>
+<!--        <constructor-arg index="0" value="com.邓贝"/> 有参构造函数之下标赋值法-->
+<!--        <property name="name" value="邓贝"> 无参构造函数-->
+<!--直接通过参数名赋值-->
+<pre><code>    &lt;constructor-arg name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+</beans>]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[标签的基本用法]]></title>
         <id>https://2651560750.github.io/post/biao-qian-de-ji-ben-yong-fa/</id>
