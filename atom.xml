@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-20T11:19:50.571Z</updated>
+    <updated>2021-03-21T03:09:38.689Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,249 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[DI依赖注入环境]]></title>
+        <id>https://2651560750.github.io/post/di-yi-lai-zhu-ru-huan-jing/</id>
+        <link href="https://2651560750.github.io/post/di-yi-lai-zhu-ru-huan-jing/">
+        </link>
+        <updated>2021-03-20T11:51:11.000Z</updated>
+        <content type="html"><![CDATA[<p>1.构造器注入</p>
+<p>2.set方式注入【重点】<br>
+依赖：bean对象的创建依赖于容器！<br>
+注入：bean对象中的所有属性，由容器来注入！<br>
+环境搭建：<br>
+1.复杂类型<br>
+package com.deng.pojo;</p>
+<p>public class Address {<br>
+private String address;</p>
+<pre><code>public String getAddress() {
+    return address;
+}
+
+public void setAddress(String address) {
+    this.address = address;
+}
+</code></pre>
+<p>}</p>
+<p>2.真实测试对象<br>
+package com.deng.pojo;</p>
+<p>import java.util.*;</p>
+<p>public class Student {<br>
+private String name;<br>
+private Address address;<br>
+private String[] books;<br>
+private List<String> hobby;<br>
+private Map&lt;String,String&gt; card;<br>
+private Set<String> games;<br>
+private Properties info;<br>
+private  String wife;</p>
+<pre><code>public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public Address getAddress() {
+    return address;
+}
+
+public void setAddress(Address address) {
+    this.address = address;
+}
+
+public String[] getBooks() {
+    return books;
+}
+
+public void setBooks(String[] books) {
+    this.books = books;
+}
+
+public List&lt;String&gt; getHobby() {
+    return hobby;
+}
+
+public void setHobby(List&lt;String&gt; hobby) {
+    this.hobby = hobby;
+}
+
+public Map&lt;String, String&gt; getCard() {
+    return card;
+}
+
+public void setCard(Map&lt;String, String&gt; card) {
+    this.card = card;
+}
+
+public Set&lt;String&gt; getGames() {
+    return games;
+}
+
+public void setGames(Set&lt;String&gt; games) {
+    this.games = games;
+}
+
+public Properties getInfo() {
+    return info;
+}
+
+public void setInfo(Properties info) {
+    this.info = info;
+}
+
+public String getWife() {
+    return wife;
+}
+
+public void setWife(String wife) {
+    this.wife = wife;
+}
+
+@Override
+public String toString() {
+    return &quot;Student{&quot; +
+            &quot;name='&quot; + name + '\'' +
+            &quot;, address=&quot; + address +
+            &quot;, books=&quot; + Arrays.toString(books) +
+            &quot;, hobby=&quot; + hobby +
+            &quot;, card=&quot; + card +
+            &quot;, games=&quot; + games +
+            &quot;, info=&quot; + info +
+            &quot;, wife='&quot; + wife + '\'' +
+            '}';
+}
+</code></pre>
+<p>}<br>
+3.<?xml version="1.0" encoding="UTF-8"?><br>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd"></p>
+<pre><code>&lt;bean id=&quot;address&quot; class=&quot;com.deng.pojo.Address&quot;/&gt;
+&lt;bean id=&quot;student&quot; class=&quot;com.deng.pojo.Student&quot;&gt;
+    &lt;!--    第一种，普通类，直接注入value--&gt;
+    &lt;property name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
+    &lt;!--    第二种，bean类，注入ref--&gt;
+    &lt;property name=&quot;address&quot; ref=&quot;address&quot;/&gt;
+    &lt;!--    第三种，数组--&gt;
+    &lt;property name=&quot;books&quot;&gt;
+        &lt;array&gt;
+            &lt;value&gt; 红楼梦&lt;/value&gt;
+            &lt;value&gt; 水浒传&lt;/value&gt;
+            &lt;value&gt; 平凡的世界&lt;/value&gt;
+            &lt;value&gt;明朝那些事儿&lt;/value&gt;
+        &lt;/array&gt;
+    &lt;/property&gt;
+       &lt;!-- 第四种，list--&gt;
+    &lt;property name=&quot;hobby&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt; 听歌&lt;/value&gt;
+            &lt;value&gt; 打游戏&lt;/value&gt;
+            &lt;value&gt; 敲代码&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+       &lt;!--第五种，Map--&gt;
+    &lt;property name=&quot;card&quot;&gt;
+        &lt;map&gt;
+            &lt;entry key=&quot;身份证&quot; value=&quot;362501200105266618&quot;/&gt;
+            &lt;entry key=&quot;银行卡&quot; value=&quot;200165165151651065&quot;/&gt;
+        &lt;/map&gt;
+    &lt;/property&gt;
+     &lt;!--Set--&gt;
+    &lt;property name=&quot;games&quot;&gt;
+        &lt;set&gt;
+            &lt;value&gt;LOL&lt;/value&gt;
+            &lt;value&gt;COC&lt;/value&gt;
+            &lt;value&gt;BOB&lt;/value&gt;
+        &lt;/set&gt;
+    &lt;/property&gt;
+    &lt;!--空指针--&gt;
+   &lt;!--&lt;property name=&quot;wife&quot; value=&quot;&quot;/&gt;空值--&gt;
+    &lt;property name=&quot;wife&quot;&gt;
+        &lt;null/&gt;&lt;!--空指针--&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;info&quot;&gt;
+        &lt;props&gt;
+            &lt;prop key=&quot;学号&quot;&gt;201908130310&lt;/prop&gt;
+            &lt;prop key=&quot;性别&quot;&gt;男性&lt;/prop&gt;
+            &lt;prop key=&quot;班级&quot;&gt; 软件1903班&lt;/prop&gt;
+        &lt;/props&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+</beans>
+<p>3.测试结果<br>
+import com.deng.pojo.Student;<br>
+import org.springframework.context.support.ClassPathXmlApplicationContext;</p>
+<p>public class MyTrxt {<br>
+public static void main(String[] args) {<br>
+ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);<br>
+Student student=(Student) context.getBean(&quot;student&quot;);<br>
+System.out.println(student.toString());<br>
+}<br>
+}<br>
+//    Student{<br>
+//    name='贝爷',<br>
+//    address=Address{address='长沙'},<br>
+//    books=[ 红楼梦,  水浒传,  平凡的世界, 明朝那些事儿],<br>
+//    hobby=[ 听歌,  打游戏,  敲代码],<br>
+//    card={身份证=362501200105266618, 银行卡=200165165151651065},<br>
+//    games=[LOL, COC, BOB],<br>
+//    info={学号=201908130310, 性别=男性, 班级=软件1903班},<br>
+//    wife='null'<br>
+//    }<br>
+4.拓展方式注入<br>
+可以运用p/c命名空间进行注入</p>
+<?xml version="1.0" encoding="UTF-8"?>
+<p><beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd"><br>
+<!-- p命名空间注入，可以直接注入属性值,proprety--><br>
+<bean id="user" class="com.deng.pojo.User" p:name="贝爷" p:age="21"/><br>
+<!--c命名空间注入，通过构造器注入，construct-args--><br>
+<bean id="user2" class="com.deng.pojo.User" c:name="黄皮耗子" c:age="3"/><br>
+</beans><br>
+测试：<br>
+@Test<br>
+public void text2(){<br>
+ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext(&quot;Userbeans.xml&quot;);<br>
+User user=(User) context.getBean(&quot;user2&quot;);<br>
+System.out.println(user);<br>
+}<br>
+注意：<br>
+要导入<br>
+xmlns:p=&quot;http://www.springframework.org/schema/p&quot;<br>
+xmlns:c=&quot;http://www.springframework.org/schema/c&quot;<br>
+这两个约束。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Spring配置]]></title>
+        <id>https://2651560750.github.io/post/spring-pei-zhi/</id>
+        <link href="https://2651560750.github.io/post/spring-pei-zhi/">
+        </link>
+        <updated>2021-03-20T11:39:51.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1616240506290.png" alt="" loading="lazy"></figure>
+<ol>
+<li>alias：<!-- 别名，我们也可以通过别名来获取对象   --><br>
+<alias name="user" alias="user2"/><br>
+2.bean的配置：</li>
+</ol>
+ <!--  id:bean的唯一标识符，也就是java中的对象名  -->
+<!--   class:bean对象所对应的全限定名：包名+类名-->
+<!--    name： 也是别名，但是他可以生成多个别名-->
+<pre><code>&lt;bean id=&quot;user&quot; class=&quot;com.deng.pojo.User&quot; name=&quot;user3,user4,user5,user6&quot;/&gt;
+</code></pre>
+<p>3.import：多用于团队开发，可以将多个文件中的bean整合到一个bean中<br>
+<import resource="beans.xml"/><br>
+<import resource="beans2.xml"/></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Spring中三种创建对象的方法]]></title>
         <id>https://2651560750.github.io/post/spring-zhong-san-chong-chuang-jian-dui-xiang-de-fang-fa/</id>

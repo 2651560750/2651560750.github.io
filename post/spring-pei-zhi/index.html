@@ -2,17 +2,25 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>封装 | Gridea</title>
+<title>Spring配置 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1616296171693">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="封装 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Spring配置 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="使用private
-使用private修饰成员变量时，如果需要获取该值需要定义一个get成员变量名方法，get方法需要有返回值，返回值类型与成员变量相同；如果需要设置该值需要定义set成员变量名方法，set方法需要有参数，参数类型与成员变量..." />
+    <meta name="description" content="
+
+alias：
+
+2.bean的配置：
+
+ 
+
+
+&lt;bean id=&quot;user&quot; class=&quot;com.deng.pojo.User&quot; name=&quot;user3,user4,user5..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -75,11 +83,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              封装
+              Spring配置
             </h2>
             <div class="post-info">
               <span>
-                2021-03-14
+                2021-03-20
               </span>
               <span>
                 1 min read
@@ -89,9 +97,20 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>使用private<br>
-使用private修饰成员变量时，如果需要获取该值需要定义一个get成员变量名方法，get方法需要有返回值，返回值类型与成员变量相同；如果需要设置该值需要定义set成员变量名方法，set方法需要有参数，参数类型与成员变量相同。<br>
-注意：boolean的Getter方法为is成员变量名。</p>
+                <figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1616240506290.png" alt="" loading="lazy"></figure>
+<ol>
+<li>alias：<!-- 别名，我们也可以通过别名来获取对象   --><br>
+<alias name="user" alias="user2"/><br>
+2.bean的配置：</li>
+</ol>
+ <!--  id:bean的唯一标识符，也就是java中的对象名  -->
+<!--   class:bean对象所对应的全限定名：包名+类名-->
+<!--    name： 也是别名，但是他可以生成多个别名-->
+<pre><code>&lt;bean id=&quot;user&quot; class=&quot;com.deng.pojo.User&quot; name=&quot;user3,user4,user5,user6&quot;/&gt;
+</code></pre>
+<p>3.import：多用于团队开发，可以将多个文件中的bean整合到一个bean中<br>
+<import resource="beans.xml"/><br>
+<import resource="beans2.xml"/></p>
 
               </div>
               <div class="toc-container">
@@ -104,9 +123,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/hello-gridea/">
+            <a href="https://2651560750.github.io/post/spring-zhong-san-chong-chuang-jian-dui-xiang-de-fang-fa/">
               <h3 class="post-title">
-                Hello Gridea
+                Spring中三种创建对象的方法
               </h3>
             </a>
           </div>
