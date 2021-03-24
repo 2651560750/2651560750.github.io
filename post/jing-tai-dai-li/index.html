@@ -2,22 +2,23 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>标签的基本用法 | Gridea</title>
+<title>静态代理 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1616593727816">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="标签的基本用法 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="静态代理 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="基本
-…      定义 HTML 文档
-…   文档的信息
-                    HTML 文档的元信息
-…        文档的标题
-                      文档与外部资源的关系
-…    文档的样..." />
+    <meta name="description" content="角色分析：
+抽象角色：一般用接口或抽象类来解决
+真实角色：被代理的角色
+代理角色：代理真是角色，代理后，一般会实现一些附属操作
+客户：访问代理对象的人
+代理模式的好处：
+*可以使真是角色的操作更加纯粹！不用去管理其他的操作。
+*公共业务也就..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -80,66 +81,80 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              标签的基本用法
+              静态代理
             </h2>
             <div class="post-info">
               <span>
-                2021-03-20
+                2021-03-22
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>基本</p>
-<html>…</html>      定义 HTML 文档
-<head>…</head>   文档的信息
-<meta>                    HTML 文档的元信息
-<title>…</title>        文档的标题
-<link>                      文档与外部资源的关系
-<style>…</style>    文档的样式信息
-<body>…</body>   可见的页面内容
-<!--…-->                 注释
-<p>文本</p>
-<h1>...</h1>               标题字大小（h1~h6）
-<p><b>...</b>                   粗体字</p>
-<p><strong>...</strong>   粗体字(强调)</p>
-<p><i>...</i>                      斜体字</p>
-<p><em>...</em>              斜体字(强调)</p>
-<center>…</center>   居中文本
-<ul>…</ul>                 无序列表 
-<ol>…</ol>                 有序列表
-<li>…</li>                    列表项目
-<p><a href=”…”>…</a>    超链接</p>
-<p><font>                         定义文本字体尺寸、颜色、大小</p>
-<p><sub>                         下标</p>
-<p><sup>                         上标</p>
-<p><br>                           换行</p>
-<p>                            段落
-<p>图形<br>
-<img src=’”…”>   定义图像</p>
-<hr>                   水平线
-<p><del>                  加删除线</p>
-<p>表格</p>
-<table>…</table>   定义表格
-<th>…</th>            定义表格中的表头单元格
-<tr>…</tr>             定义表格中的行
-<td>…</td>           定义表格中的单元
-<p>其它</p>
-<form>…</form>    定义供用户输入的 HTML 表单
-<frame>                 定义框架集的窗口或框架
-<p>转义字符</p>
-<p>&lt; &lt;</p>
-<blockquote>
-<p>&gt;<br>
-空格  <br>
-© ©<br>
-® ®<br>
-™ ™</p>
-</blockquote>
+                <p>角色分析：<br>
+抽象角色：一般用接口或抽象类来解决<br>
+真实角色：被代理的角色<br>
+代理角色：代理真是角色，代理后，一般会实现一些附属操作<br>
+客户：访问代理对象的人<br>
+代理模式的好处：<br>
+*可以使真是角色的操作更加纯粹！不用去管理其他的操作。<br>
+*公共业务也就交给了角色，实现了业务的分工<br>
+*公共业务拓展的时候，方便集中管理<br>
+缺点：一个真是角色就会产生一个代理角色；代码量会翻倍，开发效率会变低；<br>
+过程：<br>
+1.接口：<br>
+package com.deng.damo01;</p>
+<p>public interface Rent {<br>
+public void rent();<br>
+}<br>
+2.真实角色<br>
+package com.deng.damo01;</p>
+<p>public class Host implements Rent{<br>
+public void rent(){<br>
+System.out.println(&quot;房东要出租房子&quot;);<br>
+}<br>
+}<br>
+3.代理角色<br>
+package com.deng.damo01;</p>
+<p>public class Proxy implements Rent{<br>
+private Host host;</p>
+<pre><code>public Proxy() {
+
+}
+
+public Proxy(Host host) {
+    this.host = host;
+}
+</code></pre>
+<p>public void rent(){<br>
+host.rent();<br>
+lookhouse();<br>
+fare();<br>
+hetong();<br>
+}<br>
+public void lookhouse(){<br>
+System.out.println(&quot;看房子&quot;);<br>
+}<br>
+public void fare(){<br>
+System.out.println(&quot;中介收取中介费&quot;);<br>
+}<br>
+public void hetong(){<br>
+System.out.println(&quot;签合同&quot;);<br>
+}<br>
+}<br>
+4.客户访问代理角色<br>
+package com.deng.damo01;</p>
+<p>public class Client {<br>
+public static void main(String[] args) {<br>
+Host host=new Host();<br>
+Proxy proxy=new Proxy(host);<br>
+proxy.rent();<br>
+}<br>
+}</p>
 
               </div>
               <div class="toc-container">
@@ -152,9 +167,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/feng-zhuang/">
+            <a href="https://2651560750.github.io/post/shi-yong-javaconfig-shi-xian-pei-zhi/">
               <h3 class="post-title">
-                封装
+                使用javaconfig实现配置
               </h3>
             </a>
           </div>

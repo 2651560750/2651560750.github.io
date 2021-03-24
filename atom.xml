@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-21T15:28:55.673Z</updated>
+    <updated>2021-03-24T13:50:19.276Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,329 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[声明事务]]></title>
+        <id>https://2651560750.github.io/post/sheng-ming-shi-wu/</id>
+        <link href="https://2651560750.github.io/post/sheng-ming-shi-wu/">
+        </link>
+        <updated>2021-03-24T11:00:45.000Z</updated>
+        <content type="html"><![CDATA[<p>13、声明式事务1、回顾事务<br>
+1.把一组业务当成一个业务来做;要么都成功，要么都失败!<br>
+2.事务在项目开发中，十分的重要，涉及到数据的一致性问题，不能马虎!<br>
+3.确保完整性和一致性;<br>
+I<br>
+事务ACID原则:<br>
+1.原子性。<br>
+2.一致性<br>
+3.隔离性<br>
+多个业务可能操作同一个资源，防止数据损坏·<br>
+4.持久性<br>
+事务一旦提交，无论系统发生什么问题，结果都不会再被影响，被持久化的写到存储器中!</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用Spring实现AOP]]></title>
+        <id>https://2651560750.github.io/post/shi-yong-spring-shi-xian-aop/</id>
+        <link href="https://2651560750.github.io/post/shi-yong-spring-shi-xian-aop/">
+        </link>
+        <updated>2021-03-24T08:02:31.000Z</updated>
+        <content type="html"><![CDATA[<p>使用AOP，需要导入一个依赖包</p>
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+            &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+            &lt;version&gt;1.9.6&lt;/version&gt;
+        &lt;/dependency&gt;
+        ```
+        方式一：使用Spring的API接口
+        方式二：自定义来实现AOP
+        方式三：使用注解实现AOP
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[动态代理]]></title>
+        <id>https://2651560750.github.io/post/dong-tai-dai-li/</id>
+        <link href="https://2651560750.github.io/post/dong-tai-dai-li/">
+        </link>
+        <updated>2021-03-23T13:06:03.000Z</updated>
+        <content type="html"><![CDATA[<p>动态代理和静态代理角色一样<br>
+动态代理的代理类是动态生成的，不是我们直接写好的!<br>
+动态代理分为两大类:基于接口的动态代理，基于类的动态代理<br>
+。基于接口---JDK动态代理<br>
+。基于类: cglib<br>
+o java字节码实现 : javasist</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[静态代理]]></title>
+        <id>https://2651560750.github.io/post/jing-tai-dai-li/</id>
+        <link href="https://2651560750.github.io/post/jing-tai-dai-li/">
+        </link>
+        <updated>2021-03-22T02:39:38.000Z</updated>
+        <content type="html"><![CDATA[<p>角色分析：<br>
+抽象角色：一般用接口或抽象类来解决<br>
+真实角色：被代理的角色<br>
+代理角色：代理真是角色，代理后，一般会实现一些附属操作<br>
+客户：访问代理对象的人<br>
+代理模式的好处：<br>
+*可以使真是角色的操作更加纯粹！不用去管理其他的操作。<br>
+*公共业务也就交给了角色，实现了业务的分工<br>
+*公共业务拓展的时候，方便集中管理<br>
+缺点：一个真是角色就会产生一个代理角色；代码量会翻倍，开发效率会变低；<br>
+过程：<br>
+1.接口：<br>
+package com.deng.damo01;</p>
+<p>public interface Rent {<br>
+public void rent();<br>
+}<br>
+2.真实角色<br>
+package com.deng.damo01;</p>
+<p>public class Host implements Rent{<br>
+public void rent(){<br>
+System.out.println(&quot;房东要出租房子&quot;);<br>
+}<br>
+}<br>
+3.代理角色<br>
+package com.deng.damo01;</p>
+<p>public class Proxy implements Rent{<br>
+private Host host;</p>
+<pre><code>public Proxy() {
+
+}
+
+public Proxy(Host host) {
+    this.host = host;
+}
+</code></pre>
+<p>public void rent(){<br>
+host.rent();<br>
+lookhouse();<br>
+fare();<br>
+hetong();<br>
+}<br>
+public void lookhouse(){<br>
+System.out.println(&quot;看房子&quot;);<br>
+}<br>
+public void fare(){<br>
+System.out.println(&quot;中介收取中介费&quot;);<br>
+}<br>
+public void hetong(){<br>
+System.out.println(&quot;签合同&quot;);<br>
+}<br>
+}<br>
+4.客户访问代理角色<br>
+package com.deng.damo01;</p>
+<p>public class Client {<br>
+public static void main(String[] args) {<br>
+Host host=new Host();<br>
+Proxy proxy=new Proxy(host);<br>
+proxy.rent();<br>
+}<br>
+}</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用javaconfig实现配置]]></title>
+        <id>https://2651560750.github.io/post/shi-yong-javaconfig-shi-xian-pei-zhi/</id>
+        <link href="https://2651560750.github.io/post/shi-yong-javaconfig-shi-xian-pei-zhi/">
+        </link>
+        <updated>2021-03-22T02:10:22.000Z</updated>
+        <content type="html"><![CDATA[<p>1.实现类<br>
+package com.deng.pojo;</p>
+<p>import org.springframework.beans.factory.annotation.Value;<br>
+import org.springframework.stereotype.Component;<br>
+//注解的意思是这个类被Spring接管了，装在了容器里面<br>
+@Component<br>
+public class User {<br>
+private String name;</p>
+<pre><code>public String getName() {
+    return name;
+}
+</code></pre>
+<p>@Value(&quot;beiye&quot;)//属性注入值<br>
+public void setName(String name) {<br>
+this.name = name;<br>
+}</p>
+<pre><code>@Override
+public String toString() {
+    return &quot;User{&quot; +
+            &quot;name='&quot; + name + '\'' +
+            '}';
+}
+</code></pre>
+<p>}<br>
+2.配置类<br>
+package com.deng.config;</p>
+<p>import com.deng.pojo.User;<br>
+import org.springframework.context.annotation.Bean;<br>
+import org.springframework.context.annotation.Configuration;</p>
+<p>@Configuration//他也会被容器托管，注册到容器之中，他本身也是一个@Component类<br>
+//@Configuration 他就是一个配置类，和之前的xml文件一样<br>
+public class dengconfig {<br>
+//注册一个bean，就相当于之前写的一个bean标签<br>
+//这个方法名，就相当于bean标签中的id属性<br>
+//这个方法的返回值，就相当于bean标签中的class属性<br>
+@Bean<br>
+public User getuser() {<br>
+return new User();//返回当前对象<br>
+}<br>
+}<br>
+3.测试类<br>
+import com.deng.config.dengconfig;<br>
+import com.deng.pojo.User;<br>
+import org.springframework.context.ApplicationContext;<br>
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;</p>
+<p>public class MyTest {<br>
+public static void main(String[] args) {<br>
+//如果使用配置类去完成，只能通过ApplicationContext context=new AnnotationConfigApplicationContext(dengconfig.class);<br>
+//获取上下文的容器<br>
+ApplicationContext context=new AnnotationConfigApplicationContext(dengconfig.class);<br>
+User user=(User)context.getBean(&quot;getuser&quot;);<br>
+System.out.println( user.getName());<br>
+}<br>
+}</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Spring注解开发]]></title>
+        <id>https://2651560750.github.io/post/Spring注解开发/</id>
+        <link href="https://2651560750.github.io/post/Spring注解开发/">
+        </link>
+        <updated>2021-03-21T08:14:23.000Z</updated>
+        <content type="html"><![CDATA[<p>1.环境配置</p>
+<?xml version="1.0" encoding="UTF-8"?>
+<p><beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    https://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    https://www.springframework.org/schema/aop/spring-aop.xsd"><br>
+<a href="context:annotation-config/">context:annotation-config/</a><br>
+&lt;context:component-scan base-package=&quot;com.deng.dao&quot;/&gt;<br>
+</beans><br>
+2.属性该如何注入<br>
+package com.deng.dao;<br>
+import org.springframework.beans.factory.annotation.Value;<br>
+import org.springframework.stereotype.Component;<br>
+//@Component 组件<br>
+//等价于    <bean id="user" class="com.deng.dao.User"/><br>
+@Component<br>
+public class User {<br>
+// @Value  相当于 <property name="name" value="dengbei"/><br>
+@Value(&quot;dengbei&quot;)<br>
+public String name;<br>
+}<br>
+3.衍生的注解<br>
+@Component 有几个衍生的注解，在Web开发中，一般分为三层</p>
+<ul>
+<li>Dao【@Repository】</li>
+<li>service 【@Service】</li>
+<li>contoller【@Controller】<br>
+这四个注解功能一样，只是用于不同层次的表示而已<br>
+4.作用域<br>
+@Component<br>
+@Scope(&quot;singleton&quot;)<br>
+public class User {<br>
+// @Value  相当于 <property name="name" value="dengbei"/><br>
+@Value(&quot;dengbei&quot;)<br>
+public String name;<br>
+}</li>
+</ul>
+<ol start="5">
+<li>小结<br>
+xml更加万能，适用于任何场所！维护相对简单。<br>
+注解不是自己的类用不了，维护相对复杂。<br>
+xml和注解的最佳实践是：<br>
+xml用来管理bean，注解只负责属性的注入。<br>
+注意：在使用注解时一定要开启注解的支持。</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用注解实现自动装配]]></title>
+        <id>https://2651560750.github.io/post/shi-yong-zhu-jie-shi-xian-zi-dong-zhuang-pei/</id>
+        <link href="https://2651560750.github.io/post/shi-yong-zhu-jie-shi-xian-zi-dong-zhuang-pei/">
+        </link>
+        <updated>2021-03-21T07:17:11.000Z</updated>
+        <content type="html"><![CDATA[<p>使用注解注意事项：<br>
+1.导入约束      xmlns:context=&quot;http://www.springframework.org/schema/context&quot;<br>
+2.配置注解支持    <a href="context:annotation-config/">context:annotation-config/</a></p>
+<?xml version="1.0" encoding="UTF-8"?>
+<p><beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+              xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    https://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    https://www.springframework.org/schema/aop/spring-aop.xsd"><br>
+<a href="context:annotation-config/">context:annotation-config/</a><br>
+</beans><br>
+@Autowired<br>
+1.直接在属性上使用即可，也可以用在set方法上<br>
+2.如果 @Autowired的required定义为false表示这个对象可以为空，否则就不可以为空<br>
+public class People {<br>
+@Autowired<br>
+private Dog dog;<br>
+@Autowired(required = false)<br>
+private Cat cat;<br>
+private String name;<br>
+3.如果 @Autowired自动装配环境比较复杂，自动装配无法通过一个注解 @Autowired完成的时候<br>
+我们可以通过@Qualifier(value = &quot;id名&quot;)去配置  @Autowired的使用，指定唯一的bean的对象注入！<br>
+public class People {<br>
+@Autowired<br>
+@Qualifier(value = &quot;dog01&quot;)<br>
+private Dog dog;<br>
+@Autowired<br>
+@Qualifier(value = &quot;cat02&quot;)<br>
+private Cat cat;<br>
+private String name;</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bean的自动装配]]></title>
+        <id>https://2651560750.github.io/post/bean的自动装配/</id>
+        <link href="https://2651560750.github.io/post/bean的自动装配/">
+        </link>
+        <updated>2021-03-21T06:37:32.000Z</updated>
+        <content type="html"><![CDATA[<pre><code>自动装配是Spring满足bean以来的一种方式
+Spring会自动寻找上下文，并自定给出bean装配属性
+在Spring中有三种装配的方式
+1.在xml中显示的装配
+2.在java中显示的装配
+3.隐式的自动装配bean
+</code></pre>
+<p>一： 环境搭建：<br>
+一个人有两只宠物</p>
+<ol>
+<li>ByNmae自动搭配</li>
+</ol>
+  <!--   ByName自动装配，会在容器上下文中查找，和自己对象set方法后面对应的bean的id的值-->
+   <bean id="dog" class="com.deng.pojo.Dog"/>
+    <bean id="cat" class="com.deng.pojo.Cat"/>
+    <bean id="people" class="com.deng.pojo.People" autowire="byName">
+        <property name="name" value="黄皮耗子"/>
+    </bean>
+1. ByType 自动装配
+       <!--   ByName自动装配，会在容器上下文中查找，和自己对象属性类型相同的bean-->
+   <bean  class="com.deng.pojo.Dog"/>
+    <bean  class="com.deng.pojo.Cat"/>
+    <bean id="people" class="com.deng.pojo.People" autowire="byType">
+        <property name="name" value="黄皮耗子"/>
+    </bean>
+总结：  <!--   ByName自动装配，需要保证bean的id的唯一性，并且这个bean要和自动注入属性的set方法的值一致>
+<!--   ByType自动装配，需要保证bean的class的唯一性，并且这个bean要和自动注入属性的属性类型一致>]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[bean的作用域]]></title>
         <id>https://2651560750.github.io/post/bean-de-zuo-yong-yu/</id>
@@ -242,145 +565,6 @@ System.out.println(user);<br>
 xmlns:p=&quot;http://www.springframework.org/schema/p&quot;<br>
 xmlns:c=&quot;http://www.springframework.org/schema/c&quot;<br>
 这两个约束。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Spring配置]]></title>
-        <id>https://2651560750.github.io/post/spring-pei-zhi/</id>
-        <link href="https://2651560750.github.io/post/spring-pei-zhi/">
-        </link>
-        <updated>2021-03-20T11:39:51.000Z</updated>
-        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1616240506290.png" alt="" loading="lazy"></figure>
-<ol>
-<li>alias：<!-- 别名，我们也可以通过别名来获取对象   --><br>
-<alias name="user" alias="user2"/><br>
-2.bean的配置：</li>
-</ol>
- <!--  id:bean的唯一标识符，也就是java中的对象名  -->
-<!--   class:bean对象所对应的全限定名：包名+类名-->
-<!--    name： 也是别名，但是他可以生成多个别名-->
-<pre><code>&lt;bean id=&quot;user&quot; class=&quot;com.deng.pojo.User&quot; name=&quot;user3,user4,user5,user6&quot;/&gt;
-</code></pre>
-<p>3.import：多用于团队开发，可以将多个文件中的bean整合到一个bean中<br>
-<import resource="beans.xml"/><br>
-<import resource="beans2.xml"/></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Spring中三种创建对象的方法]]></title>
-        <id>https://2651560750.github.io/post/spring-zhong-san-chong-chuang-jian-dui-xiang-de-fang-fa/</id>
-        <link href="https://2651560750.github.io/post/spring-zhong-san-chong-chuang-jian-dui-xiang-de-fang-fa/">
-        </link>
-        <updated>2021-03-20T11:18:02.000Z</updated>
-        <content type="html"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd"><br>
-<bean id="user" class="com.deng.pojo.User"></p>
-<!--        <constructor-arg index="0" value="com.邓贝"/> 有参构造函数之下标赋值法-->
-<!--        <property name="name" value="邓贝"> 无参构造函数-->
-<!--直接通过参数名赋值-->
-<pre><code>    &lt;constructor-arg name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
-&lt;/bean&gt;
-</code></pre>
-</beans>]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[标签的基本用法]]></title>
-        <id>https://2651560750.github.io/post/biao-qian-de-ji-ben-yong-fa/</id>
-        <link href="https://2651560750.github.io/post/biao-qian-de-ji-ben-yong-fa/">
-        </link>
-        <updated>2021-03-20T06:32:09.000Z</updated>
-        <content type="html"><![CDATA[<p>基本</p>
-<html>…</html>      定义 HTML 文档
-<head>…</head>   文档的信息
-<meta>                    HTML 文档的元信息
-<title>…</title>        文档的标题
-<link>                      文档与外部资源的关系
-<style>…</style>    文档的样式信息
-<body>…</body>   可见的页面内容
-<!--…-->                 注释
-<p>文本</p>
-<h1>...</h1>               标题字大小（h1~h6）
-<p><b>...</b>                   粗体字</p>
-<p><strong>...</strong>   粗体字(强调)</p>
-<p><i>...</i>                      斜体字</p>
-<p><em>...</em>              斜体字(强调)</p>
-<center>…</center>   居中文本
-<ul>…</ul>                 无序列表 
-<ol>…</ol>                 有序列表
-<li>…</li>                    列表项目
-<p><a href=”…”>…</a>    超链接</p>
-<p><font>                         定义文本字体尺寸、颜色、大小</p>
-<p><sub>                         下标</p>
-<p><sup>                         上标</p>
-<p><br>                           换行</p>
-<p>                            段落
-<p>图形<br>
-<img src=’”…”>   定义图像</p>
-<hr>                   水平线
-<p><del>                  加删除线</p>
-<p>表格</p>
-<table>…</table>   定义表格
-<th>…</th>            定义表格中的表头单元格
-<tr>…</tr>             定义表格中的行
-<td>…</td>           定义表格中的单元
-<p>其它</p>
-<form>…</form>    定义供用户输入的 HTML 表单
-<frame>                 定义框架集的窗口或框架
-<p>转义字符</p>
-<p>&lt; &lt;</p>
-<blockquote>
-<p>&gt;<br>
-空格  <br>
-© ©<br>
-® ®<br>
-™ ™</p>
-</blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[封装]]></title>
-        <id>https://2651560750.github.io/post/feng-zhuang/</id>
-        <link href="https://2651560750.github.io/post/feng-zhuang/">
-        </link>
-        <updated>2021-03-14T10:55:19.000Z</updated>
-        <content type="html"><![CDATA[<p>使用private<br>
-使用private修饰成员变量时，如果需要获取该值需要定义一个get成员变量名方法，get方法需要有返回值，返回值类型与成员变量相同；如果需要设置该值需要定义set成员变量名方法，set方法需要有参数，参数类型与成员变量相同。<br>
-注意：boolean的Getter方法为is成员变量名。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://2651560750.github.io/post/hello-gridea/</id>
-        <link href="https://2651560750.github.io/post/hello-gridea/">
-        </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>
