@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-24T13:50:59.006Z</updated>
+    <updated>2021-03-28T11:32:18.159Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -11,560 +11,483 @@
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
     <entry>
-        <title type="html"><![CDATA[声明事务]]></title>
-        <id>https://2651560750.github.io/post/sheng-ming-shi-wu/</id>
-        <link href="https://2651560750.github.io/post/sheng-ming-shi-wu/">
+        <title type="html"><![CDATA[JS学习之函数（重点）]]></title>
+        <id>https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/</id>
+        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/">
         </link>
-        <updated>2021-03-24T11:00:45.000Z</updated>
-        <content type="html"><![CDATA[<p>13、声明式事务1、回顾事务<br>
-1.把一组业务当成一个业务来做;要么都成功，要么都失败!<br>
-2.事务在项目开发中，十分的重要，涉及到数据的一致性问题，不能马虎!<br>
-3.确保完整性和一致性;<br>
-I<br>
-事务ACID原则:<br>
-1.原子性。<br>
-2.一致性<br>
-3.隔离性<br>
-多个业务可能操作同一个资源，防止数据损坏·<br>
-4.持久性<br>
-事务一旦提交，无论系统发生什么问题，结果都不会再被影响，被持久化的写到存储器中!</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用Spring实现AOP]]></title>
-        <id>https://2651560750.github.io/post/shi-yong-spring-shi-xian-aop/</id>
-        <link href="https://2651560750.github.io/post/shi-yong-spring-shi-xian-aop/">
-        </link>
-        <updated>2021-03-24T08:02:31.000Z</updated>
-        <content type="html"><![CDATA[<p>使用AOP，需要导入一个依赖包</p>
-<pre><code>        &lt;dependency&gt;
-            &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
-            &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
-            &lt;version&gt;1.9.6&lt;/version&gt;
-        &lt;/dependency&gt;
-        ```
-        方式一：使用Spring的API接口
-        方式二：自定义来实现AOP
-        方式三：使用注解实现AOP
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[动态代理]]></title>
-        <id>https://2651560750.github.io/post/dong-tai-dai-li/</id>
-        <link href="https://2651560750.github.io/post/dong-tai-dai-li/">
-        </link>
-        <updated>2021-03-23T13:06:03.000Z</updated>
-        <content type="html"><![CDATA[<p>动态代理和静态代理角色一样<br>
-动态代理的代理类是动态生成的，不是我们直接写好的!<br>
-动态代理分为两大类:基于接口的动态代理，基于类的动态代理<br>
-。基于接口---JDK动态代理<br>
-。基于类: cglib<br>
-o java字节码实现 : javasist</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[静态代理]]></title>
-        <id>https://2651560750.github.io/post/jing-tai-dai-li/</id>
-        <link href="https://2651560750.github.io/post/jing-tai-dai-li/">
-        </link>
-        <updated>2021-03-22T02:39:38.000Z</updated>
-        <content type="html"><![CDATA[<p>角色分析：<br>
-抽象角色：一般用接口或抽象类来解决<br>
-真实角色：被代理的角色<br>
-代理角色：代理真是角色，代理后，一般会实现一些附属操作<br>
-客户：访问代理对象的人<br>
-代理模式的好处：<br>
-*可以使真是角色的操作更加纯粹！不用去管理其他的操作。<br>
-*公共业务也就交给了角色，实现了业务的分工<br>
-*公共业务拓展的时候，方便集中管理<br>
-缺点：一个真是角色就会产生一个代理角色；代码量会翻倍，开发效率会变低；<br>
-过程：<br>
-1.接口：<br>
-package com.deng.damo01;</p>
-<p>public interface Rent {<br>
-public void rent();<br>
+        <updated>2021-03-27T12:22:56.000Z</updated>
+        <content type="html"><![CDATA[<p>#函数的二种定义方式<br>
+第一种，可以使用function关键字来定义函数。<br>
+使用的格式如下:<br>
+function函数名(形参列表)<br>
+函数体<br>
 }<br>
-2.真实角色<br>
-package com.deng.damo01;</p>
-<p>public class Host implements Rent{<br>
-public void rent(){<br>
-System.out.println(&quot;房东要出租房子&quot;);<br>
-}<br>
-}<br>
-3.代理角色<br>
-package com.deng.damo01;</p>
-<p>public class Proxy implements Rent{<br>
-private Host host;</p>
-<pre><code>public Proxy() {
+在JavaScript语言中，如何定义带有返回值的函数?<br>
+只需要在函数体内直接使用return语句返回值即可!</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+/*        第一种，可以使用function关键字来定义函数。
+使用的格式如下:
+    function函数名(形参列表)
+        函数体
+        }*/
+//定义一个无惨函数
+function fun(){
+    alert(&quot;岁东航也是个王八犊子操&quot;);
+}
+//调用函数
+fun();
+//定义一个有参函数
+function fun2( a,b){
+    alert(&quot;岁东航他妈的拉了&quot;+a+&quot;坨屎,他直接说&quot;+b);
+}
+fun2(12,&quot;曹尼玛&quot;);
+//带有返回值类型的函数
+function fun3(sum1,sum2){
+    var sum =sum1+sum2
+    return sum;
+}
+alert(fun3(25,65));
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
 
-}
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>函数的第二种定义方式,格式如下:<br>
+使用格式如下:<br>
+var 函数名= functon(形参列表){函数体}</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+       var fun=function (){
+            alert(&quot;岁东航也是个王八犊子操&quot;);
+        }
+        //调用函数
+        fun();
+        //定义一个有参函数
+       var fun2= function ( a,b){
+            alert(&quot;岁东航他妈的拉了&quot;+a+&quot;坨屎,他直接说&quot;+b);
+        }
+        fun2(12,&quot;曹尼玛&quot;);
+        //带有返回值类型的函数
+       var fun3=function (sum1,sum2){
+            var sum =sum1+sum2
+            return sum;
+        }
+        alert(fun3(25,65));
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
 
-public Proxy(Host host) {
-    this.host = host;
-}
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-<p>public void rent(){<br>
-host.rent();<br>
-lookhouse();<br>
-fare();<br>
-hetong();<br>
-}<br>
-public void lookhouse(){<br>
-System.out.println(&quot;看房子&quot;);<br>
-}<br>
-public void fare(){<br>
-System.out.println(&quot;中介收取中介费&quot;);<br>
-}<br>
-public void hetong(){<br>
-System.out.println(&quot;签合同&quot;);<br>
-}<br>
-}<br>
-4.客户访问代理角色<br>
-package com.deng.damo01;</p>
-<p>public class Client {<br>
-public static void main(String[] args) {<br>
-Host host=new Host();<br>
-Proxy proxy=new Proxy(host);<br>
-proxy.rent();<br>
-}<br>
-}</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[使用javaconfig实现配置]]></title>
-        <id>https://2651560750.github.io/post/shi-yong-javaconfig-shi-xian-pei-zhi/</id>
-        <link href="https://2651560750.github.io/post/shi-yong-javaconfig-shi-xian-pei-zhi/">
+        <title type="html"><![CDATA[JS学习之数组（重点）]]></title>
+        <id>https://2651560750.github.io/post/js-xue-xi-zhi-shu-zu-chong-dian/</id>
+        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-shu-zu-chong-dian/">
         </link>
-        <updated>2021-03-22T02:10:22.000Z</updated>
-        <content type="html"><![CDATA[<p>1.实现类<br>
-package com.deng.pojo;</p>
-<p>import org.springframework.beans.factory.annotation.Value;<br>
-import org.springframework.stereotype.Component;<br>
-//注解的意思是这个类被Spring接管了，装在了容器里面<br>
-@Component<br>
-public class User {<br>
-private String name;</p>
-<pre><code>public String getName() {
-    return name;
-}
+        <updated>2021-03-27T12:05:12.000Z</updated>
+        <content type="html"><![CDATA[<p>#数组的定义方式</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        var arr = [true, 1];//定义一个空数组
+        //  aLert( arr.Length ); // 0
+        arr[0] = 12;
+        alert( arr[0] );//12
+        // alert( arr.Length ); // 0
+        // javaScript语言中的数组，只要我们通过数组下标赋值，那么最大的下标值，就会自动的给数组做扩容操作。
+        arr[2] =&quot;abc&quot;;
+        alert(arr.length); //3
+        alert(arr[9]);
+        alert(arr.length);//3
+        // alert(arr[1]); // undefined
+        // 数组的遍历
+        for (var i = o; i &lt; arr.length; i++) {
+            alert(arr[i]);
+        }
+
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-<p>@Value(&quot;beiye&quot;)//属性注入值<br>
-public void setName(String name) {<br>
-this.name = name;<br>
-}</p>
-<pre><code>@Override
-public String toString() {
-    return &quot;User{&quot; +
-            &quot;name='&quot; + name + '\'' +
-            '}';
-}
-</code></pre>
-<p>}<br>
-2.配置类<br>
-package com.deng.config;</p>
-<p>import com.deng.pojo.User;<br>
-import org.springframework.context.annotation.Bean;<br>
-import org.springframework.context.annotation.Configuration;</p>
-<p>@Configuration//他也会被容器托管，注册到容器之中，他本身也是一个@Component类<br>
-//@Configuration 他就是一个配置类，和之前的xml文件一样<br>
-public class dengconfig {<br>
-//注册一个bean，就相当于之前写的一个bean标签<br>
-//这个方法名，就相当于bean标签中的id属性<br>
-//这个方法的返回值，就相当于bean标签中的class属性<br>
-@Bean<br>
-public User getuser() {<br>
-return new User();//返回当前对象<br>
-}<br>
-}<br>
-3.测试类<br>
-import com.deng.config.dengconfig;<br>
-import com.deng.pojo.User;<br>
-import org.springframework.context.ApplicationContext;<br>
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;</p>
-<p>public class MyTest {<br>
-public static void main(String[] args) {<br>
-//如果使用配置类去完成，只能通过ApplicationContext context=new AnnotationConfigApplicationContext(dengconfig.class);<br>
-//获取上下文的容器<br>
-ApplicationContext context=new AnnotationConfigApplicationContext(dengconfig.class);<br>
-User user=(User)context.getBean(&quot;getuser&quot;);<br>
-System.out.println( user.getName());<br>
-}<br>
-}</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Spring注解开发]]></title>
-        <id>https://2651560750.github.io/post/Spring注解开发/</id>
-        <link href="https://2651560750.github.io/post/Spring注解开发/">
+        <title type="html"><![CDATA[JS之逻辑运算符]]></title>
+        <id>https://2651560750.github.io/post/js-zhi-luo-ji-yun-suan-fu/</id>
+        <link href="https://2651560750.github.io/post/js-zhi-luo-ji-yun-suan-fu/">
         </link>
-        <updated>2021-03-21T08:14:23.000Z</updated>
-        <content type="html"><![CDATA[<p>1.环境配置</p>
-<?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/context
-    https://www.springframework.org/schema/context/spring-context.xsd
-    http://www.springframework.org/schema/aop
-    https://www.springframework.org/schema/aop/spring-aop.xsd"><br>
-<a href="context:annotation-config/">context:annotation-config/</a><br>
-&lt;context:component-scan base-package=&quot;com.deng.dao&quot;/&gt;<br>
-</beans><br>
-2.属性该如何注入<br>
-package com.deng.dao;<br>
-import org.springframework.beans.factory.annotation.Value;<br>
-import org.springframework.stereotype.Component;<br>
-//@Component 组件<br>
-//等价于    <bean id="user" class="com.deng.dao.User"/><br>
-@Component<br>
-public class User {<br>
-// @Value  相当于 <property name="name" value="dengbei"/><br>
-@Value(&quot;dengbei&quot;)<br>
-public String name;<br>
-}<br>
-3.衍生的注解<br>
-@Component 有几个衍生的注解，在Web开发中，一般分为三层</p>
-<ul>
-<li>Dao【@Repository】</li>
-<li>service 【@Service】</li>
-<li>contoller【@Controller】<br>
-这四个注解功能一样，只是用于不同层次的表示而已<br>
-4.作用域<br>
-@Component<br>
-@Scope(&quot;singleton&quot;)<br>
-public class User {<br>
-// @Value  相当于 <property name="name" value="dengbei"/><br>
-@Value(&quot;dengbei&quot;)<br>
-public String name;<br>
-}</li>
-</ul>
-<ol start="5">
-<li>小结<br>
-xml更加万能，适用于任何场所！维护相对简单。<br>
-注解不是自己的类用不了，维护相对复杂。<br>
-xml和注解的最佳实践是：<br>
-xml用来管理bean，注解只负责属性的注入。<br>
-注意：在使用注解时一定要开启注解的支持。</li>
+        <updated>2021-03-27T11:46:19.000Z</updated>
+        <content type="html"><![CDATA[<p>在avaScript语言中，所有的变量，都可以做为一个boolean类型的变量去使用0 , null.undefined、&quot;&quot;(空串)都认为是false ;<br>
+/*<br>
+&amp;&amp;与运算。有两种情况:<br>
+第一种:当表达式全为真的时候。返回最后一个表达式的值。<br>
+第二种:当表达式中，有一个为假的时候。返回第一个为假的表达式的值<br>
+| |或运算<br>
+第一种情况:当表达式全为假时，返回最后一个表达式的值<br>
+第二种情况:只要有一个表达式为真。就会把回第一个为真的表达式的值<br>
+并且&amp;&amp;与运算和||或运算有短路。<br>
+短路就是说，当这个&amp;&amp;或|运算有结果了之后。后面的表达式不再执行<br>
+*/</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        /*
+        var a = &quot;abc&quot;;
+        var b = true;
+        var c = false;
+        var d = null;
+        alert(a &amp;&amp; b);//true
+        alert(b &amp;&amp; a);//abc
+        alert(a &amp;&amp; d);//null
+        alert(a &amp;&amp; c);//false
+        alert(a&amp;&amp;b&amp;&amp;c&amp;&amp;d)//false
+        alert(a || b);//abc
+        alert(a || c);//abc
+        alert(a || d);//abc
+        alert(c || d);//null
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS学习之关系运算]]></title>
+        <id>https://2651560750.github.io/post/js-xue-xi-zhi-guan-xi-yun-suan/</id>
+        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-guan-xi-yun-suan/">
+        </link>
+        <updated>2021-03-27T11:41:56.000Z</updated>
+        <content type="html"><![CDATA[<p>等于:<br>
+等于是简单的做字面值的比较   ==<br>
+全等于:<br>
+除了做字面值的比较之外,还会比较两个变量的数据类型     ===</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        var a=&quot;12&quot;;
+        var b=12;
+        alert(a==b)//true
+        alert(a===b)//false
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS学习之变量]]></title>
+        <id>https://2651560750.github.io/post/js-xue-xi-zhi-bian-liang/</id>
+        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-bian-liang/">
+        </link>
+        <updated>2021-03-27T11:29:03.000Z</updated>
+        <content type="html"><![CDATA[<p>什么是变量?变量是可以存放某些值的内存的命名。<br>
+#Javascript的变量类型:<br>
+数值类型:      number<br>
+字符串类型:       string<br>
+对象类型:    object<br>
+布尔类型:     boolean<br>
+函数类型:     function<br>
+#JavaScript里特殊的值:<br>
+undefined       未定义，所有js 变量未赋于初始值的时候，默认值都是undefined.<br>
+null        空值<br>
+NAN          全称是:Not a Number。非数字。非数值。<br>
+#Js中的定义变量格式:<br>
+var变量名;<br>
+var变量名=值;</p>
+<pre><code> &lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        var i;
+        //alert(i);//undefined
+        i = 12;
+         // typeof()是JavaScript语言提供的一个函数。
+        //它可以取变量的数据类型返回
+        // alert( typeof(i) ); // number
+        i = &quot;abc&quot;;
+        alert( typeof(i) ); // String
+        var a=25;
+        var b=&quot;abc&quot;;
+        alert(a * b);//NaN是非数值，非数字
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DQL查询语句（最重点）]]></title>
+        <id>https://2651560750.github.io/post/dql-cha-xun-yu-ju-zui-chong-dian/</id>
+        <link href="https://2651560750.github.io/post/dql-cha-xun-yu-ju-zui-chong-dian/">
+        </link>
+        <updated>2021-03-27T05:50:59.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="dql">DQL</h1>
+<p>(Data Query LANGUAGE:数据查询语言)<br>
+·所有的查询操作都用它Select<br>
+·简单的查询，复杂的查询它都能做~<br>
+·数据库中最核心的语言,最重要的语句<br>
+·使用频率最高的语句<br>
+#指定查询字段<br>
+--查询全部的学生SELECT字段 FROM表S<br>
+<code>ELECT * FROM student</code><br>
+--查询指定字段<br>
+<code>SELECT`StudentNo`, `studentName` FROM student</code><br>
+--别名，给结果起一个名字AS可以给字段起别名，也可以给表起别名<br>
+<code>SELECT‘studentNo`AS学号,`studentName`AS学生姓名FROM student AS s</code><br>
+--函数Concat (a， b)<br>
+<code>SELECT CONCAT ( '姓名: ', studentName) As 新名字 FROM student</code><br>
+#去重：<br>
+作用:去除SELECT查询出来的结果中重复的数据，重复的数据只显示一条<br>
+1  --查询一下有哪些同学参加了考试，成绩<br>
+2  <code>SELECT*FROM result</code>--查询全部的考试成绩<br>
+3  <code>SELECT studentNo ' FROM result</code> --查询有哪些同学参加了考试<br>
+4  <code>SELECT DISTINCT 'studentNo` FROM result</code> --发现重复数据，去重<br>
+#数据库的列(表达式):<br>
+1  <code>SELECT VERSION</code>--查询系统版本（函数)<br>
+2  <code>SELECT100*3-1 AS计算结果</code>--用来计算（表达式)<br>
+3 <code>SELECT @@auto_increment_increment</code> --查询自增的步长(变量)<br>
+4 <code>SELECT 'studentNo', 'studentResult +1 AS'提分后'FROM result</code>--学员考试成绩＋1分查看<br>
+总结：数据库中的表达式:文本值，列，Null，函数，计算表达式，系统变量.....</p>
+<h1 id="where条件句子">where条件句子</h1>
+<p>作用：检索数据中符合条件的值<br>
+1.连接符 “||”<br>
+SQL中的连接符”||” 可将结果连接起来为一列<br>
+将u_name 和“的成绩为” u_score 连接起来<br>
+<code>select u_name || '的成绩为' || u_score as 成绩from T_USER ;</code><br>
+2. SQL中可以用SELECT-WHERE进行条件查询<br>
+比较运算 ‘&lt;’ ‘&lt;=’ ‘&gt;’ ‘&gt;=’ ‘!=’<br>
+SQL中可以使用 条件运算符 ‘&lt;’ ‘&lt;=’ ‘&gt;’ ‘&gt;=’ ‘!=’ 过滤查询结果中的某些行，多个条件之间可以用 ‘and’ 连接。<br>
+查询T_USER表中成绩大于等于60分的学生</p>
+<pre><code>select u_name , u_score
+from T_USER 
+where u_score &gt;= 60 ;
+</code></pre>
+<ol start="3">
+<li>与条件 (AND，BETWEEN)<br>
+查询A-B区间<br>
+查询T_USER表中成绩大于等于60分且小于等于80分的学生<br>
+AND写法</li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用注解实现自动装配]]></title>
-        <id>https://2651560750.github.io/post/shi-yong-zhu-jie-shi-xian-zi-dong-zhuang-pei/</id>
-        <link href="https://2651560750.github.io/post/shi-yong-zhu-jie-shi-xian-zi-dong-zhuang-pei/">
-        </link>
-        <updated>2021-03-21T07:17:11.000Z</updated>
-        <content type="html"><![CDATA[<p>使用注解注意事项：<br>
-1.导入约束      xmlns:context=&quot;http://www.springframework.org/schema/context&quot;<br>
-2.配置注解支持    <a href="context:annotation-config/">context:annotation-config/</a></p>
-<?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-              xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/context
-    https://www.springframework.org/schema/context/spring-context.xsd
-    http://www.springframework.org/schema/aop
-    https://www.springframework.org/schema/aop/spring-aop.xsd"><br>
-<a href="context:annotation-config/">context:annotation-config/</a><br>
-</beans><br>
-@Autowired<br>
-1.直接在属性上使用即可，也可以用在set方法上<br>
-2.如果 @Autowired的required定义为false表示这个对象可以为空，否则就不可以为空<br>
-public class People {<br>
-@Autowired<br>
-private Dog dog;<br>
-@Autowired(required = false)<br>
-private Cat cat;<br>
-private String name;<br>
-3.如果 @Autowired自动装配环境比较复杂，自动装配无法通过一个注解 @Autowired完成的时候<br>
-我们可以通过@Qualifier(value = &quot;id名&quot;)去配置  @Autowired的使用，指定唯一的bean的对象注入！<br>
-public class People {<br>
-@Autowired<br>
-@Qualifier(value = &quot;dog01&quot;)<br>
-private Dog dog;<br>
-@Autowired<br>
-@Qualifier(value = &quot;cat02&quot;)<br>
-private Cat cat;<br>
-private String name;</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bean的自动装配]]></title>
-        <id>https://2651560750.github.io/post/bean的自动装配/</id>
-        <link href="https://2651560750.github.io/post/bean的自动装配/">
-        </link>
-        <updated>2021-03-21T06:37:32.000Z</updated>
-        <content type="html"><![CDATA[<pre><code>自动装配是Spring满足bean以来的一种方式
-Spring会自动寻找上下文，并自定给出bean装配属性
-在Spring中有三种装配的方式
-1.在xml中显示的装配
-2.在java中显示的装配
-3.隐式的自动装配bean
+<pre><code>select u_name , u_score
+from T_USER 
+where u_score &gt;60 and u_score &lt;80
 </code></pre>
-<p>一： 环境搭建：<br>
-一个人有两只宠物</p>
+<p>BETWEEN写法</p>
+<pre><code>select u_name , u_score
+from T_USER 
+where u_score between 60 and 80 ;
+</code></pre>
+<ol start="4">
+<li>或条件（OR，IN）<br>
+SQL中用于或运算的关键字OR和IN<br>
+查询分数大于90分或者小于60分的记录-OR</li>
+</ol>
+<pre><code>select u_name , u_score
+from T_USER 
+where u_score &gt;90 or u_score &lt;60 ;
+</code></pre>
+<p>查询成绩为100，98，65的学生-IN</p>
+<pre><code>select u_name , u_score
+from T_USER 
+where u_score in(100,98,65) ;
+</code></pre>
 <ol>
-<li>ByNmae自动搭配</li>
+<li>非条件（！=，NOT）<br>
+查询名字不叫 ‘叶清逸’ 的记录<br>
+！=写法</li>
 </ol>
-  <!--   ByName自动装配，会在容器上下文中查找，和自己对象set方法后面对应的bean的id的值-->
-   <bean id="dog" class="com.deng.pojo.Dog"/>
-    <bean id="cat" class="com.deng.pojo.Cat"/>
-    <bean id="people" class="com.deng.pojo.People" autowire="byName">
-        <property name="name" value="黄皮耗子"/>
-    </bean>
-1. ByType 自动装配
-       <!--   ByName自动装配，会在容器上下文中查找，和自己对象属性类型相同的bean-->
-   <bean  class="com.deng.pojo.Dog"/>
-    <bean  class="com.deng.pojo.Cat"/>
-    <bean id="people" class="com.deng.pojo.People" autowire="byType">
-        <property name="name" value="黄皮耗子"/>
-    </bean>
-总结：  <!--   ByName自动装配，需要保证bean的id的唯一性，并且这个bean要和自动注入属性的set方法的值一致>
-<!--   ByType自动装配，需要保证bean的class的唯一性，并且这个bean要和自动注入属性的属性类型一致>]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[bean的作用域]]></title>
-        <id>https://2651560750.github.io/post/bean-de-zuo-yong-yu/</id>
-        <link href="https://2651560750.github.io/post/bean-de-zuo-yong-yu/">
-        </link>
-        <updated>2021-03-21T06:30:43.000Z</updated>
-        <content type="html"><![CDATA[<p>1.单例模式：（Spring默认机制）每次去容器中get的时候都只是同一个对象<br>
-<bean id="user2" class="com.deng.pojo.User" c:name="黄皮耗子" c:age="3" scope="singleton"/><br>
-2. 原型模式：每次去容器中get的时候都会产生一个新的对象<br>
-<bean id="user2" class="com.deng.pojo.User" c:name="黄皮耗子" c:age="3" scope="prototype"/><br>
-3. 其他模式只有在Web开发中才会用到</p>
+<pre><code>select *
+from T_USER 
+where u_name != '叶清逸' ;
+</code></pre>
+<p>NOT写法</p>
+<pre><code>select *
+from T_USER 
+where u_name not like '叶清逸' ;
+</code></pre>
+<ol start="6">
+<li>模糊查询LIKE<br>
+SQL中可以使用模糊查询like，其中 ‘_’ 占一位 ‘%’占多位。</li>
+</ol>
+<p>查询名字中有 ‘清’ 字的记录<br>
+可以有三种表示方式,结果等价<br>
+包含’清’: %清%<br>
+第二位为’清’：<em>清%<br>
+倒数第二位为’清’：%清</em></p>
+<pre><code>select *
+from T_USER 
+where u_name like '%清%' ;
+</code></pre>
+<ol start="7">
+<li>查询排序ORDER BY<br>
+SQL中可以对查询结果进行排序，DESC表示按从大到小排序，ASC表示按从小到大排序，默认为从小到大排序。 将T_USER表按成绩从大到小排序</li>
+</ol>
+<pre><code>select *
+from T_USER 
+order by u_score desc ;
+</code></pre>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[DI依赖注入环境]]></title>
-        <id>https://2651560750.github.io/post/di-yi-lai-zhu-ru-huan-jing/</id>
-        <link href="https://2651560750.github.io/post/di-yi-lai-zhu-ru-huan-jing/">
+        <title type="html"><![CDATA[MYSQL数据管理]]></title>
+        <id>https://2651560750.github.io/post/mysql-shu-ju-guan-li/</id>
+        <link href="https://2651560750.github.io/post/mysql-shu-ju-guan-li/">
         </link>
-        <updated>2021-03-20T11:51:11.000Z</updated>
-        <content type="html"><![CDATA[<p>1.构造器注入</p>
-<p>2.set方式注入【重点】<br>
-依赖：bean对象的创建依赖于容器！<br>
-注入：bean对象中的所有属性，由容器来注入！<br>
-环境搭建：<br>
-1.复杂类型<br>
-package com.deng.pojo;</p>
-<p>public class Address {<br>
-private String address;</p>
-<pre><code>public String getAddress() {
-    return address;
-}
+        <updated>2021-03-27T04:38:25.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="外键并不建议使用原因删除表示关系会错综复杂">外键（并不建议使用）原因：删除表示关系会错综复杂</h1>
+<p>最佳实践</p>
+<ul>
+<li>数据库就是单纯的表，只用来存数据，只有行（数据）和列（字段)</li>
+<li>我们想使用多张表的数据，想使用外键(程序去实现)</li>
+</ul>
+<h1 id="dml语言全部记住">DML语言（全部记住）</h1>
+<p>数据库意义 :数据存储，数据管理<br>
+DML语言: 数据操作语言<br>
+·lnsert<br>
+· update<br>
+·delete</p>
+<h1 id="添加">添加：</h1>
+<p>插入语句（添加)<br>
+-insert into表名([字段名1,字段2,字段3])values('值1'),('值2'),('值3'，... .)<br>
+<code>INSERT INTO 'grade' ( gradenameVALUES('大四')</code><br>
+--由于主键自增我们可以省略(如果不写表的字段，他就会—一匹配)<br>
+<code>INSERT INTOgradeVALUES('大三')</code><br>
+--一般写插入语句，我们一定要数据和字段一一对应!<br>
+--插入多个字段</p>
+<pre><code class="language-INSERT">INSERT INTO 'student(name ) VALUES('张三')
+INSERT INTO 'student (name', pwd , sex )VALUES('张三' , ' aaaaaa ','男')
+工NSERTINTO 'student name,'pwd ,'sex ')
+VALUES ('李四'， 'aaaaaa'，'男'),('王五', 'aaaaaa','男')````
+语法: insert into表名([字段名1,字段2,字段3])values('值1'),('值2'),C&quot;值3'，....)
+注意事项:
+1.字段和字段之间使用英文逗号隔开
+2.字段是可以省略的，但是后面的值必须要要——对应，不能少
+3.可以同时插入多条数据，VALUES后面的值，需要使用，隔开即可
+# 修改
+语法:UPDATE表名 set co1numuname = value, [co1num_name = value,....] where [条件]注意:
+. colnum_name是数据库的列，尽量带上
+·条件，筛选的条件，如果没有指定，则会修改所有的列. value，是一个具体的值，也可以是一个变量
+```` UPDATE ‘student’ SET birthday'= CURRENT_TIME WHERE ‘name'='长江7号’AND sex='女'````
+# 删除
+语法:delete from表名[where条件]
+ --删除数据(避免这样写，会全部删除)
+  DELETE FROM  student
+--删除指定数据
+DELETE FROM student wHERE id = 1;
+delete的 TRUNCATE 区别
+·相同点:都能删除数据，都不会删除表结构·不同:
+ TRUNCATE重新设置自增列计数器会归零TRUNCATE 不会影响事务
+DELETE FROM 'test --不会影响自增
+TRUNCATE TABLE `test' --自增会归零
 
-public void setAddress(String address) {
-    this.address = address;
-}
+
+
+ 
+
 </code></pre>
-<p>}</p>
-<p>2.真实测试对象<br>
-package com.deng.pojo;</p>
-<p>import java.util.*;</p>
-<p>public class Student {<br>
-private String name;<br>
-private Address address;<br>
-private String[] books;<br>
-private List<String> hobby;<br>
-private Map&lt;String,String&gt; card;<br>
-private Set<String> games;<br>
-private Properties info;<br>
-private  String wife;</p>
-<pre><code>public String getName() {
-    return name;
-}
-
-public void setName(String name) {
-    this.name = name;
-}
-
-public Address getAddress() {
-    return address;
-}
-
-public void setAddress(Address address) {
-    this.address = address;
-}
-
-public String[] getBooks() {
-    return books;
-}
-
-public void setBooks(String[] books) {
-    this.books = books;
-}
-
-public List&lt;String&gt; getHobby() {
-    return hobby;
-}
-
-public void setHobby(List&lt;String&gt; hobby) {
-    this.hobby = hobby;
-}
-
-public Map&lt;String, String&gt; getCard() {
-    return card;
-}
-
-public void setCard(Map&lt;String, String&gt; card) {
-    this.card = card;
-}
-
-public Set&lt;String&gt; getGames() {
-    return games;
-}
-
-public void setGames(Set&lt;String&gt; games) {
-    this.games = games;
-}
-
-public Properties getInfo() {
-    return info;
-}
-
-public void setInfo(Properties info) {
-    this.info = info;
-}
-
-public String getWife() {
-    return wife;
-}
-
-public void setWife(String wife) {
-    this.wife = wife;
-}
-
-@Override
-public String toString() {
-    return &quot;Student{&quot; +
-            &quot;name='&quot; + name + '\'' +
-            &quot;, address=&quot; + address +
-            &quot;, books=&quot; + Arrays.toString(books) +
-            &quot;, hobby=&quot; + hobby +
-            &quot;, card=&quot; + card +
-            &quot;, games=&quot; + games +
-            &quot;, info=&quot; + info +
-            &quot;, wife='&quot; + wife + '\'' +
-            '}';
-}
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[写法]]></title>
+        <id>https://2651560750.github.io/post/xie-fa/</id>
+        <link href="https://2651560750.github.io/post/xie-fa/">
+        </link>
+        <updated>2021-03-27T04:35:52.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="学习javacsript">学习javacsript</h1>
+<ul>
+<li>学习java</li>
+<li>学习数据库<br>
+1 dawd</li>
+</ul>
+<ol>
+<li>学习java</li>
+<li>学习数据库</li>
+</ol>
+<blockquote>
+<p>这是引用</p>
+<blockquote>
+<p>这是引用</p>
+</blockquote>
+</blockquote>
+<pre><code class="language-javascript">  在此输入代码
 </code></pre>
-<p>}<br>
-3.<?xml version="1.0" encoding="UTF-8"?><br>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd"></p>
-<pre><code>&lt;bean id=&quot;address&quot; class=&quot;com.deng.pojo.Address&quot;/&gt;
-&lt;bean id=&quot;student&quot; class=&quot;com.deng.pojo.Student&quot;&gt;
-    &lt;!--    第一种，普通类，直接注入value--&gt;
-    &lt;property name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
-    &lt;!--    第二种，bean类，注入ref--&gt;
-    &lt;property name=&quot;address&quot; ref=&quot;address&quot;/&gt;
-    &lt;!--    第三种，数组--&gt;
-    &lt;property name=&quot;books&quot;&gt;
-        &lt;array&gt;
-            &lt;value&gt; 红楼梦&lt;/value&gt;
-            &lt;value&gt; 水浒传&lt;/value&gt;
-            &lt;value&gt; 平凡的世界&lt;/value&gt;
-            &lt;value&gt;明朝那些事儿&lt;/value&gt;
-        &lt;/array&gt;
-    &lt;/property&gt;
-       &lt;!-- 第四种，list--&gt;
-    &lt;property name=&quot;hobby&quot;&gt;
-        &lt;list&gt;
-            &lt;value&gt; 听歌&lt;/value&gt;
-            &lt;value&gt; 打游戏&lt;/value&gt;
-            &lt;value&gt; 敲代码&lt;/value&gt;
-        &lt;/list&gt;
-    &lt;/property&gt;
-       &lt;!--第五种，Map--&gt;
-    &lt;property name=&quot;card&quot;&gt;
-        &lt;map&gt;
-            &lt;entry key=&quot;身份证&quot; value=&quot;362501200105266618&quot;/&gt;
-            &lt;entry key=&quot;银行卡&quot; value=&quot;200165165151651065&quot;/&gt;
-        &lt;/map&gt;
-    &lt;/property&gt;
-     &lt;!--Set--&gt;
-    &lt;property name=&quot;games&quot;&gt;
-        &lt;set&gt;
-            &lt;value&gt;LOL&lt;/value&gt;
-            &lt;value&gt;COC&lt;/value&gt;
-            &lt;value&gt;BOB&lt;/value&gt;
-        &lt;/set&gt;
-    &lt;/property&gt;
-    &lt;!--空指针--&gt;
-   &lt;!--&lt;property name=&quot;wife&quot; value=&quot;&quot;/&gt;空值--&gt;
-    &lt;property name=&quot;wife&quot;&gt;
-        &lt;null/&gt;&lt;!--空指针--&gt;
-    &lt;/property&gt;
-    &lt;property name=&quot;info&quot;&gt;
-        &lt;props&gt;
-            &lt;prop key=&quot;学号&quot;&gt;201908130310&lt;/prop&gt;
-            &lt;prop key=&quot;性别&quot;&gt;男性&lt;/prop&gt;
-            &lt;prop key=&quot;班级&quot;&gt; 软件1903班&lt;/prop&gt;
-        &lt;/props&gt;
-    &lt;/property&gt;
-&lt;/bean&gt;
-</code></pre>
-</beans>
-<p>3.测试结果<br>
-import com.deng.pojo.Student;<br>
-import org.springframework.context.support.ClassPathXmlApplicationContext;</p>
-<p>public class MyTrxt {<br>
-public static void main(String[] args) {<br>
-ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);<br>
-Student student=(Student) context.getBean(&quot;student&quot;);<br>
-System.out.println(student.toString());<br>
-}<br>
-}<br>
-//    Student{<br>
-//    name='贝爷',<br>
-//    address=Address{address='长沙'},<br>
-//    books=[ 红楼梦,  水浒传,  平凡的世界, 明朝那些事儿],<br>
-//    hobby=[ 听歌,  打游戏,  敲代码],<br>
-//    card={身份证=362501200105266618, 银行卡=200165165151651065},<br>
-//    games=[LOL, COC, BOB],<br>
-//    info={学号=201908130310, 性别=男性, 班级=软件1903班},<br>
-//    wife='null'<br>
-//    }<br>
-4.拓展方式注入<br>
-可以运用p/c命名空间进行注入</p>
-<?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd"><br>
-<!-- p命名空间注入，可以直接注入属性值,proprety--><br>
-<bean id="user" class="com.deng.pojo.User" p:name="贝爷" p:age="21"/><br>
-<!--c命名空间注入，通过构造器注入，construct-args--><br>
-<bean id="user2" class="com.deng.pojo.User" c:name="黄皮耗子" c:age="3"/><br>
-</beans><br>
-测试：<br>
-@Test<br>
-public void text2(){<br>
-ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext(&quot;Userbeans.xml&quot;);<br>
-User user=(User) context.getBean(&quot;user2&quot;);<br>
-System.out.println(user);<br>
-}<br>
-注意：<br>
-要导入<br>
-xmlns:p=&quot;http://www.springframework.org/schema/p&quot;<br>
-xmlns:c=&quot;http://www.springframework.org/schema/c&quot;<br>
-这两个约束。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[修改删除表]]></title>
+        <id>https://2651560750.github.io/post/xiu-gai-shan-chu-biao/</id>
+        <link href="https://2651560750.github.io/post/xiu-gai-shan-chu-biao/">
+        </link>
+        <updated>2021-03-27T04:25:36.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="修改">修改：</h1>
+<p>--修改表名 ALTER TABLE 旧表名 RENAME AS新表名<br>
+<code>ALTER TABLE teacher RENAME AS teacher1</code><br>
+--增加表的字段 ALTER TABLE表名 ADD字段名列属性<br>
+<code>ALTER TABLE teacher1 ADD age INT (11)</code><br>
+--修改表的字段(重命名，修改约束!)<br>
+<code>ALTER TABLE teacher1 MODIFY age VARCHAR(11)</code>   --修改约束<br>
+<code>ALTER TABLE teacher1 CHANGE age age1 INT(1)</code>    --字段重名名<br>
+--册除表的字段<br>
+<code>ALTERTABLE teacher1 DROP agel</code></p>
+<h1 id="册除表">册除表:</h1>
+<p>(如果表存在再删除)<br>
+<code>DROP TABLE IE EXISTS teacheri</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数据表的类型]]></title>
+        <id>https://2651560750.github.io/post/shu-ju-biao-de-lei-xing/</id>
+        <link href="https://2651560750.github.io/post/shu-ju-biao-de-lei-xing/">
+        </link>
+        <updated>2021-03-27T04:17:03.000Z</updated>
+        <content type="html"><![CDATA[<p>-- 关于数据库的引擎<br>
+/*<br>
+INNODB 默认使用<br>
+MYISAM 早些年使用的<br>
+*/<br>
+MYISAM                           INNODB<br>
+事务支持            不支持                                 支持<br>
+数据行锁定         不支持                                支持<br>
+外键约束             不支持                                  支持<br>
+全文索引              支持                                     不支持<br>
+表空间的大小        较小                              较大，约为两倍</p>
 ]]></content>
     </entry>
 </feed>

@@ -2,23 +2,19 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Spring注解开发 | Gridea</title>
+<title>JDBC之我的第一个程序 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1616931135009">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Spring注解开发 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="JDBC之我的第一个程序 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="1.环境配置
-
-
-context:annotation-config/
-&lt;context:component-scan base-package=&quot;com.deng.dao&quot;/&gt;
-
-2.属性该如何注入
-pac..." />
+    <meta name="description" content="package com.deng.day01;
+import java.sql.*;
+public class jdbc01 {
+public static void main(String[] args) throws ClassNotF..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -81,73 +77,58 @@ pac..." />
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              Spring注解开发
+              JDBC之我的第一个程序
             </h2>
             <div class="post-info">
               <span>
-                2021-03-21
+                2021-03-25
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>1.环境配置</p>
-<?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/context
-    https://www.springframework.org/schema/context/spring-context.xsd
-    http://www.springframework.org/schema/aop
-    https://www.springframework.org/schema/aop/spring-aop.xsd"><br>
-<a href="context:annotation-config/">context:annotation-config/</a><br>
-&lt;context:component-scan base-package=&quot;com.deng.dao&quot;/&gt;<br>
-</beans><br>
-2.属性该如何注入<br>
-package com.deng.dao;<br>
-import org.springframework.beans.factory.annotation.Value;<br>
-import org.springframework.stereotype.Component;<br>
-//@Component 组件<br>
-//等价于    <bean id="user" class="com.deng.dao.User"/><br>
-@Component<br>
-public class User {<br>
-// @Value  相当于 <property name="name" value="dengbei"/><br>
-@Value(&quot;dengbei&quot;)<br>
-public String name;<br>
+                <p>package com.deng.day01;</p>
+<p>import java.sql.*;</p>
+<p>public class jdbc01 {<br>
+public static void main(String[] args) throws ClassNotFoundException, SQLException {<br>
+//1.加载驱动<br>
+String JDBC_DRIVER = &quot;com.mysql.cj.jdbc.Driver&quot;;//固定写法，加载驱动<br>
+//2.用户信息，URL中jdbc:mysql://localhost:3306/test（数据库的名字）?，USER：用户密码，PASSWORD：用户密码<br>
+String DB_URL = &quot;jdbc:mysql://localhost:3306/test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&quot;;<br>
+String USER = &quot;root&quot;;<br>
+String PASS = &quot;2001526dbdsg&quot;;<br>
+Class.forName(JDBC_DRIVER);<br>
+//3.连接成功，数据库对象，Connection代表数据库<br>
+Connection connection= DriverManager.getConnection(DB_URL,USER,PASS);<br>
+//4.执行SQL的对象 Statement 执行sql的对象<br>
+Statement statement=connection.createStatement();<br>
+String sql=&quot; SELECT * FROM student&quot;;<br>
+//5.执行SQL的对象去执行sql语句并返回结果集<br>
+ResultSet resultSet= statement.executeQuery(sql);<br>
+//6.显示结果集<br>
+while (resultSet.next())<br>
+{<br>
+System.out.println(&quot;id=&quot;+resultSet.getObject(&quot;id&quot;));<br>
+System.out.println(&quot;name=&quot;+resultSet.getObject(&quot;name&quot;));<br>
+System.out.println(&quot;sex=&quot;+resultSet.getObject(&quot;sex&quot;));<br>
+System.out.println(&quot;class_id=&quot;+resultSet.getObject(&quot;class_id&quot;));</p>
+<p>}<br>
+//7.关闭各种对象<br>
+resultSet.close();<br>
+statement.close();<br>
+connection.close();<br>
 }<br>
-3.衍生的注解<br>
-@Component 有几个衍生的注解，在Web开发中，一般分为三层</p>
-<ul>
-<li>Dao【@Repository】</li>
-<li>service 【@Service】</li>
-<li>contoller【@Controller】<br>
-这四个注解功能一样，只是用于不同层次的表示而已<br>
-4.作用域<br>
-@Component<br>
-@Scope(&quot;singleton&quot;)<br>
-public class User {<br>
-// @Value  相当于 <property name="name" value="dengbei"/><br>
-@Value(&quot;dengbei&quot;)<br>
-public String name;<br>
-}</li>
-</ul>
-<ol start="5">
-<li>小结<br>
-xml更加万能，适用于任何场所！维护相对简单。<br>
-注解不是自己的类用不了，维护相对复杂。<br>
-xml和注解的最佳实践是：<br>
-xml用来管理bean，注解只负责属性的注入。<br>
-注意：在使用注解时一定要开启注解的支持。</li>
-</ol>
+}</p>
+<p>步骤：<br>
+1、加载驱动<br>
+2、连接数据库 DriverManager<br>
+3、获得执行sql的对象Statement<br>
+4、获得返回的结果集<br>
+5、释放连接</p>
 
               </div>
               <div class="toc-container">
@@ -160,9 +141,9 @@ xml用来管理bean，注解只负责属性的注入。<br>
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/shi-yong-zhu-jie-shi-xian-zi-dong-zhuang-pei/">
+            <a href="https://2651560750.github.io/post/sheng-ming-shi-wu/">
               <h3 class="post-title">
-                使用注解实现自动装配
+                声明事务
               </h3>
             </a>
           </div>

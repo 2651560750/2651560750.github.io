@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用javaconfig实现配置 | Gridea</title>
-<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1616593727816">
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1616931135009">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="使用javaconfig实现配置 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
@@ -13,8 +13,9 @@
 
     <meta name="description" content="1.实现类
 package com.deng.pojo;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stere..." />
+import org.springframework.ster..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -24,7 +25,7 @@ import org.springframework.stere..." />
       <div class="main-content">
         <div class="site-header">
   <a href="https://2651560750.github.io">
-  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1616593727816" alt="">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1616931135009" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -91,31 +92,33 @@ import org.springframework.stere..." />
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>1.实现类<br>
-package com.deng.pojo;</p>
-<p>import org.springframework.beans.factory.annotation.Value;<br>
-import org.springframework.stereotype.Component;<br>
-//注解的意思是这个类被Spring接管了，装在了容器里面<br>
-@Component<br>
-public class User {<br>
-private String name;</p>
-<pre><code>public String getName() {
-    return name;
+                <p>1.实现类</p>
+<pre><code>package com.deng.pojo;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+//注解的意思是这个类被Spring接管了，装在了容器里面
+@Component
+public class User {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+@Value(&quot;beiye&quot;)//属性注入值
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User{&quot; +
+                &quot;name='&quot; + name + '\'' +
+                '}';
+    }
 }
 </code></pre>
-<p>@Value(&quot;beiye&quot;)//属性注入值<br>
-public void setName(String name) {<br>
-this.name = name;<br>
-}</p>
-<pre><code>@Override
-public String toString() {
-    return &quot;User{&quot; +
-            &quot;name='&quot; + name + '\'' +
-            '}';
-}
-</code></pre>
-<p>}<br>
-2.配置类<br>
+<p>2.配置类<br>
 package com.deng.config;</p>
 <p>import com.deng.pojo.User;<br>
 import org.springframework.context.annotation.Bean;<br>

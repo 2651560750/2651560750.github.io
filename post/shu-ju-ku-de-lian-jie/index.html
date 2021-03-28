@@ -2,23 +2,17 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Spring注解开发 | Gridea</title>
+<title>数据库的连接 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1616931135009">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Spring注解开发 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="数据库的连接 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="1.环境配置
-
-
-context:annotation-config/
-&lt;context:component-scan base-package=&quot;com.deng.dao&quot;/&gt;
-
-2.属性该如何注入
-pac..." />
+    <meta name="description" content="mysql -uroot -p123456 --连接数据库
+update mysq1.user set authentication_string=password('123456') where user='root' and Host'..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -81,11 +75,11 @@ pac..." />
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              Spring注解开发
+              数据库的连接
             </h2>
             <div class="post-info">
               <span>
-                2021-03-21
+                2021-03-26
               </span>
               <span>
                 1 min read
@@ -95,59 +89,23 @@ pac..." />
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>1.环境配置</p>
-<?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/context
-    https://www.springframework.org/schema/context/spring-context.xsd
-    http://www.springframework.org/schema/aop
-    https://www.springframework.org/schema/aop/spring-aop.xsd"><br>
-<a href="context:annotation-config/">context:annotation-config/</a><br>
-&lt;context:component-scan base-package=&quot;com.deng.dao&quot;/&gt;<br>
-</beans><br>
-2.属性该如何注入<br>
-package com.deng.dao;<br>
-import org.springframework.beans.factory.annotation.Value;<br>
-import org.springframework.stereotype.Component;<br>
-//@Component 组件<br>
-//等价于    <bean id="user" class="com.deng.dao.User"/><br>
-@Component<br>
-public class User {<br>
-// @Value  相当于 <property name="name" value="dengbei"/><br>
-@Value(&quot;dengbei&quot;)<br>
-public String name;<br>
-}<br>
-3.衍生的注解<br>
-@Component 有几个衍生的注解，在Web开发中，一般分为三层</p>
-<ul>
-<li>Dao【@Repository】</li>
-<li>service 【@Service】</li>
-<li>contoller【@Controller】<br>
-这四个注解功能一样，只是用于不同层次的表示而已<br>
-4.作用域<br>
-@Component<br>
-@Scope(&quot;singleton&quot;)<br>
-public class User {<br>
-// @Value  相当于 <property name="name" value="dengbei"/><br>
-@Value(&quot;dengbei&quot;)<br>
-public String name;<br>
-}</li>
-</ul>
-<ol start="5">
-<li>小结<br>
-xml更加万能，适用于任何场所！维护相对简单。<br>
-注解不是自己的类用不了，维护相对复杂。<br>
-xml和注解的最佳实践是：<br>
-xml用来管理bean，注解只负责属性的注入。<br>
-注意：在使用注解时一定要开启注解的支持。</li>
-</ol>
+                <p>mysql -uroot -p123456 --连接数据库<br>
+update mysq1.user set authentication_string=password('123456') where user='root' and Host'localhost'; --修改用户密码<br>
+flush privileges; --刷新权限<br>
+--所有的语句都使用!结尾<br>
+show databases; --查看所有的数据库<br>
+mysq1&gt;use schoo1 --切换数据库use数据库名<br>
+Database changed<br>
+show tables;--查看数据库中所有的表<br>
+describe student; --显示数据库中所有的表的信息<br>
+create database westos;--创建一个数据库<br>
+exit;--退出连接<br>
+--单行注释（SQL 的本来的注释)<br>
+/* （sq1的多行注到<br>
+he11oi<br>
+asdas<br>
+dasdas<br>
+*/</p>
 
               </div>
               <div class="toc-container">
@@ -160,9 +118,9 @@ xml用来管理bean，注解只负责属性的注入。<br>
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/shi-yong-zhu-jie-shi-xian-zi-dong-zhuang-pei/">
+            <a href="https://2651560750.github.io/post/jdbc-zhi-wo-de-di-yi-ge-cheng-xu/">
               <h3 class="post-title">
-                使用注解实现自动装配
+                JDBC之我的第一个程序
               </h3>
             </a>
           </div>
