@@ -2,25 +2,18 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Spring中三种创建对象的方法 | Gridea</title>
+<title>多线程学习之实现方法二：自定义继承Theard类 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617023037516">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Spring中三种创建对象的方法 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="多线程学习之实现方法二：自定义继承Theard类 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="
-
-
- 有参构造函数之下标赋值法-->
- 无参构造函数-->
-
-    &lt;constructor-arg name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
-&lt;/bean&gt;
-
-..." />
+    <meta name="description" content="package com.deng.pojo;
+//创建线程方式二，实现runnable接口，重写run方法，执行线程要丢入runnable接口实现类，调用start方法
+public class TestThread3 implements..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -83,33 +76,97 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              Spring中三种创建对象的方法
+              多线程学习之实现方法二：自定义继承Theard类
             </h2>
             <div class="post-info">
               <span>
-                2021-03-20
+                2021-03-29
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd"><br>
-<bean id="user" class="com.deng.pojo.User"></p>
-<!--        <constructor-arg index="0" value="com.邓贝"/> 有参构造函数之下标赋值法-->
-<!--        <property name="name" value="邓贝"> 无参构造函数-->
-<!--直接通过参数名赋值-->
-<pre><code>    &lt;constructor-arg name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
-&lt;/bean&gt;
+                <pre><code>package com.deng.pojo;
+//创建线程方式二，实现runnable接口，重写run方法，执行线程要丢入runnable接口实现类，调用start方法
+public class TestThread3 implements Runnable{
+    @Override
+    public void run()
+    {
+        //run方法线程体
+        for (int i=1;i&lt;=20;i++)
+        {
+            System.out.println(&quot;我在看代码--&quot;+i);
+        }
+    }
+
+    public static void main(String[] args) {
+        //main线程，主线程
+        //创建一个线程对象
+        TestThread1 testThread1=new TestThread1();
+        //将实现runnable接口的类丢到Theard线程类中执行
+        //new Thread(testThread1).start();
+Thread thread=new Thread(testThread1);
+//调用START方法开启线程
+thread.start();
+        for (int i=1;i&lt;=2000;i++)
+        {
+            System.out.println(&quot;我在看多线程--&quot;+i);
+        }
+    }
+}
 </code></pre>
-</beans>
+<p>#演示：龟兔赛跑</p>
+<pre><code>package com.deng.pojo;
+
+public class race implements Runnable {
+    private static String winner;
+
+    @Override
+    public void run() {
+        for (int i = 1; i &lt;= 100; i++) {
+            if(Thread.currentThread().getName().equals(&quot;邓贝&quot;)&amp;&amp; i%10==0){
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+   boolean flag=finsh(i);
+   if (flag)
+   {
+       break;
+   }
+            System.out.println(Thread.currentThread().getName()+&quot;跑了&quot;+i+&quot;步&quot;);
+        }
+    }
+   private boolean finsh(int step)
+   {
+       if(winner!=null)
+       {
+           return true;
+       }
+       if(step==100)
+       {
+           winner=Thread.currentThread().getName();
+           System.out.println(&quot;winner is:&quot;+winner);
+           return true;
+       }
+       return false;
+   }
+
+    public static void main(String[] args) {
+        race r=new race();
+        new Thread(r,&quot;岁东航&quot;).start();
+        new Thread(r,&quot;邓贝&quot;).start();
+
+    }
+}
+</code></pre>
+
               </div>
               <div class="toc-container">
                 
@@ -121,9 +178,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/biao-qian-de-ji-ben-yong-fa/">
+            <a href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-zi-ding-yi-ji-cheng-theard-lei/">
               <h3 class="post-title">
-                标签的基本用法
+                多线程学习之实现方法一：自定义继承Theard类
               </h3>
             </a>
           </div>

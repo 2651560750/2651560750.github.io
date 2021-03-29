@@ -2,25 +2,20 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Spring中三种创建对象的方法 | Gridea</title>
+<title>多线程学习之实现方法一：自定义继承Theard类 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617023037516">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Spring中三种创建对象的方法 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="多线程学习之实现方法一：自定义继承Theard类 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="
-
-
- 有参构造函数之下标赋值法-->
- 无参构造函数-->
-
-    &lt;constructor-arg name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
-&lt;/bean&gt;
-
-..." />
+    <meta name="description" content="#例一
+package com.deng.pojo;
+//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
+//注意，线程开启不一定立刻执行，要由CPU调度
+public class TestThread1..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -83,33 +78,95 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              Spring中三种创建对象的方法
+              多线程学习之实现方法一：自定义继承Theard类
             </h2>
             <div class="post-info">
               <span>
-                2021-03-20
+                2021-03-29
               </span>
               <span>
-                1 min read
+                3 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <?xml version="1.0" encoding="UTF-8"?>
-<p><beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd"><br>
-<bean id="user" class="com.deng.pojo.User"></p>
-<!--        <constructor-arg index="0" value="com.邓贝"/> 有参构造函数之下标赋值法-->
-<!--        <property name="name" value="邓贝"> 无参构造函数-->
-<!--直接通过参数名赋值-->
-<pre><code>    &lt;constructor-arg name=&quot;name&quot; value=&quot;贝爷&quot;/&gt;
-&lt;/bean&gt;
+                <p>#例一</p>
+<pre><code>package com.deng.pojo;
+//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
+//注意，线程开启不一定立刻执行，要由CPU调度
+public class TestThread1  extends Thread{
+    @Override
+    public void run()
+    {
+        //run方法线程体
+        for (int i=1;i&lt;=20;i++)
+        {
+            System.out.println(&quot;我在看代码--&quot;+i);
+        }
+    }
+
+    public static void main(String[] args) {
+       //main线程，主线程
+        //创建一个线程对象
+        TestThread1 testThread1=new TestThread1();
+        //调用START方法开启线程
+        testThread1.start();
+
+        for (int i=1;i&lt;=2000;i++)
+        {
+            System.out.println(&quot;我在看多线程--&quot;+i);
+        }
+    }
+}
 </code></pre>
-</beans>
+<p>#例二图片下载</p>
+<pre><code>package com.deng.pojo;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+public class TestThread2 extends Thread{
+    private String url;
+    private  String file;
+
+    public TestThread2(String url, String file) {
+        this.url = url;
+        this.file = file;
+    }
+
+    @Override
+    public void run(){
+        Downloard downloard=new Downloard();
+        downloard.donloard(url,file);
+        System.out.println(&quot;下载了文件名为：&quot;+file+&quot;的文件&quot;);
+    }
+
+    public static void main(String[] args) {
+        TestThread2 t1=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.zkrsQYyhrNp5_OFI6O1okgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;2.jpg&quot;);
+        TestThread2 t2=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.aLNlkV9uXH2R2SnUiXUjMwHaNu?w=177&amp;h=329&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;1.jpg&quot;);
+        TestThread2 t3=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.7pzyoXRXdn6tN_i2RwqhJgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;3.jpg&quot;);
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+class Downloard{
+    public void  donloard(String url,String file){
+        try {
+            FileUtils.copyURLToFile(new URL(url),new File(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(&quot;图片下载失败&quot;);
+        }
+    }
+}
+</code></pre>
+
               </div>
               <div class="toc-container">
                 
@@ -121,9 +178,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/biao-qian-de-ji-ben-yong-fa/">
+            <a href="https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/">
               <h3 class="post-title">
-                标签的基本用法
+                JS学习之函数（重点）
               </h3>
             </a>
           </div>

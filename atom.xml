@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-28T11:33:35.271Z</updated>
+    <updated>2021-03-29T13:04:01.587Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,181 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[数据库学习之内连接]]></title>
+        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-nei-lian-jie/</id>
+        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-nei-lian-jie/">
+        </link>
+        <updated>2021-03-29T13:03:32.000Z</updated>
+        <content type="html"><![CDATA[<p>https://www.runoob.com/wp-content/uploads/2013/09/inner-join1.jpg</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之实现方法二：自定义继承Theard类]]></title>
+        <id>https://2651560750.github.io/post/12/</id>
+        <link href="https://2651560750.github.io/post/12/">
+        </link>
+        <updated>2021-03-29T00:50:18.000Z</updated>
+        <content type="html"><![CDATA[<pre><code>package com.deng.pojo;
+//创建线程方式二，实现runnable接口，重写run方法，执行线程要丢入runnable接口实现类，调用start方法
+public class TestThread3 implements Runnable{
+    @Override
+    public void run()
+    {
+        //run方法线程体
+        for (int i=1;i&lt;=20;i++)
+        {
+            System.out.println(&quot;我在看代码--&quot;+i);
+        }
+    }
+
+    public static void main(String[] args) {
+        //main线程，主线程
+        //创建一个线程对象
+        TestThread1 testThread1=new TestThread1();
+        //将实现runnable接口的类丢到Theard线程类中执行
+        //new Thread(testThread1).start();
+Thread thread=new Thread(testThread1);
+//调用START方法开启线程
+thread.start();
+        for (int i=1;i&lt;=2000;i++)
+        {
+            System.out.println(&quot;我在看多线程--&quot;+i);
+        }
+    }
+}
+</code></pre>
+<p>#演示：龟兔赛跑</p>
+<pre><code>package com.deng.pojo;
+
+public class race implements Runnable {
+    private static String winner;
+
+    @Override
+    public void run() {
+        for (int i = 1; i &lt;= 100; i++) {
+            if(Thread.currentThread().getName().equals(&quot;邓贝&quot;)&amp;&amp; i%10==0){
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+   boolean flag=finsh(i);
+   if (flag)
+   {
+       break;
+   }
+            System.out.println(Thread.currentThread().getName()+&quot;跑了&quot;+i+&quot;步&quot;);
+        }
+    }
+   private boolean finsh(int step)
+   {
+       if(winner!=null)
+       {
+           return true;
+       }
+       if(step==100)
+       {
+           winner=Thread.currentThread().getName();
+           System.out.println(&quot;winner is:&quot;+winner);
+           return true;
+       }
+       return false;
+   }
+
+    public static void main(String[] args) {
+        race r=new race();
+        new Thread(r,&quot;岁东航&quot;).start();
+        new Thread(r,&quot;邓贝&quot;).start();
+
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之实现方法一：自定义继承Theard类]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-zi-ding-yi-ji-cheng-theard-lei/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-zi-ding-yi-ji-cheng-theard-lei/">
+        </link>
+        <updated>2021-03-29T00:38:15.000Z</updated>
+        <content type="html"><![CDATA[<p>#例一</p>
+<pre><code>package com.deng.pojo;
+//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
+//注意，线程开启不一定立刻执行，要由CPU调度
+public class TestThread1  extends Thread{
+    @Override
+    public void run()
+    {
+        //run方法线程体
+        for (int i=1;i&lt;=20;i++)
+        {
+            System.out.println(&quot;我在看代码--&quot;+i);
+        }
+    }
+
+    public static void main(String[] args) {
+       //main线程，主线程
+        //创建一个线程对象
+        TestThread1 testThread1=new TestThread1();
+        //调用START方法开启线程
+        testThread1.start();
+
+        for (int i=1;i&lt;=2000;i++)
+        {
+            System.out.println(&quot;我在看多线程--&quot;+i);
+        }
+    }
+}
+</code></pre>
+<p>#例二图片下载</p>
+<pre><code>package com.deng.pojo;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+public class TestThread2 extends Thread{
+    private String url;
+    private  String file;
+
+    public TestThread2(String url, String file) {
+        this.url = url;
+        this.file = file;
+    }
+
+    @Override
+    public void run(){
+        Downloard downloard=new Downloard();
+        downloard.donloard(url,file);
+        System.out.println(&quot;下载了文件名为：&quot;+file+&quot;的文件&quot;);
+    }
+
+    public static void main(String[] args) {
+        TestThread2 t1=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.zkrsQYyhrNp5_OFI6O1okgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;2.jpg&quot;);
+        TestThread2 t2=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.aLNlkV9uXH2R2SnUiXUjMwHaNu?w=177&amp;h=329&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;1.jpg&quot;);
+        TestThread2 t3=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.7pzyoXRXdn6tN_i2RwqhJgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;3.jpg&quot;);
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+class Downloard{
+    public void  donloard(String url,String file){
+        try {
+            FileUtils.copyURLToFile(new URL(url),new File(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(&quot;图片下载失败&quot;);
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[JS学习之函数（重点）]]></title>
         <id>https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/</id>
@@ -422,72 +597,6 @@ TRUNCATE TABLE `test' --自增会归零
  
 
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[写法]]></title>
-        <id>https://2651560750.github.io/post/xie-fa/</id>
-        <link href="https://2651560750.github.io/post/xie-fa/">
-        </link>
-        <updated>2021-03-27T04:35:52.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="学习javacsript">学习javacsript</h1>
-<ul>
-<li>学习java</li>
-<li>学习数据库<br>
-1 dawd</li>
-</ul>
-<ol>
-<li>学习java</li>
-<li>学习数据库</li>
-</ol>
-<blockquote>
-<p>这是引用</p>
-<blockquote>
-<p>这是引用</p>
-</blockquote>
-</blockquote>
-<pre><code class="language-javascript">  在此输入代码
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[修改删除表]]></title>
-        <id>https://2651560750.github.io/post/xiu-gai-shan-chu-biao/</id>
-        <link href="https://2651560750.github.io/post/xiu-gai-shan-chu-biao/">
-        </link>
-        <updated>2021-03-27T04:25:36.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="修改">修改：</h1>
-<p>--修改表名 ALTER TABLE 旧表名 RENAME AS新表名<br>
-<code>ALTER TABLE teacher RENAME AS teacher1</code><br>
---增加表的字段 ALTER TABLE表名 ADD字段名列属性<br>
-<code>ALTER TABLE teacher1 ADD age INT (11)</code><br>
---修改表的字段(重命名，修改约束!)<br>
-<code>ALTER TABLE teacher1 MODIFY age VARCHAR(11)</code>   --修改约束<br>
-<code>ALTER TABLE teacher1 CHANGE age age1 INT(1)</code>    --字段重名名<br>
---册除表的字段<br>
-<code>ALTERTABLE teacher1 DROP agel</code></p>
-<h1 id="册除表">册除表:</h1>
-<p>(如果表存在再删除)<br>
-<code>DROP TABLE IE EXISTS teacheri</code></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[数据表的类型]]></title>
-        <id>https://2651560750.github.io/post/shu-ju-biao-de-lei-xing/</id>
-        <link href="https://2651560750.github.io/post/shu-ju-biao-de-lei-xing/">
-        </link>
-        <updated>2021-03-27T04:17:03.000Z</updated>
-        <content type="html"><![CDATA[<p>-- 关于数据库的引擎<br>
-/*<br>
-INNODB 默认使用<br>
-MYISAM 早些年使用的<br>
-*/<br>
-MYISAM                           INNODB<br>
-事务支持            不支持                                 支持<br>
-数据行锁定         不支持                                支持<br>
-外键约束             不支持                                  支持<br>
-全文索引              支持                                     不支持<br>
-表空间的大小        较小                              较大，约为两倍</p>
 ]]></content>
     </entry>
 </feed>
