@@ -1,0 +1,194 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数据库学习之聚合函数和分组查询（扩展知识：加密） | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617111096561">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="数据库学习之聚合函数和分组查询（扩展知识：加密） | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="#聚合函数
+都能够统计表中的数据(想查询一个表中有多少个记录，就使用这个count() )
+SELECT COUNT (`BornDate`) FROM student; -- Count (字段)，会忽略所有的null值
+SELECT C..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617111096561" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              数据库学习之聚合函数和分组查询（扩展知识：加密）
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-03-30
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>#聚合函数<br>
+都能够统计表中的数据(想查询一个表中有多少个记录，就使用这个count() )</p>
+<pre><code>SELECT COUNT (`BornDate`) FROM student; -- Count (字段)，会忽略所有的null值
+SELECT COUNT (*） FROM student; -- Count(*)，不会忽略null值，本质计算行数
+SELECT COUNT (1)FROM result; -- Count(1)，不会忽略忽略所有的 null值本质计算行数
+</code></pre>
+<pre><code>SELECT SUM (`StudentResult`)AS总和 FROM result
+SELECT AVG(StudentResult`)AS 平均分FROM result
+SELECT MAX(StudentResult`) AS最高分 FROM result
+SELECT MIN(StudentResult`) AS 最低分 FROM result
+</code></pre>
+<p>#分组查询<br>
+--查询不同课程的平均分，最高分，最低分，平均分大于80-―核心:(根据不同的课程分组)</p>
+<pre><code>SELECT SubjectName，AVG (studentResult) As 平均分, NaX (StudentResult) AS 最高分, MrnN (StudentResult) slFROM result r
+INNER JOIN`subject sub
+ONr. `SubjectNo=sub. &quot; SubjectNo
+GROUP BY r.SubjectNo --通过什么字段来分组HAVING 平均分&gt;80
+</code></pre>
+<p>#加密<br>
+-―明文密码<br>
+<code>INSERT INTO testmd5 VAEUES (1,' zhangsan','123456'),(2,'lisi','123456'), (3', ' wangwu' , '123456')</code><br>
+--加密<br>
+<code>UPDATE testmd5 SET pwd=MD5(pwd) WHERE id= 1</code><br>
+<code>UPDATE testmd5 SET pwd=MD5 (pwd) --加密全部的密码</code><br>
+-―插入的时候加密<br>
+<code>INSERT INTO testmd5 VALUES (4, 'xiaoming' ,MD5('123456'))</code><br>
+--如何校验:将用户传递进来的密码，进行md5加密，然后比对加密后的值SELECT * FROM testmd5 <code>WHERE ‘name '='xiaoming' AND pwd=MD5 ('123456')</code></p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-fen-ye-he-pai-xu/">
+              <h3 class="post-title">
+                数据库学习之分页和排序
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

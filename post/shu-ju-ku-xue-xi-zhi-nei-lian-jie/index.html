@@ -2,17 +2,22 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>数据库学习之内连接 | Gridea</title>
-<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617023037516">
+<title>数据库学习之INNER JOIN | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617111096561">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="数据库学习之内连接 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="数据库学习之INNER JOIN | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="https://www.runoob.com/wp-content/uploads/2013/09/inner-join1.jpg
-" />
+    <meta name="description" content="SQL INNER JOIN 关键字
+INNER JOIN 关键字在表中存在至少一个匹配时返回行。
+SQL INNER JOIN 语法
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2
+..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -22,7 +27,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://2651560750.github.io">
-  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617023037516" alt="">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617111096561" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -75,21 +80,62 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              数据库学习之内连接
+              数据库学习之INNER JOIN
             </h2>
             <div class="post-info">
               <span>
                 2021-03-29
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>https://www.runoob.com/wp-content/uploads/2013/09/inner-join1.jpg</p>
+                <p>SQL INNER JOIN 关键字<br>
+INNER JOIN 关键字在表中存在至少一个匹配时返回行。<br>
+SQL INNER JOIN 语法</p>
+<pre><code>SELECT column_name(s)
+FROM table1
+INNER JOIN table2
+ON table1.column_name=table2.column_name;
+</code></pre>
+<p>下面是选自 &quot;Websites&quot; 表的数据：</p>
+<p>+----+--------------+---------------------------+-------+---------+<br>
+| id | name         | url                       | alexa | country |<br>
++----+--------------+---------------------------+-------+---------+<br>
+| 1  | Google       | https://www.google.cm/    | 1     | USA     |<br>
+| 2  | 淘宝          | https://www.taobao.com/   | 13    | CN      |<br>
+| 3  | 菜鸟教程      | http://www.runoob.com/    | 4689  | CN      |<br>
+| 4  | 微博          | http://weibo.com/         | 20    | CN      |<br>
+| 5  | Facebook     | https://www.facebook.com/ | 3     | USA     |<br>
+| 7  | stackoverflow | http://stackoverflow.com/ |   0 | IND     |<br>
++----+---------------+---------------------------+-------+---------+<br>
+下面是 &quot;access_log&quot; 网站访问记录表的数据：</p>
+<p>mysql&gt; SELECT * FROM access_log;<br>
++-----+---------+-------+------------+<br>
+| aid | site_id | count | date       |<br>
++-----+---------+-------+------------+<br>
+|   1 |       1 |    45 | 2016-05-10 |<br>
+|   2 |       3 |   100 | 2016-05-13 |<br>
+|   3 |       1 |   230 | 2016-05-14 |<br>
+|   4 |       2 |    10 | 2016-05-14 |<br>
+|   5 |       5 |   205 | 2016-05-14 |<br>
+|   6 |       4 |    13 | 2016-05-15 |<br>
+|   7 |       3 |   220 | 2016-05-15 |<br>
+|   8 |       5 |   545 | 2016-05-16 |<br>
+|   9 |       3 |   201 | 2016-05-17 |<br>
++-----+---------+-------+------------+<br>
+实例:</p>
+<pre><code>SELECT Websites.name, access_log.count, access_log.date
+FROM Websites
+INNER JOIN access_log
+ON Websites.id=access_log.site_id
+ORDER BY access_log.count;
+</code></pre>
+<p>https://www.runoob.com/wp-content/uploads/2013/09/inner-join1.jpg</p>
 
               </div>
               <div class="toc-container">
@@ -104,7 +150,7 @@
             <div class="next">下一篇</div>
             <a href="https://2651560750.github.io/post/12/">
               <h3 class="post-title">
-                多线程学习之实现方法二：自定义继承Theard类
+                多线程学习之实现方法二：Runnable
               </h3>
             </a>
           </div>

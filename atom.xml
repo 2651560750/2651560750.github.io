@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-29T13:04:01.587Z</updated>
+    <updated>2021-03-30T13:31:47.060Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -11,174 +11,416 @@
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
     <entry>
-        <title type="html"><![CDATA[数据库学习之内连接]]></title>
-        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-nei-lian-jie/</id>
-        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-nei-lian-jie/">
+        <title type="html"><![CDATA[多线程学习之线程同步机制（重点加难点）]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-tong-bu-ji-zhi-chong-dian-jia-nan-dian/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-tong-bu-ji-zhi-chong-dian-jia-nan-dian/">
         </link>
-        <updated>2021-03-29T13:03:32.000Z</updated>
-        <content type="html"><![CDATA[<p>https://www.runoob.com/wp-content/uploads/2013/09/inner-join1.jpg</p>
+        <updated>2021-03-30T12:54:39.000Z</updated>
+        <content type="html"><![CDATA[<p>package com.deng.pojo1;<br>
+//守护线程随着用户线程的结束而结束<br>
+public class TestDaemon {<br>
+public static void main(String[] args) {<br>
+God god=new God();<br>
+You you=new You();<br>
+Thread thread=new Thread(god);<br>
+thread.setDaemon(true);<br>
+thread.start();//上帝守护线程启动<br>
+new Thread(you).start();//用户线程启动<br>
+}<br>
+}<br>
+class You implements Runnable{</p>
+<pre><code>@Override
+public void run() {
+    for (int i = 0; i &lt; 36500; i++) {
+        System.out.println(&quot;祝你一生都活的开开心心&quot;);
+    }
+    System.out.println(&quot;========goodbye,this,world======&quot;);
+}
+</code></pre>
+<p>}<br>
+class God implements  Runnable{</p>
+<pre><code>@Override
+public void run() {
+    while (true)
+    {
+        System.out.println(&quot;上帝一直守护着你&quot;);
+    }
+}
+</code></pre>
+<p>}<br>
+<img src="https://2651560750.github.io/post-images/1617111080184.png" alt="" loading="lazy"></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[多线程学习之实现方法二：自定义继承Theard类]]></title>
-        <id>https://2651560750.github.io/post/12/</id>
-        <link href="https://2651560750.github.io/post/12/">
+        <title type="html"><![CDATA[多线程学习之守护线程]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-shou-hu-xian-cheng/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-shou-hu-xian-cheng/">
         </link>
-        <updated>2021-03-29T00:50:18.000Z</updated>
-        <content type="html"><![CDATA[<pre><code>package com.deng.pojo;
-//创建线程方式二，实现runnable接口，重写run方法，执行线程要丢入runnable接口实现类，调用start方法
-public class TestThread3 implements Runnable{
-    @Override
-    public void run()
-    {
-        //run方法线程体
-        for (int i=1;i&lt;=20;i++)
-        {
-            System.out.println(&quot;我在看代码--&quot;+i);
-        }
-    }
-
+        <updated>2021-03-30T12:24:56.000Z</updated>
+        <content type="html"><![CDATA[<p>#守护线程的定义<br>
+线程分为用户线程和守护线程<br>
+虚拟机必须确保用户线程执行完毕<br>
+虚拟机不用等待守护线程执行完毕<br>
+如,后台记录操作日志,监控内存,垃圾回收等待</p>
+<pre><code>package com.deng.pojo1;
+//守护线程随着用户线程的结束而结束
+public class TestDaemon {
     public static void main(String[] args) {
-        //main线程，主线程
-        //创建一个线程对象
-        TestThread1 testThread1=new TestThread1();
-        //将实现runnable接口的类丢到Theard线程类中执行
-        //new Thread(testThread1).start();
-Thread thread=new Thread(testThread1);
-//调用START方法开启线程
-thread.start();
-        for (int i=1;i&lt;=2000;i++)
+        God god=new God();
+        You you=new You();
+        Thread thread=new Thread(god);
+              thread.setDaemon(true);
+              thread.start();//上帝守护线程启动
+              new Thread(you).start();//用户线程启动
+    }
+}
+class You implements Runnable{
+
+    @Override
+    public void run() {
+        for (int i = 0; i &lt; 36500; i++) {
+            System.out.println(&quot;祝你一生都活的开开心心&quot;);
+        }
+        System.out.println(&quot;========goodbye,this,world======&quot;);
+    }
+}
+class God implements  Runnable{
+
+    @Override
+    public void run() {
+        while (true)
         {
-            System.out.println(&quot;我在看多线程--&quot;+i);
+            System.out.println(&quot;上帝一直守护着你&quot;);
         }
     }
 }
 </code></pre>
-<p>#演示：龟兔赛跑</p>
-<pre><code>package com.deng.pojo;
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之线程的优先级]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-de-you-xian-ji/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-de-you-xian-ji/">
+        </link>
+        <updated>2021-03-30T12:08:20.000Z</updated>
+        <content type="html"><![CDATA[<p>#优先级的概念<br>
+Java提供一个线程调度器来监控程序中启动后进入就绪状态的所有线程，线程调度器按照优先级决定应该调度哪个线程来执行。<br>
+线程的优先级用数字表示，范围从1~10.<br>
+Thread.MIN_PRIORITY=1;<br>
+Thread.MAX_PRIORITY = 10;Thread.NORM_PRIORITY = 5;使用以下方式改变或获取优先级<br>
+getPriority() . setPriority(int xxx)<br>
+#代码示范</p>
+<pre><code>package com.deng.pojo1;
 
-public class race implements Runnable {
-    private static String winner;
+public class TestPriority {
+    public static void main(String[] args) {
+        System.out.println(Thread.currentThread().getName()+&quot;--&gt;&quot;+Thread.currentThread().getPriority());
+        Mypriority mypriority=new Mypriority();
+        Thread t1=new Thread(mypriority);
+        Thread t2=new Thread(mypriority);
+        Thread t3=new Thread(mypriority);
+        Thread t4=new Thread(mypriority);
+        Thread t5=new Thread(mypriority);
+        t1.start();
+
+        t2.setPriority(1);
+        t2.start();
+
+        t3.setPriority(4);
+        t3.start();
+
+        t4.setPriority(8);
+        t4.start();
+
+        t5.setPriority(Thread.MAX_PRIORITY);
+        t5.start();
+
+    }
+}
+class Mypriority implements Runnable{
 
     @Override
     public void run() {
-        for (int i = 1; i &lt;= 100; i++) {
-            if(Thread.currentThread().getName().equals(&quot;邓贝&quot;)&amp;&amp; i%10==0){
+        System.out.println(Thread.currentThread().getName()+&quot;--&gt;&quot;+Thread.currentThread().getPriority());
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之观测线程状态]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-guan-ce-xian-cheng-zhuang-tai/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-guan-ce-xian-cheng-zhuang-tai/">
+        </link>
+        <updated>2021-03-30T11:48:42.000Z</updated>
+        <content type="html"><![CDATA[<p>#实现五种状态的代码</p>
+<pre><code>package com.deng.pojo1;
+
+public class TestState {
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread=new Thread(()-&gt;{
+            for (int i = 0; i &lt; 5; i++) {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-   boolean flag=finsh(i);
-   if (flag)
-   {
-       break;
-   }
-            System.out.println(Thread.currentThread().getName()+&quot;跑了&quot;+i+&quot;步&quot;);
+            System.out.println(&quot;////////&quot;);
+        });
+       Thread.State state=thread.getState();
+        System.out.println(state);
+        thread.start();
+        state =thread.getState();
+        System.out.println(state);
+        while (state!=Thread.State.TERMINATED)
+        {
+            Thread.sleep(100);
+            state=thread.getState();
+            System.out.println(state);
         }
     }
-   private boolean finsh(int step)
-   {
-       if(winner!=null)
-       {
-           return true;
-       }
-       if(step==100)
-       {
-           winner=Thread.currentThread().getName();
-           System.out.println(&quot;winner is:&quot;+winner);
-           return true;
-       }
-       return false;
-   }
+}
+</code></pre>
+<p>#运行结果</p>
+<pre><code>NEW
+RUNNABLE
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+TIMED_WAITING
+RUNNABLE
+////////
+TERMINATED
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之强制执行]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-qiang-zhi-zhi-xing/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-qiang-zhi-zhi-xing/">
+        </link>
+        <updated>2021-03-30T11:38:34.000Z</updated>
+        <content type="html"><![CDATA[<pre><code>package com.deng.pojo1;
 
-    public static void main(String[] args) {
-        race r=new race();
-        new Thread(r,&quot;岁东航&quot;).start();
-        new Thread(r,&quot;邓贝&quot;).start();
+public class TestJoin implements Runnable{
+    @Override
+    public void run() {
+        for (int i = 0; i &lt; 1000; i++) {
+            System.out.println(&quot;线程VIP来了&quot;+i);
+        }
+    }
 
+    public static void main(String[] args) throws InterruptedException {
+        TestJoin testJoin=new TestJoin();
+        Thread thread=new Thread(testJoin);
+        thread.start();
+        for (int i = 0; i &lt; 500; i++) {
+            if(i==200)
+            {
+                thread.join();
+            }
+            System.out.println(&quot;main方法执行&quot;+i);
+        }
     }
 }
 </code></pre>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[多线程学习之实现方法一：自定义继承Theard类]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-zi-ding-yi-ji-cheng-theard-lei/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-zi-ding-yi-ji-cheng-theard-lei/">
+        <title type="html"><![CDATA[多线程学习之线程礼让]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-li-rang/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-li-rang/">
         </link>
-        <updated>2021-03-29T00:38:15.000Z</updated>
-        <content type="html"><![CDATA[<p>#例一</p>
-<pre><code>package com.deng.pojo;
-//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
-//注意，线程开启不一定立刻执行，要由CPU调度
-public class TestThread1  extends Thread{
+        <updated>2021-03-30T11:22:29.000Z</updated>
+        <content type="html"><![CDATA[<p>礼让线程，让当前正在执行的线程暂停，但不阻塞<br>
+将线程从运行状态转为就绪状态<br>
+让cpu重新调度，礼让不一定成功!看CPU心情</p>
+<pre><code>package com.deng.pojo1;
+
+public class TestYied {
+    public static void main(String[] args) {
+      Myyield myyield=new Myyield();
+      new Thread(myyield,&quot;A&quot;).start();
+      new Thread(myyield,&quot;B&quot;).start();
+    }
+}
+class Myyield implements Runnable{
+
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName()+&quot;线程开始执行&quot;);
+        Thread.yield();
+        System.out.println(Thread.currentThread().getName()+&quot;线程停止执行&quot;);
+    }
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之线程休眠]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-xiu-mian/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-xiu-mian/">
+        </link>
+        <updated>2021-03-30T11:00:52.000Z</updated>
+        <content type="html"><![CDATA[<p>#模仿网络延迟和获取当前时间</p>
+<pre><code>package com.deng.pojo1;
+
+import com.deng.pojo.TestThread5;
+//模拟网络延迟：放大问题的发生性
+public class TestSleep implements Runnable{
+    private int tickeNums=10;
     @Override
     public void run()
     {
-        //run方法线程体
-        for (int i=1;i&lt;=20;i++)
+        while (true)
         {
-            System.out.println(&quot;我在看代码--&quot;+i);
+            if (tickeNums&lt;=0)
+            {
+                break;
+            }
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName()+&quot;拿到了第&quot;+tickeNums--+&quot;张票&quot;);
         }
     }
 
-    public static void main(String[] args) {
-       //main线程，主线程
-        //创建一个线程对象
-        TestThread1 testThread1=new TestThread1();
-        //调用START方法开启线程
-        testThread1.start();
 
-        for (int i=1;i&lt;=2000;i++)
+    public static void main(String[] args) {
+        TestThread5 t1=new TestThread5();
+        new Thread(t1,&quot;邓贝&quot;).start();
+        new Thread(t1,&quot;黄哲浩&quot;).start();
+        new Thread(t1,&quot;岁东航&quot;).start();
+    }
+}
+</code></pre>
+<pre><code>package com.deng.pojo1;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class TestSleep02 {
+    public static void main(String[] args) {
+//tendown();
+//        打印系统当前时间
+        Date starttime=new Date(System.currentTimeMillis());//获取当前时间
+        while (true)
         {
-            System.out.println(&quot;我在看多线程--&quot;+i);
+            try {
+                Thread.sleep(1000);
+                System.out.println(new SimpleDateFormat(&quot;HH:mm:ss&quot;).format(starttime));
+                starttime=new Date(System.currentTimeMillis());//更新时间
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+//    十秒倒计时
+    public static void tendown()
+    {
+        int number=10;
+        while (true)
+        {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(number--);
+            if(number&lt;=0)
+            {
+                break;
+            }
         }
     }
 }
 </code></pre>
-<p>#例二图片下载</p>
-<pre><code>package com.deng.pojo;
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之线程停止]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-ting-zhi/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-ting-zhi/">
+        </link>
+        <updated>2021-03-30T10:59:28.000Z</updated>
+        <content type="html"><![CDATA[<p>测试stop<br>
+//1.建议线程正常停止---&gt;利用次数,不建议死循环。<br>
+//2.建议使用标志位---&gt;设置一个标志位<br>
+//3.不要使用stop或者destroy等过时或者JDK不建议使用的方法</p>
+<pre><code>package com.deng.pojo1;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-public class TestThread2 extends Thread{
-    private String url;
-    private  String file;
-
-    public TestThread2(String url, String file) {
-        this.url = url;
-        this.file = file;
-    }
-
+public class TestStop implements Runnable {
+    private boolean flag=true;
     @Override
-    public void run(){
-        Downloard downloard=new Downloard();
-        downloard.donloard(url,file);
-        System.out.println(&quot;下载了文件名为：&quot;+file+&quot;的文件&quot;);
+    public void run()
+    {
+        int i=1;
+        while (flag)
+        {
+            System.out.println(&quot;线程继续运行：&quot;+i++);
+        }
+    }
+    public void stop()
+    {
+        this.flag=false;
     }
 
     public static void main(String[] args) {
-        TestThread2 t1=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.zkrsQYyhrNp5_OFI6O1okgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;2.jpg&quot;);
-        TestThread2 t2=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.aLNlkV9uXH2R2SnUiXUjMwHaNu?w=177&amp;h=329&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;1.jpg&quot;);
-        TestThread2 t3=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.7pzyoXRXdn6tN_i2RwqhJgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;3.jpg&quot;);
-        t1.start();
-        t2.start();
-        t3.start();
-    }
-}
-class Downloard{
-    public void  donloard(String url,String file){
-        try {
-            FileUtils.copyURLToFile(new URL(url),new File(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(&quot;图片下载失败&quot;);
+        TestStop testStop=new TestStop();
+        new Thread(testStop).start();
+        for (int i = 0; i &lt; 1000; i++) {
+            if(i==900)
+            {
+                testStop.stop();
+                System.out.println(&quot;线程该结束了&quot;);
+            }
+            else {
+                System.out.println(&quot;main方法执行了：&quot;+i+&quot;次&quot;);
+            }
         }
     }
 }
@@ -186,417 +428,88 @@ class Downloard{
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JS学习之函数（重点）]]></title>
-        <id>https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/</id>
-        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/">
+        <title type="html"><![CDATA[数据库学习之事务（要么全部成功，要么全部失败）]]></title>
+        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-shi-wu-yao-me-quan-bu-cheng-gong-yao-me-quan-bu-shi-bai/</id>
+        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-shi-wu-yao-me-quan-bu-cheng-gong-yao-me-quan-bu-shi-bai/">
         </link>
-        <updated>2021-03-27T12:22:56.000Z</updated>
-        <content type="html"><![CDATA[<p>#函数的二种定义方式<br>
-第一种，可以使用function关键字来定义函数。<br>
-使用的格式如下:<br>
-function函数名(形参列表)<br>
-函数体<br>
-}<br>
-在JavaScript语言中，如何定义带有返回值的函数?<br>
-只需要在函数体内直接使用return语句返回值即可!</p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-/*        第一种，可以使用function关键字来定义函数。
-使用的格式如下:
-    function函数名(形参列表)
-        函数体
-        }*/
-//定义一个无惨函数
-function fun(){
-    alert(&quot;岁东航也是个王八犊子操&quot;);
-}
-//调用函数
-fun();
-//定义一个有参函数
-function fun2( a,b){
-    alert(&quot;岁东航他妈的拉了&quot;+a+&quot;坨屎,他直接说&quot;+b);
-}
-fun2(12,&quot;曹尼玛&quot;);
-//带有返回值类型的函数
-function fun3(sum1,sum2){
-    var sum =sum1+sum2
-    return sum;
-}
-alert(fun3(25,65));
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<p>函数的第二种定义方式,格式如下:<br>
-使用格式如下:<br>
-var 函数名= functon(形参列表){函数体}</p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-       var fun=function (){
-            alert(&quot;岁东航也是个王八犊子操&quot;);
-        }
-        //调用函数
-        fun();
-        //定义一个有参函数
-       var fun2= function ( a,b){
-            alert(&quot;岁东航他妈的拉了&quot;+a+&quot;坨屎,他直接说&quot;+b);
-        }
-        fun2(12,&quot;曹尼玛&quot;);
-        //带有返回值类型的函数
-       var fun3=function (sum1,sum2){
-            var sum =sum1+sum2
-            return sum;
-        }
-        alert(fun3(25,65));
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS学习之数组（重点）]]></title>
-        <id>https://2651560750.github.io/post/js-xue-xi-zhi-shu-zu-chong-dian/</id>
-        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-shu-zu-chong-dian/">
-        </link>
-        <updated>2021-03-27T12:05:12.000Z</updated>
-        <content type="html"><![CDATA[<p>#数组的定义方式</p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-        var arr = [true, 1];//定义一个空数组
-        //  aLert( arr.Length ); // 0
-        arr[0] = 12;
-        alert( arr[0] );//12
-        // alert( arr.Length ); // 0
-        // javaScript语言中的数组，只要我们通过数组下标赋值，那么最大的下标值，就会自动的给数组做扩容操作。
-        arr[2] =&quot;abc&quot;;
-        alert(arr.length); //3
-        alert(arr[9]);
-        alert(arr.length);//3
-        // alert(arr[1]); // undefined
-        // 数组的遍历
-        for (var i = o; i &lt; arr.length; i++) {
-            alert(arr[i]);
-        }
-
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS之逻辑运算符]]></title>
-        <id>https://2651560750.github.io/post/js-zhi-luo-ji-yun-suan-fu/</id>
-        <link href="https://2651560750.github.io/post/js-zhi-luo-ji-yun-suan-fu/">
-        </link>
-        <updated>2021-03-27T11:46:19.000Z</updated>
-        <content type="html"><![CDATA[<p>在avaScript语言中，所有的变量，都可以做为一个boolean类型的变量去使用0 , null.undefined、&quot;&quot;(空串)都认为是false ;<br>
-/*<br>
-&amp;&amp;与运算。有两种情况:<br>
-第一种:当表达式全为真的时候。返回最后一个表达式的值。<br>
-第二种:当表达式中，有一个为假的时候。返回第一个为假的表达式的值<br>
-| |或运算<br>
-第一种情况:当表达式全为假时，返回最后一个表达式的值<br>
-第二种情况:只要有一个表达式为真。就会把回第一个为真的表达式的值<br>
-并且&amp;&amp;与运算和||或运算有短路。<br>
-短路就是说，当这个&amp;&amp;或|运算有结果了之后。后面的表达式不再执行<br>
-*/</p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-        /*
-        var a = &quot;abc&quot;;
-        var b = true;
-        var c = false;
-        var d = null;
-        alert(a &amp;&amp; b);//true
-        alert(b &amp;&amp; a);//abc
-        alert(a &amp;&amp; d);//null
-        alert(a &amp;&amp; c);//false
-        alert(a&amp;&amp;b&amp;&amp;c&amp;&amp;d)//false
-        alert(a || b);//abc
-        alert(a || c);//abc
-        alert(a || d);//abc
-        alert(c || d);//null
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS学习之关系运算]]></title>
-        <id>https://2651560750.github.io/post/js-xue-xi-zhi-guan-xi-yun-suan/</id>
-        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-guan-xi-yun-suan/">
-        </link>
-        <updated>2021-03-27T11:41:56.000Z</updated>
-        <content type="html"><![CDATA[<p>等于:<br>
-等于是简单的做字面值的比较   ==<br>
-全等于:<br>
-除了做字面值的比较之外,还会比较两个变量的数据类型     ===</p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-        var a=&quot;12&quot;;
-        var b=12;
-        alert(a==b)//true
-        alert(a===b)//false
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS学习之变量]]></title>
-        <id>https://2651560750.github.io/post/js-xue-xi-zhi-bian-liang/</id>
-        <link href="https://2651560750.github.io/post/js-xue-xi-zhi-bian-liang/">
-        </link>
-        <updated>2021-03-27T11:29:03.000Z</updated>
-        <content type="html"><![CDATA[<p>什么是变量?变量是可以存放某些值的内存的命名。<br>
-#Javascript的变量类型:<br>
-数值类型:      number<br>
-字符串类型:       string<br>
-对象类型:    object<br>
-布尔类型:     boolean<br>
-函数类型:     function<br>
-#JavaScript里特殊的值:<br>
-undefined       未定义，所有js 变量未赋于初始值的时候，默认值都是undefined.<br>
-null        空值<br>
-NAN          全称是:Not a Number。非数字。非数值。<br>
-#Js中的定义变量格式:<br>
-var变量名;<br>
-var变量名=值;</p>
-<pre><code> &lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Title&lt;/title&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-        var i;
-        //alert(i);//undefined
-        i = 12;
-         // typeof()是JavaScript语言提供的一个函数。
-        //它可以取变量的数据类型返回
-        // alert( typeof(i) ); // number
-        i = &quot;abc&quot;;
-        alert( typeof(i) ); // String
-        var a=25;
-        var b=&quot;abc&quot;;
-        alert(a * b);//NaN是非数值，非数字
-    &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[DQL查询语句（最重点）]]></title>
-        <id>https://2651560750.github.io/post/dql-cha-xun-yu-ju-zui-chong-dian/</id>
-        <link href="https://2651560750.github.io/post/dql-cha-xun-yu-ju-zui-chong-dian/">
-        </link>
-        <updated>2021-03-27T05:50:59.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="dql">DQL</h1>
-<p>(Data Query LANGUAGE:数据查询语言)<br>
-·所有的查询操作都用它Select<br>
-·简单的查询，复杂的查询它都能做~<br>
-·数据库中最核心的语言,最重要的语句<br>
-·使用频率最高的语句<br>
-#指定查询字段<br>
---查询全部的学生SELECT字段 FROM表S<br>
-<code>ELECT * FROM student</code><br>
---查询指定字段<br>
-<code>SELECT`StudentNo`, `studentName` FROM student</code><br>
---别名，给结果起一个名字AS可以给字段起别名，也可以给表起别名<br>
-<code>SELECT‘studentNo`AS学号,`studentName`AS学生姓名FROM student AS s</code><br>
---函数Concat (a， b)<br>
-<code>SELECT CONCAT ( '姓名: ', studentName) As 新名字 FROM student</code><br>
-#去重：<br>
-作用:去除SELECT查询出来的结果中重复的数据，重复的数据只显示一条<br>
-1  --查询一下有哪些同学参加了考试，成绩<br>
-2  <code>SELECT*FROM result</code>--查询全部的考试成绩<br>
-3  <code>SELECT studentNo ' FROM result</code> --查询有哪些同学参加了考试<br>
-4  <code>SELECT DISTINCT 'studentNo` FROM result</code> --发现重复数据，去重<br>
-#数据库的列(表达式):<br>
-1  <code>SELECT VERSION</code>--查询系统版本（函数)<br>
-2  <code>SELECT100*3-1 AS计算结果</code>--用来计算（表达式)<br>
-3 <code>SELECT @@auto_increment_increment</code> --查询自增的步长(变量)<br>
-4 <code>SELECT 'studentNo', 'studentResult +1 AS'提分后'FROM result</code>--学员考试成绩＋1分查看<br>
-总结：数据库中的表达式:文本值，列，Null，函数，计算表达式，系统变量.....</p>
-<h1 id="where条件句子">where条件句子</h1>
-<p>作用：检索数据中符合条件的值<br>
-1.连接符 “||”<br>
-SQL中的连接符”||” 可将结果连接起来为一列<br>
-将u_name 和“的成绩为” u_score 连接起来<br>
-<code>select u_name || '的成绩为' || u_score as 成绩from T_USER ;</code><br>
-2. SQL中可以用SELECT-WHERE进行条件查询<br>
-比较运算 ‘&lt;’ ‘&lt;=’ ‘&gt;’ ‘&gt;=’ ‘!=’<br>
-SQL中可以使用 条件运算符 ‘&lt;’ ‘&lt;=’ ‘&gt;’ ‘&gt;=’ ‘!=’ 过滤查询结果中的某些行，多个条件之间可以用 ‘and’ 连接。<br>
-查询T_USER表中成绩大于等于60分的学生</p>
-<pre><code>select u_name , u_score
-from T_USER 
-where u_score &gt;= 60 ;
-</code></pre>
-<ol start="3">
-<li>与条件 (AND，BETWEEN)<br>
-查询A-B区间<br>
-查询T_USER表中成绩大于等于60分且小于等于80分的学生<br>
-AND写法</li>
-</ol>
-<pre><code>select u_name , u_score
-from T_USER 
-where u_score &gt;60 and u_score &lt;80
-</code></pre>
-<p>BETWEEN写法</p>
-<pre><code>select u_name , u_score
-from T_USER 
-where u_score between 60 and 80 ;
-</code></pre>
-<ol start="4">
-<li>或条件（OR，IN）<br>
-SQL中用于或运算的关键字OR和IN<br>
-查询分数大于90分或者小于60分的记录-OR</li>
-</ol>
-<pre><code>select u_name , u_score
-from T_USER 
-where u_score &gt;90 or u_score &lt;60 ;
-</code></pre>
-<p>查询成绩为100，98，65的学生-IN</p>
-<pre><code>select u_name , u_score
-from T_USER 
-where u_score in(100,98,65) ;
-</code></pre>
+        <updated>2021-03-30T06:59:29.000Z</updated>
+        <content type="html"><![CDATA[<p>#ACID</p>
 <ol>
-<li>非条件（！=，NOT）<br>
-查询名字不叫 ‘叶清逸’ 的记录<br>
-！=写法</li>
+<li>Atomicity（原子性）：一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被恢复（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</li>
+<li>Consistency（一致性）：在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。</li>
+<li>Isolation（隔离性）：数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</li>
+<li>Durability（持久性）：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。<br>
+#手动事务<br>
+—-手动处理事务<br>
+SETautocommit = o--关闭自动提交<br>
+-—事务开启<br>
+START TRANSACTION--标记一个事务的开始，从这个之后的 sql都在同一个事务内<br>
+INSERT xX<br>
+INSERTxz<br>
+-―提交:持久化(成功!)<br>
+COMMIT<br>
+--回滚:回到的原来的样子(失败!)<br>
+ROLLBACK<br>
+--事务结束<br>
+SETautocommit =l --开启自动提交<br>
+—-了解<br>
+SAVEPOINT 保存点名--设置一个事务的保存点<br>
+ROLLBACK TO SAVEPOINT 保存点名--回滚到保存点<br>
+#模拟场景</li>
 </ol>
-<pre><code>select *
-from T_USER 
-where u_name != '叶清逸' ;
-</code></pre>
-<p>NOT写法</p>
-<pre><code>select *
-from T_USER 
-where u_name not like '叶清逸' ;
-</code></pre>
-<ol start="6">
-<li>模糊查询LIKE<br>
-SQL中可以使用模糊查询like，其中 ‘_’ 占一位 ‘%’占多位。</li>
-</ol>
-<p>查询名字中有 ‘清’ 字的记录<br>
-可以有三种表示方式,结果等价<br>
-包含’清’: %清%<br>
-第二位为’清’：<em>清%<br>
-倒数第二位为’清’：%清</em></p>
-<pre><code>select *
-from T_USER 
-where u_name like '%清%' ;
-</code></pre>
-<ol start="7">
-<li>查询排序ORDER BY<br>
-SQL中可以对查询结果进行排序，DESC表示按从大到小排序，ASC表示按从小到大排序，默认为从小到大排序。 将T_USER表按成绩从大到小排序</li>
-</ol>
-<pre><code>select *
-from T_USER 
-order by u_score desc ;
+<pre><code>CREATE DATABASE shop CHARACTER SET utf8 COLLATE utf8_general_ci
+USE shop
+CREATE TABLE account(
+`id` INT(3) NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(30) NOT NULL,
+`money` DECIMAL(9,2) NOT NULL,
+PRIMARY KEY(`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8
+INSERT INTO account(name,money)
+VALUES('A','2000.00'),('B','10000.00')
+SET autocommit=0;
+START TRANSACTION
+UPDATE account SET money=money+500 WHERE name='A'
+UPDATE account SET money=money-500 WHERE name='B'
+COMMIT;
+ROLLBACK;
+SET autocommit=1;
 </code></pre>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[MYSQL数据管理]]></title>
-        <id>https://2651560750.github.io/post/mysql-shu-ju-guan-li/</id>
-        <link href="https://2651560750.github.io/post/mysql-shu-ju-guan-li/">
+        <title type="html"><![CDATA[数据库学习之聚合函数和分组查询（扩展知识：加密）]]></title>
+        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-ju-he-han-shu-he-fen-zu-cha-xun/</id>
+        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-ju-he-han-shu-he-fen-zu-cha-xun/">
         </link>
-        <updated>2021-03-27T04:38:25.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="外键并不建议使用原因删除表示关系会错综复杂">外键（并不建议使用）原因：删除表示关系会错综复杂</h1>
-<p>最佳实践</p>
-<ul>
-<li>数据库就是单纯的表，只用来存数据，只有行（数据）和列（字段)</li>
-<li>我们想使用多张表的数据，想使用外键(程序去实现)</li>
-</ul>
-<h1 id="dml语言全部记住">DML语言（全部记住）</h1>
-<p>数据库意义 :数据存储，数据管理<br>
-DML语言: 数据操作语言<br>
-·lnsert<br>
-· update<br>
-·delete</p>
-<h1 id="添加">添加：</h1>
-<p>插入语句（添加)<br>
--insert into表名([字段名1,字段2,字段3])values('值1'),('值2'),('值3'，... .)<br>
-<code>INSERT INTO 'grade' ( gradenameVALUES('大四')</code><br>
---由于主键自增我们可以省略(如果不写表的字段，他就会—一匹配)<br>
-<code>INSERT INTOgradeVALUES('大三')</code><br>
---一般写插入语句，我们一定要数据和字段一一对应!<br>
---插入多个字段</p>
-<pre><code class="language-INSERT">INSERT INTO 'student(name ) VALUES('张三')
-INSERT INTO 'student (name', pwd , sex )VALUES('张三' , ' aaaaaa ','男')
-工NSERTINTO 'student name,'pwd ,'sex ')
-VALUES ('李四'， 'aaaaaa'，'男'),('王五', 'aaaaaa','男')````
-语法: insert into表名([字段名1,字段2,字段3])values('值1'),('值2'),C&quot;值3'，....)
-注意事项:
-1.字段和字段之间使用英文逗号隔开
-2.字段是可以省略的，但是后面的值必须要要——对应，不能少
-3.可以同时插入多条数据，VALUES后面的值，需要使用，隔开即可
-# 修改
-语法:UPDATE表名 set co1numuname = value, [co1num_name = value,....] where [条件]注意:
-. colnum_name是数据库的列，尽量带上
-·条件，筛选的条件，如果没有指定，则会修改所有的列. value，是一个具体的值，也可以是一个变量
-```` UPDATE ‘student’ SET birthday'= CURRENT_TIME WHERE ‘name'='长江7号’AND sex='女'````
-# 删除
-语法:delete from表名[where条件]
- --删除数据(避免这样写，会全部删除)
-  DELETE FROM  student
---删除指定数据
-DELETE FROM student wHERE id = 1;
-delete的 TRUNCATE 区别
-·相同点:都能删除数据，都不会删除表结构·不同:
- TRUNCATE重新设置自增列计数器会归零TRUNCATE 不会影响事务
-DELETE FROM 'test --不会影响自增
-TRUNCATE TABLE `test' --自增会归零
-
-
-
- 
-
+        <updated>2021-03-30T06:33:43.000Z</updated>
+        <content type="html"><![CDATA[<p>#聚合函数<br>
+都能够统计表中的数据(想查询一个表中有多少个记录，就使用这个count() )</p>
+<pre><code>SELECT COUNT (`BornDate`) FROM student; -- Count (字段)，会忽略所有的null值
+SELECT COUNT (*） FROM student; -- Count(*)，不会忽略null值，本质计算行数
+SELECT COUNT (1)FROM result; -- Count(1)，不会忽略忽略所有的 null值本质计算行数
 </code></pre>
+<pre><code>SELECT SUM (`StudentResult`)AS总和 FROM result
+SELECT AVG(StudentResult`)AS 平均分FROM result
+SELECT MAX(StudentResult`) AS最高分 FROM result
+SELECT MIN(StudentResult`) AS 最低分 FROM result
+</code></pre>
+<p>#分组查询<br>
+--查询不同课程的平均分，最高分，最低分，平均分大于80-―核心:(根据不同的课程分组)</p>
+<pre><code>SELECT SubjectName，AVG (studentResult) As 平均分, NaX (StudentResult) AS 最高分, MrnN (StudentResult) slFROM result r
+INNER JOIN`subject sub
+ONr. `SubjectNo=sub. &quot; SubjectNo
+GROUP BY r.SubjectNo --通过什么字段来分组HAVING 平均分&gt;80
+</code></pre>
+<p>#加密<br>
+-―明文密码<br>
+<code>INSERT INTO testmd5 VAEUES (1,' zhangsan','123456'),(2,'lisi','123456'), (3', ' wangwu' , '123456')</code><br>
+--加密<br>
+<code>UPDATE testmd5 SET pwd=MD5(pwd) WHERE id= 1</code><br>
+<code>UPDATE testmd5 SET pwd=MD5 (pwd) --加密全部的密码</code><br>
+-―插入的时候加密<br>
+<code>INSERT INTO testmd5 VALUES (4, 'xiaoming' ,MD5('123456'))</code><br>
+--如何校验:将用户传递进来的密码，进行md5加密，然后比对加密后的值SELECT * FROM testmd5 <code>WHERE ‘name '='xiaoming' AND pwd=MD5 ('123456')</code></p>
 ]]></content>
     </entry>
 </feed>
