@@ -2,20 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>多线程学习之实现方法一：自定义继承Theard类 | Gridea</title>
+<title>数据库学习之索引 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617199554567">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="多线程学习之实现方法一：自定义继承Theard类 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="数据库学习之索引 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="#例一
-package com.deng.pojo;
-//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
-//注意，线程开启不一定立刻执行，要由CPU调度
-public class TestThread1..." />
+    <meta name="description" content="#索引的解释：
+MySQL官方对索引的定义为:索引(Index)是帮助MySQL高效获取数据的数据结构。提取句子主干，就可以得到索引的本质:索引是数据结构。
+在一个表中，主键索引只有一个，而唯一索引可以有多个
+#索引的分类：
+主键索引
+(P..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -78,11 +79,11 @@ public class TestThread1..." />
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              多线程学习之实现方法一：自定义继承Theard类
+              数据库学习之索引
             </h2>
             <div class="post-info">
               <span>
-                2021-03-29
+                2021-03-31
               </span>
               <span>
                 3 min read
@@ -92,80 +93,74 @@ public class TestThread1..." />
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>#例一</p>
-<pre><code>package com.deng.pojo;
-//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
-//注意，线程开启不一定立刻执行，要由CPU调度
-public class TestThread1  extends Thread{
-    @Override
-    public void run()
-    {
-        //run方法线程体
-        for (int i=1;i&lt;=20;i++)
-        {
-            System.out.println(&quot;我在看代码--&quot;+i);
-        }
-    }
+                <p>#索引的解释：<br>
+MySQL官方对索引的定义为:索引(Index)是帮助MySQL高效获取数据的数据结构。提取句子主干，就可以得到索引的本质:索引是数据结构。<br>
+在一个表中，主键索引只有一个，而唯一索引可以有多个<br>
+#索引的分类：<br>
+主键索引<br>
+(PRIMARY KEY )<br>
+。唯一的标识，主键不可重复，只能有一个列作为主键<br>
+唯一索引(UNIQUE KEY)<br>
+。避免重复的列出现，唯一索引可以重复，多个列都可以标识位唯一索引<br>
+常规索引(KEY/INDEX)<br>
+。默认的， index。key关键字来设置<br>
+全文索引(FullText)<br>
+。在特定的数据库引擎下才有，MylSAM。快速定位数据<br>
+#基础语法：<br>
+--索引的使用<br>
+--1、在创建表的时候给字段增加索引<br>
+--2、创建完毕后，增加索引<br>
+--显示所有的索引信息<br>
+<code>SHOW INDEX FROM student</code><br>
+--增加一个全文索引（索引名)列名<br>
+<code>ALTER TABLE schoo1.student ADD FULLTEXT INDEX ‘studentName (studentName ');</code><br>
+-- EXPLAIN分析sq1执行的状况<br>
+<code>EXPLAIN SELECT *FROM student; --非全文索引</code><br>
+<code>EXPLAIN SELECT* FROM student wHERE MATCH(studentName)AGAINST('刘');</code></p>
+<ul>
+<li>id表名_字段名</li>
+<li>CREATE INDEX索引名on表(字段)<br>
+<code>CREATE INDEX id_app_user_name ON app_user ( 'name `);</code><br>
+#测试索引：</li>
+</ul>
+<pre><code>CREATE TABLE `app_user` (
+`id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(50) DEFAULT'' COMMENT'用户昵称',
+`email` VARCHAR(50) NOT NULL COMMENT'用户邮箱',
+`phone` VARCHAR(20) DEFAULT'' COMMENT'手机号',
+`gender` TINYINT(4) UNSIGNED DEFAULT '0'COMMENT '性别（0：男;1:女）',
+`password` VARCHAR(100) NOT NULL COMMENT '密码',
+`age` TINYINT(4) DEFAULT'0'  COMMENT '年龄',
+`create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+`update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT = 'app用户表'
 
-    public static void main(String[] args) {
-       //main线程，主线程
-        //创建一个线程对象
-        TestThread1 testThread1=new TestThread1();
-        //调用START方法开启线程
-        testThread1.start();
 
-        for (int i=1;i&lt;=2000;i++)
-        {
-            System.out.println(&quot;我在看多线程--&quot;+i);
-        }
-    }
-}
+-- 插入100万数据.
+DELIMITER $$
+-- 写函数之前必须要写，标志
+CREATE FUNCTION mock_data ()
+RETURNS INT DETERMINISTIC
+BEGIN
+	DECLARE num INT DEFAULT 1000000;
+	DECLARE i INT DEFAULT 0;
+	WHILE i&lt;num DO
+		INSERT INTO `app_user`(`name`,`email`,`phone`,`gender`,`password`,`age`)VALUES(CONCAT('用户',i),'19224305@qq.com','123456789',FLOOR(RAND()*2),UUID(),FLOOR(RAND()*100));
+		SET i=i+1;
+	END WHILE;
+	RETURN i;
+END;
+SELECT mock_data() -- 执行此函数 生成一百万条数据
+SELECT * FROM app_user WHERE name='用户999999'
+CREATE INDEX id_app_user_name ON app_user ( `name`);
+SELECT * FROM app_user WHERE name='用户999999'
 </code></pre>
-<p>#例二图片下载</p>
-<pre><code>package com.deng.pojo;
-
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-public class TestThread2 extends Thread{
-    private String url;
-    private  String file;
-
-    public TestThread2(String url, String file) {
-        this.url = url;
-        this.file = file;
-    }
-
-    @Override
-    public void run(){
-        Downloard downloard=new Downloard();
-        downloard.donloard(url,file);
-        System.out.println(&quot;下载了文件名为：&quot;+file+&quot;的文件&quot;);
-    }
-
-    public static void main(String[] args) {
-        TestThread2 t1=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.zkrsQYyhrNp5_OFI6O1okgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;2.jpg&quot;);
-        TestThread2 t2=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.aLNlkV9uXH2R2SnUiXUjMwHaNu?w=177&amp;h=329&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;1.jpg&quot;);
-        TestThread2 t3=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.7pzyoXRXdn6tN_i2RwqhJgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;3.jpg&quot;);
-        t1.start();
-        t2.start();
-        t3.start();
-    }
-}
-class Downloard{
-    public void  donloard(String url,String file){
-        try {
-            FileUtils.copyURLToFile(new URL(url),new File(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(&quot;图片下载失败&quot;);
-        }
-    }
-}
-</code></pre>
+<p>#索引的原则：<br>
+·索引不是越多越好<br>
+·不要对进程变动数据加索引<br>
+·小数据量的表不需要加索引<br>
+·索引一般加在常用来查询的字段上!</p>
 
               </div>
               <div class="toc-container">
@@ -178,9 +173,9 @@ class Downloard{
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/">
+            <a href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-tong-bu-ji-zhi-chong-dian-jia-nan-dian/">
               <h3 class="post-title">
-                JS学习之函数（重点）
+                多线程学习之线程同步机制（重点加难点）
               </h3>
             </a>
           </div>

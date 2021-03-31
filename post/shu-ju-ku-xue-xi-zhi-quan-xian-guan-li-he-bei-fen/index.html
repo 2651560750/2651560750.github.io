@@ -2,20 +2,20 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>多线程学习之实现方法一：自定义继承Theard类 | Gridea</title>
+<title>数据库学习之权限管理和备份 | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617199554567">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="多线程学习之实现方法一：自定义继承Theard类 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="数据库学习之权限管理和备份 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="#例一
-package com.deng.pojo;
-//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
-//注意，线程开启不一定立刻执行，要由CPU调度
-public class TestThread1..." />
+    <meta name="description" content="#数据库创建用户和权限管理
+创建用户 CREATE USER用户名
+IDENTIFIED BY '密码'CREATE USER kuangshen IDENTIFIED BY '123456'
+--修改密码(修改当前用户密码&gt;
+SET..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -78,94 +78,53 @@ public class TestThread1..." />
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              多线程学习之实现方法一：自定义继承Theard类
+              数据库学习之权限管理和备份
             </h2>
             <div class="post-info">
               <span>
-                2021-03-29
+                2021-03-31
               </span>
               <span>
-                3 min read
+                2 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>#例一</p>
-<pre><code>package com.deng.pojo;
-//创建线程方式一：继承Thread类，重写run()方法，调用start方法开启线程
-//注意，线程开启不一定立刻执行，要由CPU调度
-public class TestThread1  extends Thread{
-    @Override
-    public void run()
-    {
-        //run方法线程体
-        for (int i=1;i&lt;=20;i++)
-        {
-            System.out.println(&quot;我在看代码--&quot;+i);
-        }
-    }
-
-    public static void main(String[] args) {
-       //main线程，主线程
-        //创建一个线程对象
-        TestThread1 testThread1=new TestThread1();
-        //调用START方法开启线程
-        testThread1.start();
-
-        for (int i=1;i&lt;=2000;i++)
-        {
-            System.out.println(&quot;我在看多线程--&quot;+i);
-        }
-    }
-}
-</code></pre>
-<p>#例二图片下载</p>
-<pre><code>package com.deng.pojo;
-
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-public class TestThread2 extends Thread{
-    private String url;
-    private  String file;
-
-    public TestThread2(String url, String file) {
-        this.url = url;
-        this.file = file;
-    }
-
-    @Override
-    public void run(){
-        Downloard downloard=new Downloard();
-        downloard.donloard(url,file);
-        System.out.println(&quot;下载了文件名为：&quot;+file+&quot;的文件&quot;);
-    }
-
-    public static void main(String[] args) {
-        TestThread2 t1=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.zkrsQYyhrNp5_OFI6O1okgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;2.jpg&quot;);
-        TestThread2 t2=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.aLNlkV9uXH2R2SnUiXUjMwHaNu?w=177&amp;h=329&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;1.jpg&quot;);
-        TestThread2 t3=new TestThread2(&quot;https://tse3-mm.cn.bing.net/th/id/OIP.7pzyoXRXdn6tN_i2RwqhJgHaNK?w=177&amp;h=315&amp;c=7&amp;o=5&amp;dpr=1.38&amp;pid=1.7&quot;,&quot;3.jpg&quot;);
-        t1.start();
-        t2.start();
-        t3.start();
-    }
-}
-class Downloard{
-    public void  donloard(String url,String file){
-        try {
-            FileUtils.copyURLToFile(new URL(url),new File(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(&quot;图片下载失败&quot;);
-        }
-    }
-}
-</code></pre>
+                <p>#数据库创建用户和权限管理<br>
+创建用户 CREATE USER用户名<br>
+IDENTIFIED BY '密码'CREATE USER kuangshen IDENTIFIED BY '123456'<br>
+--修改密码(修改当前用户密码&gt;<br>
+SET PASSwORD = PASSwORD('123456')<br>
+--修改密码(修改指定用户密码）<br>
+SET PASSWORD FOR kuangshen = PASSWORD('123456')<br>
+--重命名RENAME USER原来名字TO新的名字<br>
+RENAME USER kuangshen To kuangshen2<br>
+--用户授权ALL PRIVILEGES全部的权限，库.表-- ALL PRIVILEGES 除了给别人授权,其他都能够干GRANT ALL PRIVILEGES ON*.*To kuangshen2<br>
+—-查询权限<br>
+SHOW GRANTS EOR kuangshen2 --查看指定用户的权限SHOW GRANTS FOR root@localhost<br>
+-- ROoT用户权限:GRANT ALI PRIVILEGES ON <em>.</em> To 'root' @ 'localhost wITH GRANT OPTIONM<br>
+--撤销权限REVOKE哪些权限，在哪个库撤销，给谁撤销<br>
+REVOKE ATL PRIVTLEGES ON *.*术FROM kuangshen2<br>
+#数据库的备份<br>
+为什么要备份:</p>
+<ol>
+<li>保证重要的数据不丢失</li>
+<li>数据转移<br>
+MySQL 数据库备份的方式</li>
+<li>直接拷贝物理文件</li>
+<li>在Sqlyog这种可视化工具中手动导出</li>
+<li>使用命令行导出mysqldump命玲行使用<br>
+#导出 mysq1dump -h主机 -u用户名-p 密码数据库﹑表名&gt;物理磁盘位置/文件名mysq1dump -hlocalhost -uroot -p123456 school student &gt;D:/a.sq1<br>
+mysq1dump -h 主机 -u用户名-p密码 数据库表1表2表3&gt;物理磁盘位置/文件名mysq1dump -h1oca7host -uroot -p123456 school student &gt;D:/b.sq7<br>
+mysqldump -h主机-u用户名-p密码数据库&gt;物理磁盘位置/文件名mysq1dump -h1oca1host -uroot -p123456 school &gt;D:/c.sq1<br>
+#导入<br>
+登录的情况下,切换到指定的数据库# source备份文件<br>
+#切换要用的数据库<br>
+source d:/a.sq1<br>
+mysql -u用户名-p密码 库名&lt;备份文件</li>
+</ol>
 
               </div>
               <div class="toc-container">
@@ -178,9 +137,9 @@ class Downloard{
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/js-xue-xi-zhi-han-shu-chong-dian/">
+            <a href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-suo-yin/">
               <h3 class="post-title">
-                JS学习之函数（重点）
+                数据库学习之索引
               </h3>
             </a>
           </div>

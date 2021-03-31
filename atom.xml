@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-03-31T11:11:17.518Z</updated>
+    <updated>2021-03-31T14:06:42.214Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,123 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[数据库学习之权限管理和备份]]></title>
+        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-quan-xian-guan-li-he-bei-fen/</id>
+        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-quan-xian-guan-li-he-bei-fen/">
+        </link>
+        <updated>2021-03-31T12:13:54.000Z</updated>
+        <content type="html"><![CDATA[<p>#数据库创建用户和权限管理<br>
+创建用户 CREATE USER用户名<br>
+IDENTIFIED BY '密码'CREATE USER kuangshen IDENTIFIED BY '123456'<br>
+--修改密码(修改当前用户密码&gt;<br>
+SET PASSwORD = PASSwORD('123456')<br>
+--修改密码(修改指定用户密码）<br>
+SET PASSWORD FOR kuangshen = PASSWORD('123456')<br>
+--重命名RENAME USER原来名字TO新的名字<br>
+RENAME USER kuangshen To kuangshen2<br>
+--用户授权ALL PRIVILEGES全部的权限，库.表-- ALL PRIVILEGES 除了给别人授权,其他都能够干GRANT ALL PRIVILEGES ON*.*To kuangshen2<br>
+—-查询权限<br>
+SHOW GRANTS EOR kuangshen2 --查看指定用户的权限SHOW GRANTS FOR root@localhost<br>
+-- ROoT用户权限:GRANT ALI PRIVILEGES ON <em>.</em> To 'root' @ 'localhost wITH GRANT OPTIONM<br>
+--撤销权限REVOKE哪些权限，在哪个库撤销，给谁撤销<br>
+REVOKE ATL PRIVTLEGES ON *.*术FROM kuangshen2<br>
+#数据库的备份<br>
+为什么要备份:</p>
+<ol>
+<li>保证重要的数据不丢失</li>
+<li>数据转移<br>
+MySQL 数据库备份的方式</li>
+<li>直接拷贝物理文件</li>
+<li>在Sqlyog这种可视化工具中手动导出</li>
+<li>使用命令行导出mysqldump命玲行使用<br>
+#导出 mysq1dump -h主机 -u用户名-p 密码数据库﹑表名&gt;物理磁盘位置/文件名mysq1dump -hlocalhost -uroot -p123456 school student &gt;D:/a.sq1<br>
+mysq1dump -h 主机 -u用户名-p密码 数据库表1表2表3&gt;物理磁盘位置/文件名mysq1dump -h1oca7host -uroot -p123456 school student &gt;D:/b.sq7<br>
+mysqldump -h主机-u用户名-p密码数据库&gt;物理磁盘位置/文件名mysq1dump -h1oca1host -uroot -p123456 school &gt;D:/c.sq1<br>
+#导入<br>
+登录的情况下,切换到指定的数据库# source备份文件<br>
+#切换要用的数据库<br>
+source d:/a.sq1<br>
+mysql -u用户名-p密码 库名&lt;备份文件</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数据库学习之索引]]></title>
+        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-suo-yin/</id>
+        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-suo-yin/">
+        </link>
+        <updated>2021-03-31T11:11:51.000Z</updated>
+        <content type="html"><![CDATA[<p>#索引的解释：<br>
+MySQL官方对索引的定义为:索引(Index)是帮助MySQL高效获取数据的数据结构。提取句子主干，就可以得到索引的本质:索引是数据结构。<br>
+在一个表中，主键索引只有一个，而唯一索引可以有多个<br>
+#索引的分类：<br>
+主键索引<br>
+(PRIMARY KEY )<br>
+。唯一的标识，主键不可重复，只能有一个列作为主键<br>
+唯一索引(UNIQUE KEY)<br>
+。避免重复的列出现，唯一索引可以重复，多个列都可以标识位唯一索引<br>
+常规索引(KEY/INDEX)<br>
+。默认的， index。key关键字来设置<br>
+全文索引(FullText)<br>
+。在特定的数据库引擎下才有，MylSAM。快速定位数据<br>
+#基础语法：<br>
+--索引的使用<br>
+--1、在创建表的时候给字段增加索引<br>
+--2、创建完毕后，增加索引<br>
+--显示所有的索引信息<br>
+<code>SHOW INDEX FROM student</code><br>
+--增加一个全文索引（索引名)列名<br>
+<code>ALTER TABLE schoo1.student ADD FULLTEXT INDEX ‘studentName (studentName ');</code><br>
+-- EXPLAIN分析sq1执行的状况<br>
+<code>EXPLAIN SELECT *FROM student; --非全文索引</code><br>
+<code>EXPLAIN SELECT* FROM student wHERE MATCH(studentName)AGAINST('刘');</code></p>
+<ul>
+<li>id表名_字段名</li>
+<li>CREATE INDEX索引名on表(字段)<br>
+<code>CREATE INDEX id_app_user_name ON app_user ( 'name `);</code><br>
+#测试索引：</li>
+</ul>
+<pre><code>CREATE TABLE `app_user` (
+`id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(50) DEFAULT'' COMMENT'用户昵称',
+`email` VARCHAR(50) NOT NULL COMMENT'用户邮箱',
+`phone` VARCHAR(20) DEFAULT'' COMMENT'手机号',
+`gender` TINYINT(4) UNSIGNED DEFAULT '0'COMMENT '性别（0：男;1:女）',
+`password` VARCHAR(100) NOT NULL COMMENT '密码',
+`age` TINYINT(4) DEFAULT'0'  COMMENT '年龄',
+`create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+`update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT = 'app用户表'
+
+
+-- 插入100万数据.
+DELIMITER $$
+-- 写函数之前必须要写，标志
+CREATE FUNCTION mock_data ()
+RETURNS INT DETERMINISTIC
+BEGIN
+	DECLARE num INT DEFAULT 1000000;
+	DECLARE i INT DEFAULT 0;
+	WHILE i&lt;num DO
+		INSERT INTO `app_user`(`name`,`email`,`phone`,`gender`,`password`,`age`)VALUES(CONCAT('用户',i),'19224305@qq.com','123456789',FLOOR(RAND()*2),UUID(),FLOOR(RAND()*100));
+		SET i=i+1;
+	END WHILE;
+	RETURN i;
+END;
+SELECT mock_data() -- 执行此函数 生成一百万条数据
+SELECT * FROM app_user WHERE name='用户999999'
+CREATE INDEX id_app_user_name ON app_user ( `name`);
+SELECT * FROM app_user WHERE name='用户999999'
+</code></pre>
+<p>#索引的原则：<br>
+·索引不是越多越好<br>
+·不要对进程变动数据加索引<br>
+·小数据量的表不需要加索引<br>
+·索引一般加在常用来查询的字段上!</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[多线程学习之线程同步机制（重点加难点）]]></title>
         <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-tong-bu-ji-zhi-chong-dian-jia-nan-dian/</id>
@@ -425,91 +542,6 @@ public class TestStop implements Runnable {
     }
 }
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[数据库学习之事务（要么全部成功，要么全部失败）]]></title>
-        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-shi-wu-yao-me-quan-bu-cheng-gong-yao-me-quan-bu-shi-bai/</id>
-        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-shi-wu-yao-me-quan-bu-cheng-gong-yao-me-quan-bu-shi-bai/">
-        </link>
-        <updated>2021-03-30T06:59:29.000Z</updated>
-        <content type="html"><![CDATA[<p>#ACID</p>
-<ol>
-<li>Atomicity（原子性）：一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被恢复（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</li>
-<li>Consistency（一致性）：在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。</li>
-<li>Isolation（隔离性）：数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</li>
-<li>Durability（持久性）：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。<br>
-#手动事务<br>
-—-手动处理事务<br>
-SETautocommit = o--关闭自动提交<br>
--—事务开启<br>
-START TRANSACTION--标记一个事务的开始，从这个之后的 sql都在同一个事务内<br>
-INSERT xX<br>
-INSERTxz<br>
--―提交:持久化(成功!)<br>
-COMMIT<br>
---回滚:回到的原来的样子(失败!)<br>
-ROLLBACK<br>
---事务结束<br>
-SETautocommit =l --开启自动提交<br>
-—-了解<br>
-SAVEPOINT 保存点名--设置一个事务的保存点<br>
-ROLLBACK TO SAVEPOINT 保存点名--回滚到保存点<br>
-#模拟场景</li>
-</ol>
-<pre><code>CREATE DATABASE shop CHARACTER SET utf8 COLLATE utf8_general_ci
-USE shop
-CREATE TABLE account(
-`id` INT(3) NOT NULL AUTO_INCREMENT,
-`name` VARCHAR(30) NOT NULL,
-`money` DECIMAL(9,2) NOT NULL,
-PRIMARY KEY(`id`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8
-INSERT INTO account(name,money)
-VALUES('A','2000.00'),('B','10000.00')
-SET autocommit=0;
-START TRANSACTION
-UPDATE account SET money=money+500 WHERE name='A'
-UPDATE account SET money=money-500 WHERE name='B'
-COMMIT;
-ROLLBACK;
-SET autocommit=1;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[数据库学习之聚合函数和分组查询（扩展知识：加密）]]></title>
-        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-ju-he-han-shu-he-fen-zu-cha-xun/</id>
-        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-ju-he-han-shu-he-fen-zu-cha-xun/">
-        </link>
-        <updated>2021-03-30T06:33:43.000Z</updated>
-        <content type="html"><![CDATA[<p>#聚合函数<br>
-都能够统计表中的数据(想查询一个表中有多少个记录，就使用这个count() )</p>
-<pre><code>SELECT COUNT (`BornDate`) FROM student; -- Count (字段)，会忽略所有的null值
-SELECT COUNT (*） FROM student; -- Count(*)，不会忽略null值，本质计算行数
-SELECT COUNT (1)FROM result; -- Count(1)，不会忽略忽略所有的 null值本质计算行数
-</code></pre>
-<pre><code>SELECT SUM (`StudentResult`)AS总和 FROM result
-SELECT AVG(StudentResult`)AS 平均分FROM result
-SELECT MAX(StudentResult`) AS最高分 FROM result
-SELECT MIN(StudentResult`) AS 最低分 FROM result
-</code></pre>
-<p>#分组查询<br>
---查询不同课程的平均分，最高分，最低分，平均分大于80-―核心:(根据不同的课程分组)</p>
-<pre><code>SELECT SubjectName，AVG (studentResult) As 平均分, NaX (StudentResult) AS 最高分, MrnN (StudentResult) slFROM result r
-INNER JOIN`subject sub
-ONr. `SubjectNo=sub. &quot; SubjectNo
-GROUP BY r.SubjectNo --通过什么字段来分组HAVING 平均分&gt;80
-</code></pre>
-<p>#加密<br>
--―明文密码<br>
-<code>INSERT INTO testmd5 VAEUES (1,' zhangsan','123456'),(2,'lisi','123456'), (3', ' wangwu' , '123456')</code><br>
---加密<br>
-<code>UPDATE testmd5 SET pwd=MD5(pwd) WHERE id= 1</code><br>
-<code>UPDATE testmd5 SET pwd=MD5 (pwd) --加密全部的密码</code><br>
--―插入的时候加密<br>
-<code>INSERT INTO testmd5 VALUES (4, 'xiaoming' ,MD5('123456'))</code><br>
---如何校验:将用户传递进来的密码，进行md5加密，然后比对加密后的值SELECT * FROM testmd5 <code>WHERE ‘name '='xiaoming' AND pwd=MD5 ('123456')</code></p>
 ]]></content>
     </entry>
 </feed>
