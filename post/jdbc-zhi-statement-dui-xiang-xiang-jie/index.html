@@ -1,0 +1,372 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JDBC之statement对象详解 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617631504136">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="JDBC之statement对象详解 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="数据文件化，降低耦合性
+JDBC_DRIVER =com.mysql.cj.jdbc.Driver
+ DB_URL =jdbc:mysql://localhost:3306/test?useSSL=false&amp;allowPublic..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617631504136" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              JDBC之statement对象详解
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-01
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="数据文件化降低耦合性">数据文件化，降低耦合性</h1>
+<pre><code>JDBC_DRIVER =com.mysql.cj.jdbc.Driver
+ DB_URL =jdbc:mysql://localhost:3306/test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
+ USER =root
+PASS =2001526dbdsg
+</code></pre>
+<h1 id="写一个工具类">写一个工具类</h1>
+<p>主要用来创造连接和释放资源</p>
+<pre><code>package com.deng.day01;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.Properties;
+
+public class jdbcutils {
+    private static String JDBC_DRIVER=null;
+    private static String  DB_URL=null;
+    private static String  USER=null;
+    private static String PASS=null;
+    static {
+        InputStream in=jdbcutils.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);
+        Properties properties=new Properties();
+        try {
+            properties.load(in);
+            JDBC_DRIVER=  properties.getProperty(&quot;JDBC_DRIVER&quot;);
+            DB_URL= properties.getProperty(&quot;DB_URL&quot;);
+            USER=  properties.getProperty(&quot;USER&quot;);
+            PASS= properties.getProperty(&quot;PASS&quot;);
+            Class.forName(JDBC_DRIVER);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL,USER,PASS);
+    }
+    public static void release(Connection con, Statement st, ResultSet re){
+        if(con!=null)
+        {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        if(st!=null)
+        {
+            try {
+                st.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        if(re!=null)
+        {
+            try {
+                re.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre>
+<h1 id="增加删除修改都用executeupdate">增加，删除，修改都用executeUpdate</h1>
+<ol>
+<li>增加</li>
+</ol>
+<pre><code>   package com.deng.day01;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+public class JDBCinster {
+    public static void main(String[] args) {
+        Connection connection=null;
+        Statement statement=null;
+        ResultSet resultSet=null;
+        try {
+           connection= jdbcutils.getConnection();
+           statement=connection.createStatement();
+          String string=&quot;INSERT INTO student(StudentNo,StudentName,Sex,`password`)&quot;+&quot; VALUES('66666','死黑子','48','3838438')&quot;;
+          int i=statement.executeUpdate(string);
+          if (i&gt;0)
+          {
+              System.out.println(&quot;插入语句成功&quot;);
+          }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,statement,resultSet);
+        }
+    }
+}
+</code></pre>
+<ol start="2">
+<li>删除</li>
+</ol>
+<pre><code>package com.deng.day01;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCdelete {
+    public static void main(String[] args) {
+        Connection connection=null;
+        Statement statement=null;
+        ResultSet resultSet=null;
+        try {
+            connection= jdbcutils.getConnection();
+            statement=connection.createStatement();
+            String string=&quot;DELETE FROM student WHERE StudentNo='8130310'&quot;;
+            int i=statement.executeUpdate(string);
+            if (i&gt;0)
+            {
+                System.out.println(&quot;删除语句成功&quot;);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,statement,resultSet);
+        }
+    }
+}
+</code></pre>
+<ol start="3">
+<li>修改</li>
+</ol>
+<pre><code>package com.deng.day01;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCupdate {
+    public static void main(String[] args) {
+        Connection connection=null;
+        Statement statement=null;
+        ResultSet resultSet=null;
+        try {
+            connection= jdbcutils.getConnection();
+            statement=connection.createStatement();
+            String string=&quot;UPDATE  student SET password='123456' WHERE StudentName='大哥'&quot;;
+            int i=statement.executeUpdate(string);
+            if (i&gt;0)
+            {
+                System.out.println(&quot;修改语句成功&quot;);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,statement,resultSet);
+        }
+    }
+}
+</code></pre>
+<h1 id="查询select用executequery">查询（select）用：executeQuery</h1>
+<pre><code>package com.deng.day01;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JDBCselect {
+    public static void main(String[] args) {
+        Connection connection=null;
+        Statement statement=null;
+        ResultSet resultSet=null;
+        try {
+            connection= jdbcutils.getConnection();
+            statement=connection.createStatement();
+            String string=&quot;SELECT * FROM student&quot;;
+          resultSet=statement.executeQuery(string);
+            while (resultSet.next())
+            {
+                System.out.println(&quot;studentNo=&quot;+resultSet.getObject(&quot;studentNo&quot;));
+                System.out.println(&quot;studentName=&quot;+resultSet.getObject(&quot;studentName&quot;));
+                System.out.println(&quot;Sex=&quot;+resultSet.getObject(&quot;Sex&quot;));
+                System.out.println(&quot;password=&quot;+resultSet.getObject(&quot;password&quot;));
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,statement,resultSet);
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E5%8C%96%E9%99%8D%E4%BD%8E%E8%80%A6%E5%90%88%E6%80%A7">数据文件化，降低耦合性</a></li>
+<li><a href="#%E5%86%99%E4%B8%80%E4%B8%AA%E5%B7%A5%E5%85%B7%E7%B1%BB">写一个工具类</a></li>
+<li><a href="#%E5%A2%9E%E5%8A%A0%E5%88%A0%E9%99%A4%E4%BF%AE%E6%94%B9%E9%83%BD%E7%94%A8executeupdate">增加，删除，修改都用executeUpdate</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2select%E7%94%A8executequery">查询（select）用：executeQuery</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/jdbc-zhong-dui-xiang-de-jie-shi/">
+              <h3 class="post-title">
+                JDBC中对象的解释
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

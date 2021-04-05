@@ -1,0 +1,222 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JDBC中对象的解释 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617631504136">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="JDBC中对象的解释 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="加载驱动
+String JDBC_DRIVER = &quot;com.mysql.cj.jdbc.Driver&quot;;
+Class.forName(JDBC_DRIVER);//固定写法，加载驱动
+
+URL
+协议：jdbc:mysq..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617631504136" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              JDBC中对象的解释
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-01
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="加载驱动">加载驱动</h1>
+<pre><code>String JDBC_DRIVER = &quot;com.mysql.cj.jdbc.Driver&quot;;
+Class.forName(JDBC_DRIVER);//固定写法，加载驱动
+</code></pre>
+<h1 id="url">URL</h1>
+<p>协议：jdbc:mysql://主机地址：端口号/数据库名？参数1&amp;参数2&amp;参数3</p>
+<pre><code> String DB_URL = &quot;jdbc:mysql://localhost:3306/test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&quot;;
+</code></pre>
+<h1 id="数据库名和密码">数据库名和密码</h1>
+<pre><code> String USER = &quot;root&quot;;
+String PASS = &quot;2001526dbdsg&quot;;
+</code></pre>
+<h1 id="数据库连接">数据库连接</h1>
+<pre><code>       Connection connection= DriverManager.getConnection(DB_URL,USER,PASS);
+</code></pre>
+<h1 id="执行sql的对象statement">执行SQL的对象statement</h1>
+<pre><code>Statement statement=connection.createStatement();
+</code></pre>
+<p>String sql=&quot; SELECT * FROM student&quot;;//编写SQL语句之后传给statement对象执行<br>
+statement.executeQuery();<br>
+statement.execute();<br>
+statement.executeUpdate();</p>
+<h1 id="resultset查询的结果集封装了所有的查询结果">ResultSet查询的结果集:封装了所有的查询结果</h1>
+<p>获得指定的数据类型</p>
+<pre><code>resultset.getobject（）//在不知道列类型的情况下使用
+resultset.getstring（）//如果知道列的类型就使用指定的类型
+resultset.getInt（）
+resultset.getFloat（）
+resultset.getDate（）
+ resultset.getobject（）
+</code></pre>
+<h1 id="遍历指针">遍历，指针</h1>
+<pre><code>resultset.beforeFirst();/移动到最前面
+resultset.afterLast(); //移动到最后面
+resultset.next();//移动到下一个数据
+resultset.previous();//移动到前一行
+resultset.absolute(row);//移动到指定行
+</code></pre>
+<h1 id="释放资源">释放资源</h1>
+<pre><code>resultSet.close();
+statement.close();
+connection.close();
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8">加载驱动</a></li>
+<li><a href="#url">URL</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81">数据库名和密码</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5">数据库连接</a></li>
+<li><a href="#%E6%89%A7%E8%A1%8Csql%E7%9A%84%E5%AF%B9%E8%B1%A1statement">执行SQL的对象statement</a></li>
+<li><a href="#resultset%E6%9F%A5%E8%AF%A2%E7%9A%84%E7%BB%93%E6%9E%9C%E9%9B%86%E5%B0%81%E8%A3%85%E4%BA%86%E6%89%80%E6%9C%89%E7%9A%84%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C">ResultSet查询的结果集:封装了所有的查询结果</a></li>
+<li><a href="#%E9%81%8D%E5%8E%86%E6%8C%87%E9%92%88">遍历，指针</a></li>
+<li><a href="#%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90">释放资源</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-san-da-fan-shi/">
+              <h3 class="post-title">
+                数据库学习之三大范式
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

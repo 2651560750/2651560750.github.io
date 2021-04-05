@@ -1,0 +1,295 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>多线程学习之死锁 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617631504136">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="多线程学习之死锁 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="死锁
+多个线程各自占有一些共享资源﹐并且互相等待其他线程占有的资源才能运行﹐而导致两个或者多个线程都在等待对方释放资源﹐都停止执行的情形﹒某一个同步块同时拥有“两个以上对象的锁”时﹐就可能会发生“死锁”的问题.
+package com.de..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617631504136" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              多线程学习之死锁
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-05
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="死锁">死锁</h1>
+<p>多个线程各自占有一些共享资源﹐并且互相等待其他线程占有的资源才能运行﹐而导致两个或者多个线程都在等待对方释放资源﹐都停止执行的情形﹒某一个同步块同时拥有“两个以上对象的锁”时﹐就可能会发生“死锁”的问题.</p>
+<pre><code>package com.deng.Lock;
+//死锁：多个线程相互等待对方的资源，而相互停止运行
+public class DeathLock {
+    public static void main(String[] args) {
+        Makeup g1=new Makeup(0,&quot;小东&quot;);
+        Makeup g2=new Makeup(1,&quot;小黄&quot;);
+        g1.start();
+        g2.start();
+    }
+}
+class Lipstick{
+
+}
+class Mirror{
+
+}
+class Makeup extends Thread{
+    //使用static保证资源只有一份
+    static Lipstick lipstick=new Lipstick();
+    static Mirror mirror=new Mirror();
+    int choice;//选择
+    String name;//化妆人的名字
+
+   Makeup( int choice, String name) {
+        this.choice = choice;
+        this.name = name;
+    }
+    @Override
+    public void run(){
+        try {
+            makeup();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    //相互持有对方的锁，要拿到对方的资源
+    public  void makeup() throws InterruptedException {
+        if (choice==0)
+        {
+            synchronized (lipstick){
+                System.out.println(this.name+&quot;获得口红资源&quot;);
+                Thread.sleep(1000);
+                synchronized (mirror){
+                    System.out.println(this.name+&quot;获得镜子资源&quot;);
+                }
+            }
+        }
+        else
+        {
+            synchronized (mirror){
+                System.out.println(this.name+&quot;获得镜子资源&quot;);
+                Thread.sleep(2000);
+                synchronized (lipstick){
+                    System.out.println(this.name+&quot;获得口红资源&quot;);
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h1 id="解决办法">解决办法:</h1>
+<p>做到锁中不嵌套锁，将一个锁从另一个锁中拿出来</p>
+<pre><code>package com.deng.Lock;
+//死锁：多个线程相互等待对方的资源，而相互停止运行
+public class DeathLock {
+    public static void main(String[] args) {
+        Makeup g1=new Makeup(0,&quot;小东&quot;);
+        Makeup g2=new Makeup(1,&quot;小黄&quot;);
+        g1.start();
+        g2.start();
+    }
+}
+class Lipstick{
+
+}
+class Mirror{
+
+}
+class Makeup extends Thread{
+    //使用static保证资源只有一份
+    static Lipstick lipstick=new Lipstick();
+    static Mirror mirror=new Mirror();
+    int choice;//选择
+    String name;//化妆人的名字
+
+   Makeup( int choice, String name) {
+        this.choice = choice;
+        this.name = name;
+    }
+    @Override
+    public void run(){
+        try {
+            makeup();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    //相互持有对方的锁，要拿到对方的资源
+    public  void makeup() throws InterruptedException {
+        if (choice==0)
+        {
+            synchronized (lipstick){
+                System.out.println(this.name+&quot;获得口红资源&quot;);
+                Thread.sleep(1000);
+            }
+            synchronized (mirror){
+                System.out.println(this.name+&quot;获得镜子资源&quot;);
+            }
+        }
+        else
+        {
+            synchronized (mirror){
+                System.out.println(this.name+&quot;获得镜子资源&quot;);
+                Thread.sleep(2000);
+
+            }
+            synchronized (lipstick){
+                System.out.println(this.name+&quot;获得口红资源&quot;);
+            }
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E6%AD%BB%E9%94%81">死锁</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95">解决办法:</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-tong-bu-fang-fa-he-tong-bu-kuai/">
+              <h3 class="post-title">
+                多线程学习之同步方法和同步块
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

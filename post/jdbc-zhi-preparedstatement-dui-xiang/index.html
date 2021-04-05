@@ -1,0 +1,317 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JDBC之 PreparedStatement对象 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617631504136">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="JDBC之 PreparedStatement对象 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="PreparedStatement防lsQL注入的本质,把传递进来的参数当做字符假设其中存在转义字符,比如说’会被直接转义
+插入
+package com.deng.day02;
+import com.deng.day01.jdbcutils..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617631504136" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              JDBC之 PreparedStatement对象
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-02
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="preparedstatement防lsql注入的本质把传递进来的参数当做字符假设其中存在转义字符比如说会被直接转义">PreparedStatement防lsQL注入的本质,把传递进来的参数当做字符假设其中存在转义字符,比如说’会被直接转义</h1>
+<h1 id="插入">插入</h1>
+<pre><code>package com.deng.day02;
+import com.deng.day01.jdbcutils;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+public class preparedStatement01 {
+    public static void main(String[] args) {
+        Connection connection=null;
+        PreparedStatement pr=null;
+        try {
+            connection= jdbcutils.getConnection();
+            //区别：先预执行SQL，只编译，不执行，用占位符代替参数
+            String string=&quot;INSERT INTO student(StudentNo,StudentName,Sex,`password`) VALUES(?,?,?,?)&quot;;
+            pr= connection.prepareStatement(string);
+            //手动添加参数
+            pr.setInt(1,10);
+            pr.setString(2,&quot;阿万&quot;);
+            pr.setInt(3,26);
+            pr.setInt(4,456789);
+            //执行
+            int i=pr.executeUpdate();
+            if (i&gt;0)
+            {
+                System.out.println(&quot;插入语句成功&quot;);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,pr,null);
+        }
+    }
+}
+</code></pre>
+<h1 id="删除">删除</h1>
+<pre><code>package com.deng.day02;
+
+import com.deng.day01.jdbcutils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class preparedStatement02 {
+    public static void main(String[] args) {
+        Connection connection=null;
+        PreparedStatement pr=null;
+        try {
+            connection= jdbcutils.getConnection();
+            //区别：先预执行SQL，只编译，不执行，用占位符代替参数
+            String string=&quot;DELETE FROM student WHERE StudentNo=?&quot;;
+            pr= connection.prepareStatement(string);
+            //手动添加参数
+         pr.setInt(1,10);
+            //执行
+            int i=pr.executeUpdate();
+            if (i&gt;0)
+            {
+                System.out.println(&quot;删除语句成功&quot;);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,pr,null);
+        }
+    }
+}
+</code></pre>
+<h1 id="修改">修改</h1>
+<pre><code>package com.deng.day02;
+
+import com.deng.day01.jdbcutils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class preparedStatement03 {
+    public static void main(String[] args) {
+        Connection connection=null;
+        PreparedStatement pr=null;
+        try {
+            connection= jdbcutils.getConnection();
+            //区别：先预执行SQL，只编译，不执行，用占位符代替参数
+            String string=&quot;UPDATE  student SET password=? WHERE StudentName=?&quot;;
+            pr= connection.prepareStatement(string);
+            //手动添加参数
+            pr.setInt(1,345678);
+            pr.setString(2,&quot;大哥&quot;);
+            //执行
+            int i=pr.executeUpdate();
+            if (i&gt;0)
+            {
+                System.out.println(&quot;更改语句成功&quot;);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,pr,null);
+        }
+    }
+}
+</code></pre>
+<h1 id="查询">查询</h1>
+<pre><code>package com.deng.day02;
+
+import com.deng.day01.jdbcutils;
+
+import java.sql.*;
+
+public class preparedStatement04 {
+    public static void main(String[] args) {
+        Connection connection=null;
+        PreparedStatement statement=null;
+        ResultSet resultSet=null;
+        try {
+            connection= jdbcutils.getConnection();
+            String string=&quot;SELECT * FROM student where StudentNo=?&quot;;
+            statement=connection.prepareStatement(string);
+           statement.setInt(1,66666);
+            resultSet=statement.executeQuery();
+            while (resultSet.next())
+            {
+                System.out.println(&quot;studentNo=&quot;+resultSet.getObject(&quot;studentNo&quot;));
+                System.out.println(&quot;studentName=&quot;+resultSet.getObject(&quot;studentName&quot;));
+                System.out.println(&quot;Sex=&quot;+resultSet.getObject(&quot;Sex&quot;));
+                System.out.println(&quot;password=&quot;+resultSet.getObject(&quot;password&quot;));
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            jdbcutils.release(connection,statement,resultSet);
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#preparedstatement%E9%98%B2lsql%E6%B3%A8%E5%85%A5%E7%9A%84%E6%9C%AC%E8%B4%A8%E6%8A%8A%E4%BC%A0%E9%80%92%E8%BF%9B%E6%9D%A5%E7%9A%84%E5%8F%82%E6%95%B0%E5%BD%93%E5%81%9A%E5%AD%97%E7%AC%A6%E5%81%87%E8%AE%BE%E5%85%B6%E4%B8%AD%E5%AD%98%E5%9C%A8%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6%E6%AF%94%E5%A6%82%E8%AF%B4%E4%BC%9A%E8%A2%AB%E7%9B%B4%E6%8E%A5%E8%BD%AC%E4%B9%89">PreparedStatement防lsQL注入的本质,把传递进来的参数当做字符假设其中存在转义字符,比如说’会被直接转义</a></li>
+<li><a href="#%E6%8F%92%E5%85%A5">插入</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4">删除</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9">修改</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2">查询</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/jdbc-zhi-statement-dui-xiang-xiang-jie/">
+              <h3 class="post-title">
+                JDBC之statement对象详解
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

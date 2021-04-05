@@ -1,0 +1,266 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>多线程学习之同步方法和同步块 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617631504136">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="多线程学习之同步方法和同步块 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="同步方法
+package com.deng.pojo02;
+//不安全买票
+public class UnsafeBuytikies  {
+    public static void main(String[] args) {
+     ..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617631504136" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              多线程学习之同步方法和同步块
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-05
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="同步方法">同步方法</h1>
+<pre><code>package com.deng.pojo02;
+//不安全买票
+public class UnsafeBuytikies  {
+    public static void main(String[] args) {
+        Buytickes buytickes=new Buytickes();
+        new Thread(buytickes,&quot;贝爷&quot;).start();
+        new Thread(buytickes,&quot;黄细细&quot;).start();
+        new Thread(buytickes,&quot;傻逼东&quot;).start();
+    }
+
+ }
+class Buytickes implements Runnable{
+    private int tickesnum=10;
+     boolean  flag=true;
+   @Override
+    public void run(){
+       while (flag)
+       {
+           try {
+               buy();
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           }
+       }
+   }
+   //synchronized同步方法，默认指的是this
+   private synchronized void buy() throws InterruptedException {
+       if (tickesnum&lt;=0)
+       {
+           flag=false;
+           return;
+       }
+       Thread.sleep(10);
+       System.out.println(Thread.currentThread().getName()+&quot;拿到&quot;+tickesnum--+&quot;张票&quot;);
+   }
+}
+</code></pre>
+<h1 id="同步块">同步块</h1>
+<pre><code>package com.deng.pojo02;
+//结婚不安全
+public class UnsafeBank {
+    public static void main(String[] args) {
+        Account account=new Account(100,&quot;结婚基金&quot;);
+        DrawingMoney you=new DrawingMoney(account,50,&quot;你&quot;);
+        DrawingMoney girlfriend=new DrawingMoney(account,100,&quot;女朋友&quot;);
+        you.start();
+        girlfriend.start();
+    }
+}
+class Account{
+     int money;
+     String name;
+
+    public Account(int money, String name) {
+        this.money = money;
+        this.name = name;
+    }
+}
+class DrawingMoney extends Thread {
+    Account account;
+    int drawingmoney;
+    int nowmoney;
+
+    public DrawingMoney(Account account, int drawingmoney, String name1) {
+        super(name1);
+        this.account=account;
+        this.drawingmoney = drawingmoney;
+    }
+    //锁的对象是变化的量，需要增删查改的量
+    @Override
+    public void run(){
+        synchronized (account){
+            if (account.money-drawingmoney&lt;0)
+            {
+                System.out.println(Thread.currentThread().getName()+&quot;钱不够了&quot;);
+                return;
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            account.money=account.money-drawingmoney;
+            nowmoney=nowmoney+drawingmoney;
+            System.out.println(account.name+&quot;余额为&quot;+account.money);
+            System.out.println(Thread.currentThread().getName()+&quot;手里的钱&quot;+nowmoney);
+        }
+
+
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95">同步方法</a></li>
+<li><a href="#%E5%90%8C%E6%AD%A5%E5%9D%97">同步块</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/jdbc-zhi-preparedstatement-dui-xiang/">
+              <h3 class="post-title">
+                JDBC之 PreparedStatement对象
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
