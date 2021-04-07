@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-04-07T12:41:07.985Z</updated>
+    <updated>2021-04-07T13:10:41.230Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -16,7 +16,32 @@
         <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-url-xia-zai-wang-luo-zi-yuan/">
         </link>
         <updated>2021-04-07T12:05:05.000Z</updated>
-        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617799257161.png" alt="" loading="lazy"></figure>
+        <content type="html"><![CDATA[<pre><code>package com.deng.URL01;
+
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class Urldown {
+    public static void main(String[] args) throws Exception {
+        URL url=new URL(&quot;https://th.bing.com/th/id/Rde1bdc82f8063c8df1b62a686c12042d?rik=PNiygsObQkS7hw&amp;riu=http%3a%2f%2fimage.photocnc.com%2fphotocnc%2f2020-06%2f29%2f202006290131193f0894ee4d24494d61d50a61a3c0ef49.jpg.w1680.jpg&amp;ehk=vlDDobgu9MW4%2f9CP8wP%2bTxuJ5%2fJ6S7HY%2faTAUy1%2beaQ%3d&amp;risl=&amp;pid=ImgRaw&quot;);
+        HttpURLConnection urlConnection=(HttpURLConnection) url.openConnection();
+        InputStream inputStream=urlConnection.getInputStream();
+        FileOutputStream fos=new FileOutputStream(&quot;yilishabais.jpg&quot;);
+        byte[] buffer=new byte[1024];
+        int len;
+        while ((len=inputStream.read(buffer))!=-1)
+        {
+            fos.write(buffer,0,len);
+        }
+        fos.close();
+        inputStream.close();
+        urlConnection.disconnect();
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617799257161.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>

@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>网络编程学习之URL下载网络资源 | Gridea</title>
-<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617799265753">
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617800315395">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="网络编程学习之URL下载网络资源 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
@@ -11,8 +11,11 @@
 
 
 
-    <meta name="description" content="
-..." />
+    <meta name="description" content="package com.deng.URL01;
+
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -22,7 +25,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://2651560750.github.io">
-  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617799265753" alt="">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617800315395" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -82,14 +85,39 @@
                 2021-04-07
               </span>
               <span>
-                0 min read
+                1 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617799257161.png" alt="" loading="lazy"></figure>
+                <pre><code>package com.deng.URL01;
+
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class Urldown {
+    public static void main(String[] args) throws Exception {
+        URL url=new URL(&quot;https://th.bing.com/th/id/Rde1bdc82f8063c8df1b62a686c12042d?rik=PNiygsObQkS7hw&amp;riu=http%3a%2f%2fimage.photocnc.com%2fphotocnc%2f2020-06%2f29%2f202006290131193f0894ee4d24494d61d50a61a3c0ef49.jpg.w1680.jpg&amp;ehk=vlDDobgu9MW4%2f9CP8wP%2bTxuJ5%2fJ6S7HY%2faTAUy1%2beaQ%3d&amp;risl=&amp;pid=ImgRaw&quot;);
+        HttpURLConnection urlConnection=(HttpURLConnection) url.openConnection();
+        InputStream inputStream=urlConnection.getInputStream();
+        FileOutputStream fos=new FileOutputStream(&quot;yilishabais.jpg&quot;);
+        byte[] buffer=new byte[1024];
+        int len;
+        while ((len=inputStream.read(buffer))!=-1)
+        {
+            fos.write(buffer,0,len);
+        }
+        fos.close();
+        inputStream.close();
+        urlConnection.disconnect();
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617799257161.png" alt="" loading="lazy"></figure>
 
               </div>
               <div class="toc-container">
