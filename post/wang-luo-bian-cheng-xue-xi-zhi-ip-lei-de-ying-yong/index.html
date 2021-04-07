@@ -1,0 +1,212 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>网络编程学习之IP类的应用 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617796965454">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="网络编程学习之IP类的应用 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="ip地址: InetAddress
+·唯一定位一台网络上计算机.
+127.0.0.1:本机 localhos
+t· ip地址的分类
+o ipv4 / ipv6
+IPV4127.0.0.1 ，4个字节组成。，0255，42亿 ;30亿都在北美..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617796965454" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              网络编程学习之IP类的应用
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-06
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="ip地址-inetaddress">ip地址: InetAddress</h1>
+<p>·唯一定位一台网络上计算机.<br>
+127.0.0.1:本机 localhos<br>
+t· ip地址的分类<br>
+o ipv4 / ipv6<br>
+IPV4127.0.0.1 ，4个字节组成。，0<sub>255，42亿</sub> ;30亿都在北美，亚洲4亿。2011年就用尽; iPV6:128位。8个无符号整数!<br>
+<code>2001: 0bb2: aaaa: 0015:0000: 0000: 1aaa: 1312!</code><br>
+o公网-私网<br>
+·ABCD类<br>
+·192.168.xx.xx，专门给组织内部使用的</p>
+<h1 id="代码实现">代码实现</h1>
+<pre><code>package com.deng.pojo;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class TestAddress {
+    public static void main(String[] args) {
+        try {
+            //查询本机地址
+            InetAddress inetAddress1= InetAddress.getByName(&quot;127.0.0.1&quot;);
+            System.out.println(inetAddress1);
+            InetAddress inetAddress3= InetAddress.getByName(&quot;localhost&quot;);
+            System.out.println(inetAddress3);
+            InetAddress inetAddress4= InetAddress.getLocalHost();
+            System.out.println(inetAddress4);
+            //查询网页地址
+            InetAddress inetAddress2= InetAddress.getByName(&quot;www.baidu.com&quot;);
+            System.out.println(inetAddress2);
+            System.out.println(inetAddress1.getAddress());//地址
+            System.out.println(inetAddress1.getCanonicalHostName());//规范的名字
+            System.out.println(inetAddress1.getHostAddress());//ip
+            System.out.println(inetAddress1.getHostName());//域名，本机自己的名字
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#ip%E5%9C%B0%E5%9D%80-inetaddress">ip地址: InetAddress</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">代码实现</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-liang-da-yao-su/">
+              <h3 class="post-title">
+                网络编程学习之两大要素
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

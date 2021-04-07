@@ -1,0 +1,221 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>网络编程学习之UDP发送消息 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617796965454">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="网络编程学习之UDP发送消息 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="发送信息，不需要知道对方的地址
+客户端
+package com.deng.poji02;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import jav..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617796965454" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              网络编程学习之UDP发送消息
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-07
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="发送信息不需要知道对方的地址">发送信息，不需要知道对方的地址</h1>
+<h1 id="客户端">客户端</h1>
+<pre><code>package com.deng.poji02;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+//不需要建立连接服务器
+public class TestUDPclient01 {
+    public static void main(String[] args) throws Exception {
+        //建立一个Socket
+        DatagramSocket socket=new DatagramSocket();
+        //建立一个包
+        String string=&quot;服务器，你好啊！&quot;;
+        InetAddress inetAddress=InetAddress.getByName(&quot;localhost&quot;);
+        int port=9999;
+        //数据，数据的长度，IP地址，端口号
+        DatagramPacket datagramPacket=new DatagramPacket(string.getBytes(),0,string.getBytes().length,inetAddress,port);
+        //发送消息
+        socket.send(datagramPacket);
+        socket.close();
+    }
+}
+</code></pre>
+<h1 id="服务端">服务端</h1>
+<pre><code>package com.deng.poji02;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+//等待客户端的连接
+public class TestUDPservers {
+    public static void main(String[] args) throws Exception {
+        //建立一个Socket，开放端口
+        DatagramSocket socket=new DatagramSocket(9999);
+        //接收数据包
+        byte[] buffer=new byte[1024];
+        DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length);
+        //阻塞接收
+        socket.receive(datagramPacket);
+        System.out.println(datagramPacket.getAddress().getHostName());
+        System.out.println(new String(datagramPacket.getData(),0,datagramPacket.getLength()));
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%8F%91%E9%80%81%E4%BF%A1%E6%81%AF%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E5%AF%B9%E6%96%B9%E7%9A%84%E5%9C%B0%E5%9D%80">发送信息，不需要知道对方的地址</a></li>
+<li><a href="#%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF">服务端</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-wen-jian-shang-chuan-shi-xian/">
+              <h3 class="post-title">
+                网络编程学习之文件上传实现
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

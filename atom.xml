@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-04-05T14:05:07.639Z</updated>
+    <updated>2021-04-07T12:04:54.795Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -11,850 +11,594 @@
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[网络编程学习之多线程在线质询]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-duo-xian-cheng-zai-xian-zhi-xun/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-duo-xian-cheng-zai-xian-zhi-xun/">
+        </link>
+        <updated>2021-04-07T11:21:04.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="发信息">发信息</h1>
+<pre><code>package com.deng.Talk;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
+
+public class TalkSend implements Runnable{
+    DatagramSocket socket=null;
+    BufferedReader reader=null;
+    private int fromport;
+    private String toip;
+    private int toport;
+
+    public TalkSend(int fromport, String toip, int toport) {
+        this.fromport = fromport;
+        this.toip = toip;
+        this.toport = toport;
+        try {
+            socket=new DatagramSocket(fromport);
+            reader=new BufferedReader(new InputStreamReader(System.in));
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        while (true)
+        {
+            try {
+                String string=reader.readLine();
+                byte[] buffer=string.getBytes();
+                DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length,new InetSocketAddress(this.toip,this.toport));
+                socket.send(datagramPacket);
+                if (string.equals(&quot;bye&quot;))
+                {
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        socket.close();
+    }
+}
+</code></pre>
+<h1 id="收信息">收信息</h1>
+<pre><code>package com.deng.Talk;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
+public class Talkreceive implements Runnable{
+    DatagramSocket socket=null;
+    private int port;
+private String fromstring;
+    public Talkreceive(int port,String fromstring) {
+        this.port = port;
+        this.fromstring=fromstring;
+        try {
+            socket=new DatagramSocket(port);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+        while (true)
+        {
+            try {
+                byte[] buffer=new byte[1024];
+                DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length);
+                socket.receive(datagramPacket);
+                byte[] data=datagramPacket.getData();
+                String string=new String(data,0,data.length);
+                System.out.println(fromstring+&quot;: &quot;+string);
+                if (string.equals(&quot;bye&quot;))
+                {
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        socket.close();
+    }
+}
+</code></pre>
+<h1 id="同学和老师同时开启两条线程">同学和老师同时开启两条线程</h1>
+<p>同学:</p>
+<pre><code>package com.deng.Talk;
+
+public class TalkStudent {
+    public static void main(String[] args) {
+        new Thread(new TalkSend(7777,&quot;localhost&quot;,9999)).start();
+        new Thread(new Talkreceive(8888,&quot;老师&quot;)).start();
+    }
+}
+</code></pre>
+<p>老师：</p>
+<pre><code>package com.deng.Talk;
+
+public class TalkTeacher {
+    public static void main(String[] args) {
+        new Thread(new TalkSend(6666,&quot;localhost&quot;,8888)).start();
+        new Thread(new Talkreceive(9999,&quot;学生&quot;)).start();
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之使用UDP实现聊天]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-shi-yong-udp-shi-xian-liao-tian/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-shi-yong-udp-shi-xian-liao-tian/">
+        </link>
+        <updated>2021-04-07T10:55:28.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="循环发送消息">循环发送消息</h1>
+<pre><code>package com.deng.pojo03;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
+public class UDPsender01 {
+    public static void main(String[] args) throws Exception {
+        DatagramSocket socket=new DatagramSocket(9999);
+        BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+        while (true)
+        {
+            String string=reader.readLine();
+            byte[] buffer=string.getBytes();
+            DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length,new InetSocketAddress(&quot;localhost&quot;,8888));
+            socket.send(datagramPacket);
+            if (string.equals(&quot;bye&quot;))
+            {
+                break;
+            }
+        }
+
+        socket.close();
+    }
+}
+</code></pre>
+<h1 id="循环接收消息">循环接收消息</h1>
+<pre><code>package com.deng.pojo03;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
+
+public class UDPsender02 {
+    public static void main(String[] args) throws Exception {
+        DatagramSocket socket=new DatagramSocket(8888);
+          while (true)
+          {
+              byte[] buffer=new byte[1024];
+              DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length);
+              socket.receive(datagramPacket);
+              byte[] data=datagramPacket.getData();
+              String string=new String(data,0,data.length);
+              System.out.println(string);
+              if (string.equals(&quot;bye&quot;))
+              {
+               break;
+              }
+          }
+          socket.close();
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之UDP发送消息]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-udp-fa-song-xiao-xi/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-udp-fa-song-xiao-xi/">
+        </link>
+        <updated>2021-04-07T10:27:55.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="发送信息不需要知道对方的地址">发送信息，不需要知道对方的地址</h1>
+<h1 id="客户端">客户端</h1>
+<pre><code>package com.deng.poji02;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+//不需要建立连接服务器
+public class TestUDPclient01 {
+    public static void main(String[] args) throws Exception {
+        //建立一个Socket
+        DatagramSocket socket=new DatagramSocket();
+        //建立一个包
+        String string=&quot;服务器，你好啊！&quot;;
+        InetAddress inetAddress=InetAddress.getByName(&quot;localhost&quot;);
+        int port=9999;
+        //数据，数据的长度，IP地址，端口号
+        DatagramPacket datagramPacket=new DatagramPacket(string.getBytes(),0,string.getBytes().length,inetAddress,port);
+        //发送消息
+        socket.send(datagramPacket);
+        socket.close();
+    }
+}
+</code></pre>
+<h1 id="服务端">服务端</h1>
+<pre><code>package com.deng.poji02;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+//等待客户端的连接
+public class TestUDPservers {
+    public static void main(String[] args) throws Exception {
+        //建立一个Socket，开放端口
+        DatagramSocket socket=new DatagramSocket(9999);
+        //接收数据包
+        byte[] buffer=new byte[1024];
+        DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length);
+        //阻塞接收
+        socket.receive(datagramPacket);
+        System.out.println(datagramPacket.getAddress().getHostName());
+        System.out.println(new String(datagramPacket.getData(),0,datagramPacket.getLength()));
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之文件上传实现]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-wen-jian-shang-chuan-shi-xian/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-wen-jian-shang-chuan-shi-xian/">
+        </link>
+        <updated>2021-04-06T13:53:34.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="服务端">服务端</h1>
+<pre><code>package com.deng.pojo;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPserver02 {
+    public static void main(String[] args) throws Exception {
+        //创建一个服务
+        ServerSocket serverSocket = new ServerSocket(9000);
+        //监听接受客户端的连接
+        Socket socket = serverSocket.accept();
+        //获取输入流
+        InputStream inputStream = socket.getInputStream();
+        //文件输出
+        FileOutputStream fileOutputStream = new FileOutputStream(new File(&quot;1.jpg&quot;));
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            fileOutputStream.write(buffer, 0, len);
+        }
+        //通知客户端我接收完毕
+        OutputStream outputStream1 = socket.getOutputStream();
+        outputStream1.write(&quot;我接受完毕了，你可以断开了&quot;.getBytes());
+        socket.close();
+        serverSocket.close();
+        inputStream.close();
+        fileOutputStream.close();
+    }
+}
+</code></pre>
+<h1 id="客户端">客户端</h1>
+<pre><code>package com.deng.pojo;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TPCclient02 {
+    public static void main(String[] args) throws Exception {
+        //创建一个Socket连接器
+        InetAddress inetAddress = InetAddress.getByName(&quot;127.0.0.1&quot;);
+        Socket socket = new Socket(inetAddress, 9000);
+        //创建一个输出流
+        OutputStream outputStream = socket.getOutputStream();
+        //读取文件
+        FileInputStream fileInputStream = new FileInputStream(new File(&quot;屏幕截图 2021-04-05 220249.png&quot;));
+        //写出文件
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = fileInputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, len);
+        }
+        //通知服务器我已经接收完了
+        socket.shutdownOutput();
+        //确定服务器接收完，我才断开
+        InputStream inputStream1 = socket.getInputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer01 = new byte[1024];
+        int len01;
+        while ((len01 = inputStream1.read(buffer01)) != -1) {
+            byteArrayOutputStream.write(buffer01, 0, len01);
+        }
+        System.out.println(byteArrayOutputStream.toString());
+        byteArrayOutputStream.close();
+        //关闭资源
+        socket.close();
+        outputStream.close();
+        fileInputStream.close();
+    }
+}
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之TCP实现聊天]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-tcp-shi-xian-liao-tian/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-tcp-shi-xian-liao-tian/">
+        </link>
+        <updated>2021-04-06T12:06:02.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="客户端">客户端</h1>
+<p>1.连接服务器Socket<br>
+2.发送消息<br>
+代码实现</p>
+<pre><code>package com.deng.pojo;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TPCclient {
+    public static void main(String[] args) {
+        InetAddress inetAddress=null;
+        Socket socket=null;
+        OutputStream os=null;
+        try {
+             inetAddress = InetAddress.getByName(&quot;127.0.0.1&quot;);
+               int port=9999;
+             socket=new Socket(inetAddress,port);
+             os=socket.getOutputStream();
+            os.write(&quot;邓贝真他妈帅&quot;.getBytes());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (socket!=null)
+            {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (os!=null)
+            {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+
+</code></pre>
+<h1 id="服务器">服务器</h1>
+<p>1.建立服务的端口ServerSocket<br>
+2.等待用户的链接accept<br>
+3.接收用的消息<br>
+代码实现</p>
+<pre><code>package com.deng.pojo;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPserver {
+    public static void main(String[] args) {
+        ServerSocket serverSocket = null;
+        Socket socket = null;
+        InputStream is = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        try {
+            serverSocket = new ServerSocket(9999);
+            socket = serverSocket.accept();
+            is = socket.getInputStream();
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, len);
+            }
+            System.out.println(byteArrayOutputStream.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (is!=null)
+            {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (byteArrayOutputStream!=null)
+            {
+                try {
+                    byteArrayOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程学习之通信协议]]></title>
+        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-tong-xin-xie-yi/</id>
+        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-tong-xin-xie-yi/">
+        </link>
+        <updated>2021-04-06T11:47:50.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="通信协议的定义和分类">通信协议的定义和分类!</h1>
+<p>协议:约定，就好比我们现在说的是普通话。<br>
+网络通信协议:速率，传输码率，代码结构，传输控制.….问题:非常的复杂?<br>
+大事化小:分层!<br>
+TCP/IP协议簇:实际上是一组协议重要:<br>
+· TCP:用户传输协议.<br>
+UDP∶用户数据报协议<br>
+出名的协议:<br>
+TCP:<br>
+· IP: 网络互连协议<br>
+<img src="https://2651560750.github.io/post-images/1617710086286.png" alt="" loading="lazy"></p>
+<h1 id="tcp-udp-对比tcp">TCP udp 对比TCP:</h1>
+<p>打电话·连接，稳定·三次握手四次挥手<br>
+最少需要三次，保证稳定连接!</p>
+<pre><code>A:你瞅啥?
+B:瞅你咋地?
+A:干一场!
+A:我要走了!
+B:我真的要走了吗?
+B:你真的真的要走了吗?
+A:我的真的要走了!
+</code></pre>
+<p>·客户端、服务端<br>
+·传输完成，释放连接，效率低<br>
+UDP:发短信<br>
+·不连接，不稳定<br>
+·客户端、服务端:没有明确的界限<br>
+·不管有没有准备好，都可以发给你..</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之port端口]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-port-duan-kou/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-port-duan-kou/">
+        </link>
+        <updated>2021-04-06T11:33:42.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="端口的概念">端口的概念</h1>
+<p>端口表示计算机上的一个程序的进程;<br>
+·不同的进程有不同的端口号!用来区分软件!·被规定0~65535<br>
+。TCP,UDP: 65535 * 2 tcp: 80，udp: 80吗，单个协议下，端口号不能冲突·端口分类<br>
+。公有端口0~1023<br>
+.HTTP :80<br>
+-HTTPS: 443<br>
+FTP∶21-<br>
+Telent : 23<br>
+。程序注册端口:1024~49151,<br>
+分配用户或者程序<br>
+Tomcat : 8080<br>
+-MySQL : 3306-<br>
+Oracle : 1521。<br>
+。动态、私有:49152~ 65535<br>
+1 netstat -ano #查看所有的端口<br>
+2 netstat -anolfindstr &quot;5900&quot;#查看指定的端口<br>
+3 task1istlfindstr &quot;8696&quot;#查看指定端口的进程<br>
+4ctr1+ shift+ ESC</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之IP类的应用]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-ip-lei-de-ying-yong/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-ip-lei-de-ying-yong/">
+        </link>
+        <updated>2021-04-06T02:38:51.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="ip地址-inetaddress">ip地址: InetAddress</h1>
+<p>·唯一定位一台网络上计算机.<br>
+127.0.0.1:本机 localhos<br>
+t· ip地址的分类<br>
+o ipv4 / ipv6<br>
+IPV4127.0.0.1 ，4个字节组成。，0<sub>255，42亿</sub> ;30亿都在北美，亚洲4亿。2011年就用尽; iPV6:128位。8个无符号整数!<br>
+<code>2001: 0bb2: aaaa: 0015:0000: 0000: 1aaa: 1312!</code><br>
+o公网-私网<br>
+·ABCD类<br>
+·192.168.xx.xx，专门给组织内部使用的</p>
+<h1 id="代码实现">代码实现</h1>
+<pre><code>package com.deng.pojo;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class TestAddress {
+    public static void main(String[] args) {
+        try {
+            //查询本机地址
+            InetAddress inetAddress1= InetAddress.getByName(&quot;127.0.0.1&quot;);
+            System.out.println(inetAddress1);
+            InetAddress inetAddress3= InetAddress.getByName(&quot;localhost&quot;);
+            System.out.println(inetAddress3);
+            InetAddress inetAddress4= InetAddress.getLocalHost();
+            System.out.println(inetAddress4);
+            //查询网页地址
+            InetAddress inetAddress2= InetAddress.getByName(&quot;www.baidu.com&quot;);
+            System.out.println(inetAddress2);
+            System.out.println(inetAddress1.getAddress());//地址
+            System.out.println(inetAddress1.getCanonicalHostName());//规范的名字
+            System.out.println(inetAddress1.getHostAddress());//ip
+            System.out.println(inetAddress1.getHostName());//域名，本机自己的名字
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之两大要素]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-liang-da-yao-su/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-liang-da-yao-su/">
+        </link>
+        <updated>2021-04-06T02:37:02.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="网络通信要素">网络通信要素</h1>
+<p>1.网络编程中有两个主要的问题<br>
+。如何准确的定位到网络上的一台或者多台主机。找到主机之后如何进行通信<br>
+2.网络编程中的要素<br>
+。IP和端口号IP.<br>
+。网络通信协议udp, tcp<br>
+3.万物皆对象</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[多线程学习之线程池]]></title>
         <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-chi/</id>
         <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-chi/">
         </link>
         <updated>2021-04-05T14:04:42.000Z</updated>
         <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617631500522.png" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多线程学习之信号灯法]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xin-hao-deng-fa/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xin-hao-deng-fa/">
-        </link>
-        <updated>2021-04-05T13:37:59.000Z</updated>
-        <content type="html"><![CDATA[<h1 id=""></h1>
-<p><img src="https://2651560750.github.io/post-images/1617631436374.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1617631448469.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1617631454408.png" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多线程学习之管程法]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-guan-cheng-fa/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-guan-cheng-fa/">
-        </link>
-        <updated>2021-04-05T12:42:19.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="定义">定义</h1>
-<p>并发协作模型“生产者/消费者模式”---&gt;管程法<br>
-生产者:负责生产数据的模块(可能是方法,对象,线程,进程);<br>
-消费者:负责处理数据的模块(可能是方法﹐对象,线程,进程);<br>
-缓冲区:消费者不能直接使用生产者的数据﹐他们之间有个<br>
-“缓冲区生产者将生产好的数据放入缓冲区,消费者从缓冲区拿出数据</p>
-<h1 id="代码实现">代码实现</h1>
-<pre><code>package com.deng.PC;
-
-public class TestPc {
-    public static void main(String[] args) {
-        SynContainer synContainer=new SynContainer();
-        new Produce(synContainer).start();
-        new Consumer(synContainer).start();
-    }
-}
-class Produce extends Thread{
-        SynContainer synContainer;
-
-    public Produce(SynContainer synContainer) {
-        this.synContainer = synContainer;
-    }
-    @Override
-    public void run(){
-        for (int i = 0; i &lt; 100; i++) {
-            synContainer.push(new Chicken(i));
-            System.out.println(&quot;生产了&quot;+i+&quot;只鸡&quot;);
-        }
-    }
-}
-class Consumer extends Thread{
-    SynContainer synContainer;
-
-    public Consumer(SynContainer synContainer) {
-        this.synContainer = synContainer;
-    }
-    @Override
-    public void run(){
-        for (int i = 0; i &lt; 100; i++) {
-           Chicken chicken= synContainer.pop();
-            System.out.println(&quot;消费了--&gt;&quot;+chicken.id+&quot;只鸡&quot;);
-        }
-    }
-}
-class Chicken{
-    int id;
-    public Chicken(int id){
-        this.id=id;
-    }
-}
-
-//缓冲区
-class SynContainer{
-    Chicken [] chickens=new Chicken[10];
-    int count=0;
-    public synchronized void push(Chicken chicken) {
-        while (count == chickens.length) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        chickens[count] = chicken;
-        count++;
-        this.notifyAll();
-    }
-
-    public synchronized Chicken pop() {
-        while (count == 0) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        count--;
-        Chicken chicken = chickens[count];
-        this.notifyAll();
-        return chicken;
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多线程学习之Lock锁]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-lock-suo/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-lock-suo/">
-        </link>
-        <updated>2021-04-05T11:31:41.000Z</updated>
-        <content type="html"><![CDATA[<p>#定义</p>
-<ol>
-<li>从JDK 5.0开始，Java提供了更强大的线程同步机制——通过显式定义同步锁对象来实现同步。同步锁使用Lock对象充当</li>
-<li>java.util.concurrent.locks.Lock接口是控制多个线程对共享资源进行访问的工具。锁提供了对共享资源的独占访问，每次只能有一个线程对Lock对象加锁，线程开始访问共享资源之前应先获得Lock对象</li>
-<li>ReentrantLock类实现了Lock，它拥有与synchronized相同的并发性和内存语义，在实现线程安全的控制中，比较常用的是ReentrantLock，可以显式加锁、释放锁。</li>
-</ol>
-<h1 id="代码实现">代码实现</h1>
-<pre><code>package com.deng.Lock;
-import com.deng.pojo.TestThread5;
-
-import java.util.concurrent.locks.ReentrantLock;
-
-public class xianshilock {
-    public static void main(String[] args) {
-        testlock t1=new testlock();
-        new Thread(t1,&quot;邓贝&quot;).start();
-        new Thread(t1,&quot;黄哲浩&quot;).start();
-        new Thread(t1,&quot;岁东航&quot;).start();
-    }
-}
-class testlock implements Runnable {
-    private int tickes=10;
-    private final ReentrantLock lock=new ReentrantLock();
-    @Override
-    public void run()
-    {
-        while (true)
-        {
-            try {
-                lock.lock();
-                if (tickes&lt;=0)
-                {
-                    break;
-                }
-                System.out.println(Thread.currentThread().getName()+&quot;拿到了第&quot;+tickes--+&quot;张票&quot;);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-          finally {
-                lock.unlock();
-            }
-
-        }
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多线程学习之死锁]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-si-suo/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-si-suo/">
-        </link>
-        <updated>2021-04-05T11:03:34.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="死锁">死锁</h1>
-<p>多个线程各自占有一些共享资源﹐并且互相等待其他线程占有的资源才能运行﹐而导致两个或者多个线程都在等待对方释放资源﹐都停止执行的情形﹒某一个同步块同时拥有“两个以上对象的锁”时﹐就可能会发生“死锁”的问题.</p>
-<pre><code>package com.deng.Lock;
-//死锁：多个线程相互等待对方的资源，而相互停止运行
-public class DeathLock {
-    public static void main(String[] args) {
-        Makeup g1=new Makeup(0,&quot;小东&quot;);
-        Makeup g2=new Makeup(1,&quot;小黄&quot;);
-        g1.start();
-        g2.start();
-    }
-}
-class Lipstick{
-
-}
-class Mirror{
-
-}
-class Makeup extends Thread{
-    //使用static保证资源只有一份
-    static Lipstick lipstick=new Lipstick();
-    static Mirror mirror=new Mirror();
-    int choice;//选择
-    String name;//化妆人的名字
-
-   Makeup( int choice, String name) {
-        this.choice = choice;
-        this.name = name;
-    }
-    @Override
-    public void run(){
-        try {
-            makeup();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    //相互持有对方的锁，要拿到对方的资源
-    public  void makeup() throws InterruptedException {
-        if (choice==0)
-        {
-            synchronized (lipstick){
-                System.out.println(this.name+&quot;获得口红资源&quot;);
-                Thread.sleep(1000);
-                synchronized (mirror){
-                    System.out.println(this.name+&quot;获得镜子资源&quot;);
-                }
-            }
-        }
-        else
-        {
-            synchronized (mirror){
-                System.out.println(this.name+&quot;获得镜子资源&quot;);
-                Thread.sleep(2000);
-                synchronized (lipstick){
-                    System.out.println(this.name+&quot;获得口红资源&quot;);
-                }
-            }
-        }
-    }
-}
-</code></pre>
-<h1 id="解决办法">解决办法:</h1>
-<p>做到锁中不嵌套锁，将一个锁从另一个锁中拿出来</p>
-<pre><code>package com.deng.Lock;
-//死锁：多个线程相互等待对方的资源，而相互停止运行
-public class DeathLock {
-    public static void main(String[] args) {
-        Makeup g1=new Makeup(0,&quot;小东&quot;);
-        Makeup g2=new Makeup(1,&quot;小黄&quot;);
-        g1.start();
-        g2.start();
-    }
-}
-class Lipstick{
-
-}
-class Mirror{
-
-}
-class Makeup extends Thread{
-    //使用static保证资源只有一份
-    static Lipstick lipstick=new Lipstick();
-    static Mirror mirror=new Mirror();
-    int choice;//选择
-    String name;//化妆人的名字
-
-   Makeup( int choice, String name) {
-        this.choice = choice;
-        this.name = name;
-    }
-    @Override
-    public void run(){
-        try {
-            makeup();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    //相互持有对方的锁，要拿到对方的资源
-    public  void makeup() throws InterruptedException {
-        if (choice==0)
-        {
-            synchronized (lipstick){
-                System.out.println(this.name+&quot;获得口红资源&quot;);
-                Thread.sleep(1000);
-            }
-            synchronized (mirror){
-                System.out.println(this.name+&quot;获得镜子资源&quot;);
-            }
-        }
-        else
-        {
-            synchronized (mirror){
-                System.out.println(this.name+&quot;获得镜子资源&quot;);
-                Thread.sleep(2000);
-
-            }
-            synchronized (lipstick){
-                System.out.println(this.name+&quot;获得口红资源&quot;);
-            }
-        }
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多线程学习之同步方法和同步块]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-tong-bu-fang-fa-he-tong-bu-kuai/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-tong-bu-fang-fa-he-tong-bu-kuai/">
-        </link>
-        <updated>2021-04-05T10:57:12.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="同步方法">同步方法</h1>
-<pre><code>package com.deng.pojo02;
-//不安全买票
-public class UnsafeBuytikies  {
-    public static void main(String[] args) {
-        Buytickes buytickes=new Buytickes();
-        new Thread(buytickes,&quot;贝爷&quot;).start();
-        new Thread(buytickes,&quot;黄细细&quot;).start();
-        new Thread(buytickes,&quot;傻逼东&quot;).start();
-    }
-
- }
-class Buytickes implements Runnable{
-    private int tickesnum=10;
-     boolean  flag=true;
-   @Override
-    public void run(){
-       while (flag)
-       {
-           try {
-               buy();
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
-       }
-   }
-   //synchronized同步方法，默认指的是this
-   private synchronized void buy() throws InterruptedException {
-       if (tickesnum&lt;=0)
-       {
-           flag=false;
-           return;
-       }
-       Thread.sleep(10);
-       System.out.println(Thread.currentThread().getName()+&quot;拿到&quot;+tickesnum--+&quot;张票&quot;);
-   }
-}
-</code></pre>
-<h1 id="同步块">同步块</h1>
-<pre><code>package com.deng.pojo02;
-//结婚不安全
-public class UnsafeBank {
-    public static void main(String[] args) {
-        Account account=new Account(100,&quot;结婚基金&quot;);
-        DrawingMoney you=new DrawingMoney(account,50,&quot;你&quot;);
-        DrawingMoney girlfriend=new DrawingMoney(account,100,&quot;女朋友&quot;);
-        you.start();
-        girlfriend.start();
-    }
-}
-class Account{
-     int money;
-     String name;
-
-    public Account(int money, String name) {
-        this.money = money;
-        this.name = name;
-    }
-}
-class DrawingMoney extends Thread {
-    Account account;
-    int drawingmoney;
-    int nowmoney;
-
-    public DrawingMoney(Account account, int drawingmoney, String name1) {
-        super(name1);
-        this.account=account;
-        this.drawingmoney = drawingmoney;
-    }
-    //锁的对象是变化的量，需要增删查改的量
-    @Override
-    public void run(){
-        synchronized (account){
-            if (account.money-drawingmoney&lt;0)
-            {
-                System.out.println(Thread.currentThread().getName()+&quot;钱不够了&quot;);
-                return;
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            account.money=account.money-drawingmoney;
-            nowmoney=nowmoney+drawingmoney;
-            System.out.println(account.name+&quot;余额为&quot;+account.money);
-            System.out.println(Thread.currentThread().getName()+&quot;手里的钱&quot;+nowmoney);
-        }
-
-
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JDBC之 PreparedStatement对象]]></title>
-        <id>https://2651560750.github.io/post/jdbc-zhi-preparedstatement-dui-xiang/</id>
-        <link href="https://2651560750.github.io/post/jdbc-zhi-preparedstatement-dui-xiang/">
-        </link>
-        <updated>2021-04-02T11:24:03.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="preparedstatement防lsql注入的本质把传递进来的参数当做字符假设其中存在转义字符比如说会被直接转义">PreparedStatement防lsQL注入的本质,把传递进来的参数当做字符假设其中存在转义字符,比如说’会被直接转义</h1>
-<h1 id="插入">插入</h1>
-<pre><code>package com.deng.day02;
-import com.deng.day01.jdbcutils;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-public class preparedStatement01 {
-    public static void main(String[] args) {
-        Connection connection=null;
-        PreparedStatement pr=null;
-        try {
-            connection= jdbcutils.getConnection();
-            //区别：先预执行SQL，只编译，不执行，用占位符代替参数
-            String string=&quot;INSERT INTO student(StudentNo,StudentName,Sex,`password`) VALUES(?,?,?,?)&quot;;
-            pr= connection.prepareStatement(string);
-            //手动添加参数
-            pr.setInt(1,10);
-            pr.setString(2,&quot;阿万&quot;);
-            pr.setInt(3,26);
-            pr.setInt(4,456789);
-            //执行
-            int i=pr.executeUpdate();
-            if (i&gt;0)
-            {
-                System.out.println(&quot;插入语句成功&quot;);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,pr,null);
-        }
-    }
-}
-</code></pre>
-<h1 id="删除">删除</h1>
-<pre><code>package com.deng.day02;
-
-import com.deng.day01.jdbcutils;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-public class preparedStatement02 {
-    public static void main(String[] args) {
-        Connection connection=null;
-        PreparedStatement pr=null;
-        try {
-            connection= jdbcutils.getConnection();
-            //区别：先预执行SQL，只编译，不执行，用占位符代替参数
-            String string=&quot;DELETE FROM student WHERE StudentNo=?&quot;;
-            pr= connection.prepareStatement(string);
-            //手动添加参数
-         pr.setInt(1,10);
-            //执行
-            int i=pr.executeUpdate();
-            if (i&gt;0)
-            {
-                System.out.println(&quot;删除语句成功&quot;);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,pr,null);
-        }
-    }
-}
-</code></pre>
-<h1 id="修改">修改</h1>
-<pre><code>package com.deng.day02;
-
-import com.deng.day01.jdbcutils;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-public class preparedStatement03 {
-    public static void main(String[] args) {
-        Connection connection=null;
-        PreparedStatement pr=null;
-        try {
-            connection= jdbcutils.getConnection();
-            //区别：先预执行SQL，只编译，不执行，用占位符代替参数
-            String string=&quot;UPDATE  student SET password=? WHERE StudentName=?&quot;;
-            pr= connection.prepareStatement(string);
-            //手动添加参数
-            pr.setInt(1,345678);
-            pr.setString(2,&quot;大哥&quot;);
-            //执行
-            int i=pr.executeUpdate();
-            if (i&gt;0)
-            {
-                System.out.println(&quot;更改语句成功&quot;);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,pr,null);
-        }
-    }
-}
-</code></pre>
-<h1 id="查询">查询</h1>
-<pre><code>package com.deng.day02;
-
-import com.deng.day01.jdbcutils;
-
-import java.sql.*;
-
-public class preparedStatement04 {
-    public static void main(String[] args) {
-        Connection connection=null;
-        PreparedStatement statement=null;
-        ResultSet resultSet=null;
-        try {
-            connection= jdbcutils.getConnection();
-            String string=&quot;SELECT * FROM student where StudentNo=?&quot;;
-            statement=connection.prepareStatement(string);
-           statement.setInt(1,66666);
-            resultSet=statement.executeQuery();
-            while (resultSet.next())
-            {
-                System.out.println(&quot;studentNo=&quot;+resultSet.getObject(&quot;studentNo&quot;));
-                System.out.println(&quot;studentName=&quot;+resultSet.getObject(&quot;studentName&quot;));
-                System.out.println(&quot;Sex=&quot;+resultSet.getObject(&quot;Sex&quot;));
-                System.out.println(&quot;password=&quot;+resultSet.getObject(&quot;password&quot;));
-
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,statement,resultSet);
-        }
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JDBC之statement对象详解]]></title>
-        <id>https://2651560750.github.io/post/jdbc-zhi-statement-dui-xiang-xiang-jie/</id>
-        <link href="https://2651560750.github.io/post/jdbc-zhi-statement-dui-xiang-xiang-jie/">
-        </link>
-        <updated>2021-04-01T12:15:21.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="数据文件化降低耦合性">数据文件化，降低耦合性</h1>
-<pre><code>JDBC_DRIVER =com.mysql.cj.jdbc.Driver
- DB_URL =jdbc:mysql://localhost:3306/test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
- USER =root
-PASS =2001526dbdsg
-</code></pre>
-<h1 id="写一个工具类">写一个工具类</h1>
-<p>主要用来创造连接和释放资源</p>
-<pre><code>package com.deng.day01;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
-import java.util.Properties;
-
-public class jdbcutils {
-    private static String JDBC_DRIVER=null;
-    private static String  DB_URL=null;
-    private static String  USER=null;
-    private static String PASS=null;
-    static {
-        InputStream in=jdbcutils.class.getClassLoader().getResourceAsStream(&quot;db.properties&quot;);
-        Properties properties=new Properties();
-        try {
-            properties.load(in);
-            JDBC_DRIVER=  properties.getProperty(&quot;JDBC_DRIVER&quot;);
-            DB_URL= properties.getProperty(&quot;DB_URL&quot;);
-            USER=  properties.getProperty(&quot;USER&quot;);
-            PASS= properties.getProperty(&quot;PASS&quot;);
-            Class.forName(JDBC_DRIVER);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL,USER,PASS);
-    }
-    public static void release(Connection con, Statement st, ResultSet re){
-        if(con!=null)
-        {
-            try {
-                con.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        if(st!=null)
-        {
-            try {
-                st.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        if(re!=null)
-        {
-            try {
-                re.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-    }
-}
-</code></pre>
-<h1 id="增加删除修改都用executeupdate">增加，删除，修改都用executeUpdate</h1>
-<ol>
-<li>增加</li>
-</ol>
-<pre><code>   package com.deng.day01;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-public class JDBCinster {
-    public static void main(String[] args) {
-        Connection connection=null;
-        Statement statement=null;
-        ResultSet resultSet=null;
-        try {
-           connection= jdbcutils.getConnection();
-           statement=connection.createStatement();
-          String string=&quot;INSERT INTO student(StudentNo,StudentName,Sex,`password`)&quot;+&quot; VALUES('66666','死黑子','48','3838438')&quot;;
-          int i=statement.executeUpdate(string);
-          if (i&gt;0)
-          {
-              System.out.println(&quot;插入语句成功&quot;);
-          }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,statement,resultSet);
-        }
-    }
-}
-</code></pre>
-<ol start="2">
-<li>删除</li>
-</ol>
-<pre><code>package com.deng.day01;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class JDBCdelete {
-    public static void main(String[] args) {
-        Connection connection=null;
-        Statement statement=null;
-        ResultSet resultSet=null;
-        try {
-            connection= jdbcutils.getConnection();
-            statement=connection.createStatement();
-            String string=&quot;DELETE FROM student WHERE StudentNo='8130310'&quot;;
-            int i=statement.executeUpdate(string);
-            if (i&gt;0)
-            {
-                System.out.println(&quot;删除语句成功&quot;);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,statement,resultSet);
-        }
-    }
-}
-</code></pre>
-<ol start="3">
-<li>修改</li>
-</ol>
-<pre><code>package com.deng.day01;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class JDBCupdate {
-    public static void main(String[] args) {
-        Connection connection=null;
-        Statement statement=null;
-        ResultSet resultSet=null;
-        try {
-            connection= jdbcutils.getConnection();
-            statement=connection.createStatement();
-            String string=&quot;UPDATE  student SET password='123456' WHERE StudentName='大哥'&quot;;
-            int i=statement.executeUpdate(string);
-            if (i&gt;0)
-            {
-                System.out.println(&quot;修改语句成功&quot;);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,statement,resultSet);
-        }
-    }
-}
-</code></pre>
-<h1 id="查询select用executequery">查询（select）用：executeQuery</h1>
-<pre><code>package com.deng.day01;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class JDBCselect {
-    public static void main(String[] args) {
-        Connection connection=null;
-        Statement statement=null;
-        ResultSet resultSet=null;
-        try {
-            connection= jdbcutils.getConnection();
-            statement=connection.createStatement();
-            String string=&quot;SELECT * FROM student&quot;;
-          resultSet=statement.executeQuery(string);
-            while (resultSet.next())
-            {
-                System.out.println(&quot;studentNo=&quot;+resultSet.getObject(&quot;studentNo&quot;));
-                System.out.println(&quot;studentName=&quot;+resultSet.getObject(&quot;studentName&quot;));
-                System.out.println(&quot;Sex=&quot;+resultSet.getObject(&quot;Sex&quot;));
-                System.out.println(&quot;password=&quot;+resultSet.getObject(&quot;password&quot;));
-
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            jdbcutils.release(connection,statement,resultSet);
-        }
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JDBC中对象的解释]]></title>
-        <id>https://2651560750.github.io/post/jdbc-zhong-dui-xiang-de-jie-shi/</id>
-        <link href="https://2651560750.github.io/post/jdbc-zhong-dui-xiang-de-jie-shi/">
-        </link>
-        <updated>2021-04-01T11:53:50.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="加载驱动">加载驱动</h1>
-<pre><code>String JDBC_DRIVER = &quot;com.mysql.cj.jdbc.Driver&quot;;
-Class.forName(JDBC_DRIVER);//固定写法，加载驱动
-</code></pre>
-<h1 id="url">URL</h1>
-<p>协议：jdbc:mysql://主机地址：端口号/数据库名？参数1&amp;参数2&amp;参数3</p>
-<pre><code> String DB_URL = &quot;jdbc:mysql://localhost:3306/test?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&quot;;
-</code></pre>
-<h1 id="数据库名和密码">数据库名和密码</h1>
-<pre><code> String USER = &quot;root&quot;;
-String PASS = &quot;2001526dbdsg&quot;;
-</code></pre>
-<h1 id="数据库连接">数据库连接</h1>
-<pre><code>       Connection connection= DriverManager.getConnection(DB_URL,USER,PASS);
-</code></pre>
-<h1 id="执行sql的对象statement">执行SQL的对象statement</h1>
-<pre><code>Statement statement=connection.createStatement();
-</code></pre>
-<p>String sql=&quot; SELECT * FROM student&quot;;//编写SQL语句之后传给statement对象执行<br>
-statement.executeQuery();<br>
-statement.execute();<br>
-statement.executeUpdate();</p>
-<h1 id="resultset查询的结果集封装了所有的查询结果">ResultSet查询的结果集:封装了所有的查询结果</h1>
-<p>获得指定的数据类型</p>
-<pre><code>resultset.getobject（）//在不知道列类型的情况下使用
-resultset.getstring（）//如果知道列的类型就使用指定的类型
-resultset.getInt（）
-resultset.getFloat（）
-resultset.getDate（）
- resultset.getobject（）
-</code></pre>
-<h1 id="遍历指针">遍历，指针</h1>
-<pre><code>resultset.beforeFirst();/移动到最前面
-resultset.afterLast(); //移动到最后面
-resultset.next();//移动到下一个数据
-resultset.previous();//移动到前一行
-resultset.absolute(row);//移动到指定行
-</code></pre>
-<h1 id="释放资源">释放资源</h1>
-<pre><code>resultSet.close();
-statement.close();
-connection.close();
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[数据库学习之三大范式]]></title>
-        <id>https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-san-da-fan-shi/</id>
-        <link href="https://2651560750.github.io/post/shu-ju-ku-xue-xi-zhi-san-da-fan-shi/">
-        </link>
-        <updated>2021-04-01T11:37:03.000Z</updated>
-        <content type="html"><![CDATA[<p>为什么需要数据规范化?<br>
-信息重复<br>
-更新异常：无法正常显示信息删除异常<br>
-插入异常：丢失有效的信息</p>
-<h1 id="第一范式确保每列保持原子性">第一范式(确保每列保持原子性)</h1>
-<p>第一范式是最基本的范式。如果数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。</p>
-<p>第一范式的合理遵循需要根据系统的实际需求来定。比如某些数据库系统中需要用到“地址”这个属性，本来直接将“地址”属性设计成一个数据库表的字段就行。但是如果系统经常会访问“地址”属性中的“城市”部分，那么就非要将“地址”这个属性重新拆分为省份、城市、详细地址等多个部分进行存储，这样在对地址中某一部分操作的时候将非常方便。这样设计才算满足了数据库的第一范式，如下表所示。</p>
-<p>https://pic002.cnblogs.com/images/2012/270324/2012040114023352.png</p>
-<h1 id="第二范式确保表中的每列都和主键相关">第二范式(确保表中的每列都和主键相关)</h1>
-<p>第二范式在第一范式的基础之上更进一层。第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。</p>
-<p>比如要设计一个订单信息表，因为订单中可能会有多种商品，所以要将订单编号和商品编号作为数据库表的联合主键，如下表所示。</p>
-<p>订单信息表<br>
-https://pic002.cnblogs.com/images/2012/270324/2012040114063976.png<br>
-这样就产生一个问题：这个表中是以订单编号和商品编号作为联合主键。这样在该表中商品名称、单位、商品价格等信息不与该表的主键相关，而仅仅是与商品编号相关。所以在这里违反了第二范式的设计原则。</p>
-<p>而如果把这个订单信息表进行拆分，把商品信息分离到另一个表中，把订单项目表也分离到另一个表中，就非常完美了。如下所示。<br>
-https://pic002.cnblogs.com/images/2012/270324/2012040114082156.png<br>
-这样设计，在很大程度上减小了数据库的冗余。如果要获取订单的商品信息，使用商品编号到商品信息表中查询即可。</p>
-<h1 id="第三范式确保每列都和主键列直接相关而不是间接相关">第三范式(确保每列都和主键列直接相关,而不是间接相关)</h1>
-<p>第三范式需要确保数据表中的每一列数据都和主键直接相关，而不能间接相关。</p>
-<p>比如在设计一个订单数据表的时候，可以将客户编号作为一个外键和订单表建立相应的关系。而不可以在订单表中添加关于客户其它信息（比如姓名、所属公司等）的字段。如下面这两个表所示的设计就是一个满足第三范式的数据库表。<br>
-https://pic002.cnblogs.com/images/2012/270324/2012040114105477.png<br>
-这样在查询订单信息的时候，就可以使用客户编号来引用客户信息表中的记录，也不必在订单信息表中多次输入客户信息的内容，减小了数据冗余。</p>
-<h1 id="规范性和性能的问题">规范性和性能的问题</h1>
-<p>关联查询的表不得超过三张表<br>
-。考虑商业化的需求和目标，(成本，用户体验!)数据库的性能更加重要·在规范性能的问题的时候，需要适当的考虑一下规范性!<br>
-·故意给某些表增加一些冗余的字段。(从多表查询中变为单表查询)·故意增加一些计算列(从大数据量降低为小数据量的查询:索引)</p>
 ]]></content>
     </entry>
 </feed>

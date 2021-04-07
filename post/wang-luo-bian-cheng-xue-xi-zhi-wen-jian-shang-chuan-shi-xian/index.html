@@ -1,0 +1,251 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>网络编程学习之文件上传实现 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617796965454">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="网络编程学习之文件上传实现 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="服务端
+package com.deng.pojo;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPser..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617796965454" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              网络编程学习之文件上传实现
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-06
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="服务端">服务端</h1>
+<pre><code>package com.deng.pojo;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPserver02 {
+    public static void main(String[] args) throws Exception {
+        //创建一个服务
+        ServerSocket serverSocket = new ServerSocket(9000);
+        //监听接受客户端的连接
+        Socket socket = serverSocket.accept();
+        //获取输入流
+        InputStream inputStream = socket.getInputStream();
+        //文件输出
+        FileOutputStream fileOutputStream = new FileOutputStream(new File(&quot;1.jpg&quot;));
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            fileOutputStream.write(buffer, 0, len);
+        }
+        //通知客户端我接收完毕
+        OutputStream outputStream1 = socket.getOutputStream();
+        outputStream1.write(&quot;我接受完毕了，你可以断开了&quot;.getBytes());
+        socket.close();
+        serverSocket.close();
+        inputStream.close();
+        fileOutputStream.close();
+    }
+}
+</code></pre>
+<h1 id="客户端">客户端</h1>
+<pre><code>package com.deng.pojo;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TPCclient02 {
+    public static void main(String[] args) throws Exception {
+        //创建一个Socket连接器
+        InetAddress inetAddress = InetAddress.getByName(&quot;127.0.0.1&quot;);
+        Socket socket = new Socket(inetAddress, 9000);
+        //创建一个输出流
+        OutputStream outputStream = socket.getOutputStream();
+        //读取文件
+        FileInputStream fileInputStream = new FileInputStream(new File(&quot;屏幕截图 2021-04-05 220249.png&quot;));
+        //写出文件
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = fileInputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, len);
+        }
+        //通知服务器我已经接收完了
+        socket.shutdownOutput();
+        //确定服务器接收完，我才断开
+        InputStream inputStream1 = socket.getInputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer01 = new byte[1024];
+        int len01;
+        while ((len01 = inputStream1.read(buffer01)) != -1) {
+            byteArrayOutputStream.write(buffer01, 0, len01);
+        }
+        System.out.println(byteArrayOutputStream.toString());
+        byteArrayOutputStream.close();
+        //关闭资源
+        socket.close();
+        outputStream.close();
+        fileInputStream.close();
+    }
+}
+
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF">服务端</a></li>
+<li><a href="#%E5%AE%A2%E6%88%B7%E7%AB%AF">客户端</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-tcp-shi-xian-liao-tian/">
+              <h3 class="post-title">
+                网络编程学习之TCP实现聊天
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

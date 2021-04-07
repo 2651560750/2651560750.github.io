@@ -1,0 +1,202 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>多线程学习之通信协议 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1617796965454">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="多线程学习之通信协议 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="通信协议的定义和分类!
+协议:约定，就好比我们现在说的是普通话。
+网络通信协议:速率，传输码率，代码结构，传输控制.….问题:非常的复杂?
+大事化小:分层!
+TCP/IP协议簇:实际上是一组协议重要:
+· TCP:用户传输协议.
+UDP∶用..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1617796965454" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              多线程学习之通信协议
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-06
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="通信协议的定义和分类">通信协议的定义和分类!</h1>
+<p>协议:约定，就好比我们现在说的是普通话。<br>
+网络通信协议:速率，传输码率，代码结构，传输控制.….问题:非常的复杂?<br>
+大事化小:分层!<br>
+TCP/IP协议簇:实际上是一组协议重要:<br>
+· TCP:用户传输协议.<br>
+UDP∶用户数据报协议<br>
+出名的协议:<br>
+TCP:<br>
+· IP: 网络互连协议<br>
+<img src="https://2651560750.github.io/post-images/1617710086286.png" alt="" loading="lazy"></p>
+<h1 id="tcp-udp-对比tcp">TCP udp 对比TCP:</h1>
+<p>打电话·连接，稳定·三次握手四次挥手<br>
+最少需要三次，保证稳定连接!</p>
+<pre><code>A:你瞅啥?
+B:瞅你咋地?
+A:干一场!
+A:我要走了!
+B:我真的要走了吗?
+B:你真的真的要走了吗?
+A:我的真的要走了!
+</code></pre>
+<p>·客户端、服务端<br>
+·传输完成，释放连接，效率低<br>
+UDP:发短信<br>
+·不连接，不稳定<br>
+·客户端、服务端:没有明确的界限<br>
+·不管有没有准备好，都可以发给你..</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB">通信协议的定义和分类!</a></li>
+<li><a href="#tcp-udp-%E5%AF%B9%E6%AF%94tcp">TCP udp 对比TCP:</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-port-duan-kou/">
+              <h3 class="post-title">
+                网络编程学习之port端口
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
