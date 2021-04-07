@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-04-07T12:04:54.795Z</updated>
+    <updated>2021-04-07T12:41:07.985Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[网络编程学习之URL下载网络资源]]></title>
+        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-url-xia-zai-wang-luo-zi-yuan/</id>
+        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-url-xia-zai-wang-luo-zi-yuan/">
+        </link>
+        <updated>2021-04-07T12:05:05.000Z</updated>
+        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617799257161.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[网络编程学习之多线程在线质询]]></title>
         <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-duo-xian-cheng-zai-xian-zhi-xun/</id>
@@ -590,15 +599,6 @@ public class TestAddress {
 。IP和端口号IP.<br>
 。网络通信协议udp, tcp<br>
 3.万物皆对象</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多线程学习之线程池]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-chi/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-xian-cheng-chi/">
-        </link>
-        <updated>2021-04-05T14:04:42.000Z</updated>
-        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617631500522.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
