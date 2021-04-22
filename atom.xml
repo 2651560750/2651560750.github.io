@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-04-15T12:01:17.826Z</updated>
+    <updated>2021-04-22T12:56:33.380Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,532 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[MyBatis学习之配置解析]]></title>
+        <id>https://2651560750.github.io/post/mybatis-xue-xi-zhi-pei-zhi-jie-xi/</id>
+        <link href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-pei-zhi-jie-xi/">
+        </link>
+        <updated>2021-04-20T11:16:18.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1核心配置文件">1核心配置文件</h1>
+<p>mybatis-config.xml</p>
+<p>MyBatis 的配置文件包含了会深深影响 MyBatis 行为的设置和属性信息。 配置文档的顶层结构如下：</p>
+<pre><code>configuration（配置）
+properties（属性）
+settings（设置）
+typeAliases（类型别名）
+typeHandlers（类型处理器）
+objectFactory（对象工厂）
+plugins（插件）
+environments（环境配置）
+environment（环境变量）
+transactionManager（事务管理器）
+dataSource（数据源）
+databaseIdProvider（数据库厂商标识）
+mappers（映射器）
+</code></pre>
+<h1 id="2-环境配置environments">2、环境配置（environments）</h1>
+<p>MyBatis 可以配置成适应多种环境</p>
+<p>不过要记住：尽管可以配置多个环境，但每个 SqlSessionFactory 实例只能选择一种环境。</p>
+<p>学会使用配置多套运行环境</p>
+<p>Mybatis的默认事务管理器就是JDBC，连接池：POOLED</p>
+<h1 id="3-属性properties">3、属性（properties）</h1>
+<p>我们可以通过properties属性来实现应用配置文件</p>
+<p>这些属性可以在外部进行配置，并可以进行动态替换。既可以在典型的 Java 属性文件中配置这些属性，也可以在 properties 元素的子元素中设置。【db.propertis】</p>
+<p>编写一个配置文件<br>
+db.properties</p>
+<p>driver=com.mysql.jdbc.Driver<br>
+url=jdbc:mysql://localhost:3306/mybatis?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8<br>
+username=root<br>
+password=root<br>
+在核心配置文件中引入</p>
+<!--引入外部配置文件-->
+<properties resource="db.properties">
+    <property name="username" value="root"/>
+    <property name="password" value="root"/>
+</properties>
+<p>可以直接引入外部文件</p>
+<p>可以在其中增加一些属性配置</p>
+<p>如果两个文件有同一个字段，优先使用外部配置</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MyBatis学习之配置优化解析]]></title>
+        <id>https://2651560750.github.io/post/mybatis-xue-xi-zhi-pei-zhi-you-hua-jie-xi/</id>
+        <link href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-pei-zhi-you-hua-jie-xi/">
+        </link>
+        <updated>2021-04-20T11:16:18.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1核心配置文件">1核心配置文件</h1>
+<p>mybatis-config.xml</p>
+<p>MyBatis 的配置文件包含了会深深影响 MyBatis 行为的设置和属性信息。 配置文档的顶层结构如下：</p>
+<pre><code>configuration（配置）
+properties（属性）
+settings（设置）
+typeAliases（类型别名）
+typeHandlers（类型处理器）
+objectFactory（对象工厂）
+plugins（插件）
+environments（环境配置）
+environment（环境变量）
+transactionManager（事务管理器）
+dataSource（数据源）
+databaseIdProvider（数据库厂商标识）
+mappers（映射器）
+</code></pre>
+<h1 id="2-环境配置environments">2、环境配置（environments）</h1>
+<p>MyBatis 可以配置成适应多种环境</p>
+<p>不过要记住：尽管可以配置多个环境，但每个 SqlSessionFactory 实例只能选择一种环境。</p>
+<p>学会使用配置多套运行环境</p>
+<p>Mybatis的默认事务管理器就是JDBC，连接池：POOLED</p>
+<h1 id="3-属性properties">3、属性（properties）</h1>
+<p>我们可以通过properties属性来实现应用配置文件</p>
+<p>这些属性可以在外部进行配置，并可以进行动态替换。既可以在典型的 Java 属性文件中配置这些属性，也可以在 properties 元素的子元素中设置。【db.propertis】</p>
+<p>编写一个配置文件<br>
+db.properties</p>
+<p>driver=com.mysql.jdbc.Driver<br>
+url=jdbc:mysql://localhost:3306/mybatis?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8<br>
+username=root<br>
+password=root<br>
+在核心配置文件中引入</p>
+<!--引入外部配置文件-->
+<properties resource="db.properties">
+    <property name="username" value="root"/>
+    <property name="password" value="root"/>
+</properties>
+<p>可以直接引入外部文件</p>
+<p>可以在其中增加一些属性配置</p>
+<p>如果两个文件有同一个字段，优先使用外部配置</p>
+<h1 id="注意在properties文件中的url路径符号后面不需要加上apm">注意，在properties文件中的url路径&amp;符号后面不需要加上apm;</h1>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MyBatis学习之王能的Map]]></title>
+        <id>https://2651560750.github.io/post/mybatis-xue-xi-zhi-wang-neng-de-map/</id>
+        <link href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-wang-neng-de-map/">
+        </link>
+        <updated>2021-04-20T10:49:31.000Z</updated>
+        <content type="html"><![CDATA[<p>//万能的Map<br>
+User addUser2(Map&lt;String,Object&gt; map);</p>
+<!--传递map的key-->
+<insert id="addUser" parameterType="map">
+    insert into mybatis.user (id,name,pwd) values (#{userid},#{userName},#{passWord})
+</insert>
+Map传递参数,直接在sql中取出key即可 【parameterType=“Map”】
+<p>对象传递参数,直接在sql取对象的属性即可【parameterType=“Object”】</p>
+<p>只有一个基本类型参数的情况下,可以直接在sql中取到</p>
+<p>多个参数使用Map，或者注解<br>
+模糊查询怎么写？</p>
+<p>Java代码执行的时候，传递通配符% %</p>
+<p>List<User> userList = mapper.getUserLike(&quot;%小%&quot;);</p>
+<p>在sql拼接中使用通配符</p>
+<p>select * from user where name like &quot;%&quot;#{value}&quot;%&quot;</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MyBatis学习之第一个MyBatis程序]]></title>
+        <id>https://2651560750.github.io/post/mybatis-xue-xi-zhi-di-yi-ge-mybatis-cheng-xu/</id>
+        <link href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-di-yi-ge-mybatis-cheng-xu/">
+        </link>
+        <updated>2021-04-19T12:14:01.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="创建数据库">创建数据库</h1>
+<pre><code class="language-SET">-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `pwd` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('8130310', '邓贝', '123456');
+INSERT INTO `user` VALUES ('8130311', '岁东航', '234567');
+INSERT INTO `user` VALUES ('8130312', '黄哲浩', '345678');
+</code></pre>
+<h1 id="新建项目">新建项目</h1>
+<ol>
+<li>新建一个Maven项目</li>
+<li>删除src</li>
+<li>导入依赖</li>
+</ol>
+<pre><code>  &lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;8.0.23&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+        &lt;version&gt;3.5.6&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;junit&lt;/groupId&gt;
+        &lt;artifactId&gt;junit&lt;/artifactId&gt;
+        &lt;version&gt;4.12&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<ol start="4">
+<li>配置xml文件</li>
+</ol>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF8&quot; ?&gt;
+&lt;!DOCTYPE configuration
+       PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+       &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+   &lt;environments default=&quot;development&quot;&gt;
+       &lt;environment id=&quot;development&quot;&gt;
+           &lt;transactionManager type=&quot;JDBC&quot;/&gt;
+           &lt;dataSource type=&quot;POOLED&quot;&gt;
+               &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+               &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatis?useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;serverTimezone=GMT&amp;amp;nullCatalogMeansCurrent = true&amp;amp;useSSL=true&quot;/&gt;
+               &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+               &lt;property name=&quot;password&quot; value=&quot;2001526dbdsg&quot;/&gt;
+
+           &lt;/dataSource&gt;
+       &lt;/environment&gt;
+   &lt;/environments&gt;
+   &lt;mappers&gt;
+       &lt;mapper resource=&quot;com/deng/Dao/UserDao.xml&quot;/&gt;
+   &lt;/mappers&gt;
+&lt;/configuration&gt;
+</code></pre>
+<ol start="5">
+<li>编写JAVA工具类</li>
+</ol>
+<pre><code>package com.deng.Util;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class MybatisUtil {
+    private static SqlSessionFactory sqlSessionFactory;
+    static {
+        try {
+            String resource = &quot;mybatis.xml&quot;;
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+           sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static SqlSession getSqlSession() {
+
+        return sqlSessionFactory.openSession();
+    }
+}
+
+</code></pre>
+<ol start="6">
+<li>编写实体类</li>
+</ol>
+<pre><code>package com.deng.pojo;
+
+public class User {
+    private int id;
+    private String name;
+    private int pwd;
+
+    public User() {
+    }
+
+    public User(int id, String name, int pwd) {
+        this.id = id;
+        this.name = name;
+        this.pwd = pwd;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPassword() {
+        return pwd;
+    }
+
+    public void setPassword(int pwd) {
+        this.pwd = pwd;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User{&quot; +
+                &quot;id=&quot; + id +
+                &quot;, name='&quot; + name + '\'' +
+                &quot;, password=&quot; + pwd +
+                '}';
+    }
+}
+
+</code></pre>
+<ol start="7">
+<li>Dao接口</li>
+</ol>
+<pre><code>package com.deng.Dao;
+
+import com.deng.pojo.User;
+
+import java.util.List;
+
+public interface UserDao {
+    List&lt;User&gt; getUserList();
+    User getUserById(int id);
+}
+</code></pre>
+<ol start="8">
+<li>实现类接口由Userimpl转变为xml的配置文件</li>
+</ol>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.deng.Dao.UserDao&quot;&gt;
+&lt;!--    打卡搜破--&gt;
+&lt;select id=&quot;getUserList&quot; resultType=&quot;com.deng.pojo.User&quot;&gt;
+    select * from mybatis.user
+&lt;/select&gt;
+    &lt;select id=&quot;getUserById&quot; resultType=&quot;com.deng.pojo.User&quot;&gt;
+    select * from mybatis.user where id=#{id}
+&lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<ol start="9">
+<li>测试类</li>
+</ol>
+<pre><code>package com.deng.Dao;
+
+import com.deng.Util.MybatisUtil;
+import com.deng.pojo.User;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Test;
+
+import java.util.List;
+
+public class UserDaoTest {
+    @Test
+    public void test(){
+//        获取SqlSession对象
+        SqlSession sqlSession= MybatisUtil.getSqlSession();
+//        执行SQL语句
+      UserDao userDao= sqlSession.getMapper(UserDao.class);
+        List&lt;User&gt; userList= userDao.getUserList();
+        for (User user : userList) {
+            System.out.println(user);
+        }
+        sqlSession.close();
+    }
+    @Test
+    public void getUserById(){
+        //        获取SqlSession对象
+        SqlSession sqlSession= MybatisUtil.getSqlSession();
+//        执行SQL语句
+        UserDao userDao= sqlSession.getMapper(UserDao.class);
+        User user= userDao.getUserById(1);
+        System.out.println(user);
+    }
+}
+</code></pre>
+<ol start="10">
+<li>资源导出</li>
+</ol>
+<pre><code>  &lt;build&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.properties&lt;/include&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;
+            &lt;/resource&gt;
+
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/java&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.poroperties&lt;/include&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+&lt;/build&gt;
+</code></pre>
+<h1 id="注意想要xml文件中实现中文注解要将开头的utf-8改为utf8遇到输出时字段缺少是数据库中字段定义出现问题">注意***想要xml文件中实现中文注解，要将开头的UTF-8改为UTF8,遇到输出时字段缺少，是数据库中字段定义出现问题！！！</h1>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MyBatis学习之简介]]></title>
+        <id>https://2651560750.github.io/post/mybatis-xue-xi-zhi-jian-jie/</id>
+        <link href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-jian-jie/">
+        </link>
+        <updated>2021-04-19T11:43:10.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="什么是mybatis">什么是MyBatis</h1>
+<p>. MyBatis是一款优秀的持久层框架<br>
+·它支持定制化SQL、存储过程以及高级映射。<br>
+·MyBatis 避免了几乎所有的JDBC代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的XML或注解来配置和映射原生类型、接口和Java的POJO (Plain Old Java Objects，普通老式Java对象）为数据库中的记录。</p>
+<h1 id="怎么找到mybatis">怎么找到MyBatis</h1>
+<ol>
+<li>Maven仓库</li>
+</ol>
+<pre><code class="language-&lt;dependency&gt;">  &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+  &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+  &lt;version&gt;3.5.6&lt;/version&gt;
+&lt;/dependency&gt;````
+2. github: https://github.com/mybatis/mybatis-3/releases
+3. 中文文档：https://mybatis.org/mybatis-3/zh/getting-started.html
+# 持久化
+数据持久化
+·持久化就是将程序的数据在持久状态和瞬时状态转化的过程·内存:断电即失
+数据库(Jdbc)，io文件持久化。
+·生活:冷藏.罐头。
+为什么需要需要持久化?
+·有一些对象，不能让他丢掉。
+·内存太贵了
+# 持久层
+Dao层，Service层，Controller层.....
+完成持久化工作的代码块
+·层界限十分明显。
+# 为什么需要Mybatis?
+帮助程序猿将数据存入到数据库中。
+·方便 传统的JDBC代码太复杂了。简化。框架。自动化。
+不用Mybatis也可以。更容易上手。
+技术没有高低之分
+# 优点:
+。简单易学。灵活
+。 sql和代码的分离，提高了可维护性。
+。提供映射标签，支持对象与数据库的orm字段关系映射
+。提供对象关系映射标签，支持对象关系组建维护
+。提供xml标签，支持编写动态sql。
+最重要的一点:使用的人多!
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaWeb学习之Maven环境搭建]]></title>
+        <id>https://2651560750.github.io/post/javaweb-xue-xi-zhi-maven-huan-jing-da-jian/</id>
+        <link href="https://2651560750.github.io/post/javaweb-xue-xi-zhi-maven-huan-jing-da-jian/">
+        </link>
+        <updated>2021-04-15T12:26:58.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="我为什么要学习这个技术">我为什么要学习这个技术?</h1>
+<p>1.在Javaweb开发中，需要使用大量的jar包，我们手动去导入;2.如何能够让一个东西自动帮我导入和配置这个jar包。<br>
+由此，Maven诞生了!</p>
+<h1 id="maven项目架构管理工具">Maven项目架构管理工具</h1>
+<p>我们目前用来就是方便导入jar包的!<br>
+Maven的核心思想:约定大于配置。<br>
+有约束，不要去违反。<br>
+Maven会规定好你该如何去编写我们的Java代码，必须要按照这个规范来;</p>
+<h1 id="下载安装maven">下载安装Maven</h1>
+<ol>
+<li>官网：http://maven.apache.org/</li>
+<li><img src="https://2651560750.github.io/post-images/1618489980870.png" alt="" loading="lazy"></li>
+<li><img src="https://2651560750.github.io/post-images/1618491668582.png" alt="" loading="lazy"></li>
+<li><img src="https://2651560750.github.io/post-images/1618491697934.png" alt="" loading="lazy"></li>
+<li><img src="https://2651560750.github.io/post-images/1618491730985.png" alt="" loading="lazy"></li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaWeb学习之HTTP协议]]></title>
+        <id>https://2651560750.github.io/post/javaweb-xue-xi-zhi-http-xie-yi/</id>
+        <link href="https://2651560750.github.io/post/javaweb-xue-xi-zhi-http-xie-yi/">
+        </link>
+        <updated>2021-04-15T12:01:28.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="什么是http">什么是HTTP</h1>
+<p>HTTP(超文本传输协议）是一个简单的请求-响应协议，它通常运行在TCP之上。<br>
+·文本: html，字符串，~……<br>
+·超文本:图片，音乐，视频，定位，地图.......<br>
+·80<br>
+Https:安全的.<br>
+443</p>
+<h1 id="两个时代">两个时代.</h1>
+<p>·http1.0<br>
+HTTP/1.0:客户端可以与web服务器连接后，只能获得一个web资源，断开连接<br>
+. http2.0<br>
+HTTP/1.1:客户端可以与web服务器连接后，可以获得多个web资源。</p>
+<h1 id="http请求">HTTP请求</h1>
+<p>客户端----请求---服务器<br>
+百度为例</p>
+<pre><code>1Request URL:https : / /www.baidu . com/请求地址
+2Request Method:GETget方法/post方法
+3status code : 200 oK状态码: 200
+4Remote（远程)Address : 14.215.177.39:443
+
+1Accept:text/htm1
+2Accept-Encoding: gzip， def1ate，br
+3Accept-Language :zh-CN ,zh ; q=0.9语言
+4cache-contro1 : max-age=O
+5 connection : keep-alive
+</code></pre>
+<p>1、请求行<br>
+·请求行中的请求方式: GET<br>
+·请求方式: Get，Post，HEAD,DELETE,PUT,TRACT...</p>
+<ul>
+<li>get:请求能够携带的参数比较少，大小有限制，会在浏览器的URL地址栏显示数据内容，不安全，但高效</li>
+<li>post:请求能够携带的参数没有限制，大小没有限制，不会在浏览器的URL地址栏显示数据内容，安全，但不高效</li>
+</ul>
+<ol start="2">
+<li>消息头<br>
+Accept:告诉浏览器，它所支持的数据类型<br>
+Accept-Encoding:支持哪种编码格式GBK UTF-8 GB2312 IS08859-1<br>
+Accept-Language:告诉浏览器，它的语言环境<br>
+cache-control:缓存控制<br>
+Connection:告诉浏览器，请求完成是断开还是保持连接HOST:主机..../.</li>
+</ol>
+<h1 id="http响应">HTTP响应</h1>
+<p>服务器---响应---客户端<br>
+百度为例</p>
+<pre><code>Cache-control:private
+缓存控制
+connection:Keep-A1ive
+连接
+Content-Encoding:gzip
+编码
+content-Type :text/htm1
+类型
+</code></pre>
+<ol>
+<li>响应体<br>
+Accept:告诉浏览器，它所支持的数据类型<br>
+Accept-Encoding:支持哪种编码格式GBK UTF-8 GB2312 IS08859-1<br>
+Accept-Language:告诉浏览器，它的语言环境<br>
+cache-control:缓存控制<br>
+Connection:告诉浏览器，请求完成是断开还是保持连接HOST:主机..../.<br>
+Reflush：告诉客户网页多久刷新一次<br>
+Location：让网页重新定位<br>
+2、响应状态码<br>
+200:请求响应成功200<br>
+3xx:请求重定向<br>
+重定向:你重新到我给你新位置去;<br>
+4xx:找不到资源404<br>
+资源不存在;<br>
+5xx:服务器代码错误500<br>
+502:<br>
+网关错误</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[JavaWeb学习之Tomcat服务器详解]]></title>
         <id>https://2651560750.github.io/post/javaweb-xue-xi-zhi-tomcat-fu-wu-qi-xiang-jie/</id>
@@ -76,533 +602,6 @@ Tomcat 实际上运行S页面和Servlet。 Tomcat最新版本为9.0。</p>
 <p>请求和响应是成对出现的，有请求就一定有响应。<br>
 <img src="https://2651560750.github.io/post-images/1618402769615.png" alt="" loading="lazy"><br>
 <img src="https://2651560750.github.io/post-images/1618404995702.png" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网络编程学习之URL下载网络资源]]></title>
-        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-url-xia-zai-wang-luo-zi-yuan/</id>
-        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-url-xia-zai-wang-luo-zi-yuan/">
-        </link>
-        <updated>2021-04-07T12:05:05.000Z</updated>
-        <content type="html"><![CDATA[<pre><code>package com.deng.URL01;
-
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-public class Urldown {
-    public static void main(String[] args) throws Exception {
-        URL url=new URL(&quot;https://th.bing.com/th/id/Rde1bdc82f8063c8df1b62a686c12042d?rik=PNiygsObQkS7hw&amp;riu=http%3a%2f%2fimage.photocnc.com%2fphotocnc%2f2020-06%2f29%2f202006290131193f0894ee4d24494d61d50a61a3c0ef49.jpg.w1680.jpg&amp;ehk=vlDDobgu9MW4%2f9CP8wP%2bTxuJ5%2fJ6S7HY%2faTAUy1%2beaQ%3d&amp;risl=&amp;pid=ImgRaw&quot;);
-        HttpURLConnection urlConnection=(HttpURLConnection) url.openConnection();
-        InputStream inputStream=urlConnection.getInputStream();
-        FileOutputStream fos=new FileOutputStream(&quot;yilishabais.jpg&quot;);
-        byte[] buffer=new byte[1024];
-        int len;
-        while ((len=inputStream.read(buffer))!=-1)
-        {
-            fos.write(buffer,0,len);
-        }
-        fos.close();
-        inputStream.close();
-        urlConnection.disconnect();
-    }
-}
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://2651560750.github.io/post-images/1617799257161.png" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网络编程学习之多线程在线质询]]></title>
-        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-duo-xian-cheng-zai-xian-zhi-xun/</id>
-        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-duo-xian-cheng-zai-xian-zhi-xun/">
-        </link>
-        <updated>2021-04-07T11:21:04.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="发信息">发信息</h1>
-<pre><code>package com.deng.Talk;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.SocketException;
-
-public class TalkSend implements Runnable{
-    DatagramSocket socket=null;
-    BufferedReader reader=null;
-    private int fromport;
-    private String toip;
-    private int toport;
-
-    public TalkSend(int fromport, String toip, int toport) {
-        this.fromport = fromport;
-        this.toip = toip;
-        this.toport = toport;
-        try {
-            socket=new DatagramSocket(fromport);
-            reader=new BufferedReader(new InputStreamReader(System.in));
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        while (true)
-        {
-            try {
-                String string=reader.readLine();
-                byte[] buffer=string.getBytes();
-                DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length,new InetSocketAddress(this.toip,this.toport));
-                socket.send(datagramPacket);
-                if (string.equals(&quot;bye&quot;))
-                {
-                    break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        socket.close();
-    }
-}
-</code></pre>
-<h1 id="收信息">收信息</h1>
-<pre><code>package com.deng.Talk;
-
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
-
-public class Talkreceive implements Runnable{
-    DatagramSocket socket=null;
-    private int port;
-private String fromstring;
-    public Talkreceive(int port,String fromstring) {
-        this.port = port;
-        this.fromstring=fromstring;
-        try {
-            socket=new DatagramSocket(port);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        while (true)
-        {
-            try {
-                byte[] buffer=new byte[1024];
-                DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length);
-                socket.receive(datagramPacket);
-                byte[] data=datagramPacket.getData();
-                String string=new String(data,0,data.length);
-                System.out.println(fromstring+&quot;: &quot;+string);
-                if (string.equals(&quot;bye&quot;))
-                {
-                    break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        socket.close();
-    }
-}
-</code></pre>
-<h1 id="同学和老师同时开启两条线程">同学和老师同时开启两条线程</h1>
-<p>同学:</p>
-<pre><code>package com.deng.Talk;
-
-public class TalkStudent {
-    public static void main(String[] args) {
-        new Thread(new TalkSend(7777,&quot;localhost&quot;,9999)).start();
-        new Thread(new Talkreceive(8888,&quot;老师&quot;)).start();
-    }
-}
-</code></pre>
-<p>老师：</p>
-<pre><code>package com.deng.Talk;
-
-public class TalkTeacher {
-    public static void main(String[] args) {
-        new Thread(new TalkSend(6666,&quot;localhost&quot;,8888)).start();
-        new Thread(new Talkreceive(9999,&quot;学生&quot;)).start();
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网络编程学习之使用UDP实现聊天]]></title>
-        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-shi-yong-udp-shi-xian-liao-tian/</id>
-        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-shi-yong-udp-shi-xian-liao-tian/">
-        </link>
-        <updated>2021-04-07T10:55:28.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="循环发送消息">循环发送消息</h1>
-<pre><code>package com.deng.pojo03;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
-
-public class UDPsender01 {
-    public static void main(String[] args) throws Exception {
-        DatagramSocket socket=new DatagramSocket(9999);
-        BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
-        while (true)
-        {
-            String string=reader.readLine();
-            byte[] buffer=string.getBytes();
-            DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length,new InetSocketAddress(&quot;localhost&quot;,8888));
-            socket.send(datagramPacket);
-            if (string.equals(&quot;bye&quot;))
-            {
-                break;
-            }
-        }
-
-        socket.close();
-    }
-}
-</code></pre>
-<h1 id="循环接收消息">循环接收消息</h1>
-<pre><code>package com.deng.pojo03;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.SocketException;
-
-public class UDPsender02 {
-    public static void main(String[] args) throws Exception {
-        DatagramSocket socket=new DatagramSocket(8888);
-          while (true)
-          {
-              byte[] buffer=new byte[1024];
-              DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length);
-              socket.receive(datagramPacket);
-              byte[] data=datagramPacket.getData();
-              String string=new String(data,0,data.length);
-              System.out.println(string);
-              if (string.equals(&quot;bye&quot;))
-              {
-               break;
-              }
-          }
-          socket.close();
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网络编程学习之UDP发送消息]]></title>
-        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-udp-fa-song-xiao-xi/</id>
-        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-udp-fa-song-xiao-xi/">
-        </link>
-        <updated>2021-04-07T10:27:55.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="发送信息不需要知道对方的地址">发送信息，不需要知道对方的地址</h1>
-<h1 id="客户端">客户端</h1>
-<pre><code>package com.deng.poji02;
-
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-//不需要建立连接服务器
-public class TestUDPclient01 {
-    public static void main(String[] args) throws Exception {
-        //建立一个Socket
-        DatagramSocket socket=new DatagramSocket();
-        //建立一个包
-        String string=&quot;服务器，你好啊！&quot;;
-        InetAddress inetAddress=InetAddress.getByName(&quot;localhost&quot;);
-        int port=9999;
-        //数据，数据的长度，IP地址，端口号
-        DatagramPacket datagramPacket=new DatagramPacket(string.getBytes(),0,string.getBytes().length,inetAddress,port);
-        //发送消息
-        socket.send(datagramPacket);
-        socket.close();
-    }
-}
-</code></pre>
-<h1 id="服务端">服务端</h1>
-<pre><code>package com.deng.poji02;
-
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
-//等待客户端的连接
-public class TestUDPservers {
-    public static void main(String[] args) throws Exception {
-        //建立一个Socket，开放端口
-        DatagramSocket socket=new DatagramSocket(9999);
-        //接收数据包
-        byte[] buffer=new byte[1024];
-        DatagramPacket datagramPacket=new DatagramPacket(buffer,0,buffer.length);
-        //阻塞接收
-        socket.receive(datagramPacket);
-        System.out.println(datagramPacket.getAddress().getHostName());
-        System.out.println(new String(datagramPacket.getData(),0,datagramPacket.getLength()));
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网络编程学习之文件上传实现]]></title>
-        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-wen-jian-shang-chuan-shi-xian/</id>
-        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-wen-jian-shang-chuan-shi-xian/">
-        </link>
-        <updated>2021-04-06T13:53:34.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="服务端">服务端</h1>
-<pre><code>package com.deng.pojo;
-
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-public class TCPserver02 {
-    public static void main(String[] args) throws Exception {
-        //创建一个服务
-        ServerSocket serverSocket = new ServerSocket(9000);
-        //监听接受客户端的连接
-        Socket socket = serverSocket.accept();
-        //获取输入流
-        InputStream inputStream = socket.getInputStream();
-        //文件输出
-        FileOutputStream fileOutputStream = new FileOutputStream(new File(&quot;1.jpg&quot;));
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = inputStream.read(buffer)) != -1) {
-            fileOutputStream.write(buffer, 0, len);
-        }
-        //通知客户端我接收完毕
-        OutputStream outputStream1 = socket.getOutputStream();
-        outputStream1.write(&quot;我接受完毕了，你可以断开了&quot;.getBytes());
-        socket.close();
-        serverSocket.close();
-        inputStream.close();
-        fileOutputStream.close();
-    }
-}
-</code></pre>
-<h1 id="客户端">客户端</h1>
-<pre><code>package com.deng.pojo;
-
-import java.io.*;
-import java.lang.reflect.Field;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-public class TPCclient02 {
-    public static void main(String[] args) throws Exception {
-        //创建一个Socket连接器
-        InetAddress inetAddress = InetAddress.getByName(&quot;127.0.0.1&quot;);
-        Socket socket = new Socket(inetAddress, 9000);
-        //创建一个输出流
-        OutputStream outputStream = socket.getOutputStream();
-        //读取文件
-        FileInputStream fileInputStream = new FileInputStream(new File(&quot;屏幕截图 2021-04-05 220249.png&quot;));
-        //写出文件
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = fileInputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, len);
-        }
-        //通知服务器我已经接收完了
-        socket.shutdownOutput();
-        //确定服务器接收完，我才断开
-        InputStream inputStream1 = socket.getInputStream();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer01 = new byte[1024];
-        int len01;
-        while ((len01 = inputStream1.read(buffer01)) != -1) {
-            byteArrayOutputStream.write(buffer01, 0, len01);
-        }
-        System.out.println(byteArrayOutputStream.toString());
-        byteArrayOutputStream.close();
-        //关闭资源
-        socket.close();
-        outputStream.close();
-        fileInputStream.close();
-    }
-}
-
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网络编程学习之TCP实现聊天]]></title>
-        <id>https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-tcp-shi-xian-liao-tian/</id>
-        <link href="https://2651560750.github.io/post/wang-luo-bian-cheng-xue-xi-zhi-tcp-shi-xian-liao-tian/">
-        </link>
-        <updated>2021-04-06T12:06:02.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="客户端">客户端</h1>
-<p>1.连接服务器Socket<br>
-2.发送消息<br>
-代码实现</p>
-<pre><code>package com.deng.pojo;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-public class TPCclient {
-    public static void main(String[] args) {
-        InetAddress inetAddress=null;
-        Socket socket=null;
-        OutputStream os=null;
-        try {
-             inetAddress = InetAddress.getByName(&quot;127.0.0.1&quot;);
-               int port=9999;
-             socket=new Socket(inetAddress,port);
-             os=socket.getOutputStream();
-            os.write(&quot;邓贝真他妈帅&quot;.getBytes());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
-            if (socket!=null)
-            {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (os!=null)
-            {
-                try {
-                    os.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-}
-
-</code></pre>
-<h1 id="服务器">服务器</h1>
-<p>1.建立服务的端口ServerSocket<br>
-2.等待用户的链接accept<br>
-3.接收用的消息<br>
-代码实现</p>
-<pre><code>package com.deng.pojo;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-public class TCPserver {
-    public static void main(String[] args) {
-        ServerSocket serverSocket = null;
-        Socket socket = null;
-        InputStream is = null;
-        ByteArrayOutputStream byteArrayOutputStream = null;
-        try {
-            serverSocket = new ServerSocket(9999);
-            socket = serverSocket.accept();
-            is = socket.getInputStream();
-            byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = is.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, len);
-            }
-            System.out.println(byteArrayOutputStream.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (serverSocket != null) {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (is!=null)
-            {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (byteArrayOutputStream!=null)
-            {
-                try {
-                    byteArrayOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[多线程学习之通信协议]]></title>
-        <id>https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-tong-xin-xie-yi/</id>
-        <link href="https://2651560750.github.io/post/duo-xian-cheng-xue-xi-zhi-tong-xin-xie-yi/">
-        </link>
-        <updated>2021-04-06T11:47:50.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="通信协议的定义和分类">通信协议的定义和分类!</h1>
-<p>协议:约定，就好比我们现在说的是普通话。<br>
-网络通信协议:速率，传输码率，代码结构，传输控制.….问题:非常的复杂?<br>
-大事化小:分层!<br>
-TCP/IP协议簇:实际上是一组协议重要:<br>
-· TCP:用户传输协议.<br>
-UDP∶用户数据报协议<br>
-出名的协议:<br>
-TCP:<br>
-· IP: 网络互连协议<br>
-<img src="https://2651560750.github.io/post-images/1617710086286.png" alt="" loading="lazy"></p>
-<h1 id="tcp-udp-对比tcp">TCP udp 对比TCP:</h1>
-<p>打电话·连接，稳定·三次握手四次挥手<br>
-最少需要三次，保证稳定连接!</p>
-<pre><code>A:你瞅啥?
-B:瞅你咋地?
-A:干一场!
-A:我要走了!
-B:我真的要走了吗?
-B:你真的真的要走了吗?
-A:我的真的要走了!
-</code></pre>
-<p>·客户端、服务端<br>
-·传输完成，释放连接，效率低<br>
-UDP:发短信<br>
-·不连接，不稳定<br>
-·客户端、服务端:没有明确的界限<br>
-·不管有没有准备好，都可以发给你..</p>
 ]]></content>
     </entry>
 </feed>

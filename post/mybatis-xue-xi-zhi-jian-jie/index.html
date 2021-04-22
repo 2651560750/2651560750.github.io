@@ -1,0 +1,210 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyBatis学习之简介 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1619096191129">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="MyBatis学习之简介 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="什么是MyBatis
+. MyBatis是一款优秀的持久层框架
+·它支持定制化SQL、存储过程以及高级映射。
+·MyBatis 避免了几乎所有的JDBC代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的XML或注解来配置和映射..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1619096191129" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              MyBatis学习之简介
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-19
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="什么是mybatis">什么是MyBatis</h1>
+<p>. MyBatis是一款优秀的持久层框架<br>
+·它支持定制化SQL、存储过程以及高级映射。<br>
+·MyBatis 避免了几乎所有的JDBC代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的XML或注解来配置和映射原生类型、接口和Java的POJO (Plain Old Java Objects，普通老式Java对象）为数据库中的记录。</p>
+<h1 id="怎么找到mybatis">怎么找到MyBatis</h1>
+<ol>
+<li>Maven仓库</li>
+</ol>
+<pre><code class="language-&lt;dependency&gt;">  &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+  &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+  &lt;version&gt;3.5.6&lt;/version&gt;
+&lt;/dependency&gt;````
+2. github: https://github.com/mybatis/mybatis-3/releases
+3. 中文文档：https://mybatis.org/mybatis-3/zh/getting-started.html
+# 持久化
+数据持久化
+·持久化就是将程序的数据在持久状态和瞬时状态转化的过程·内存:断电即失
+数据库(Jdbc)，io文件持久化。
+·生活:冷藏.罐头。
+为什么需要需要持久化?
+·有一些对象，不能让他丢掉。
+·内存太贵了
+# 持久层
+Dao层，Service层，Controller层.....
+完成持久化工作的代码块
+·层界限十分明显。
+# 为什么需要Mybatis?
+帮助程序猿将数据存入到数据库中。
+·方便 传统的JDBC代码太复杂了。简化。框架。自动化。
+不用Mybatis也可以。更容易上手。
+技术没有高低之分
+# 优点:
+。简单易学。灵活
+。 sql和代码的分离，提高了可维护性。
+。提供映射标签，支持对象与数据库的orm字段关系映射
+。提供对象关系映射标签，支持对象关系组建维护
+。提供xml标签，支持编写动态sql。
+最重要的一点:使用的人多!
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFmybatis">什么是MyBatis</a></li>
+<li><a href="#%E6%80%8E%E4%B9%88%E6%89%BE%E5%88%B0mybatis">怎么找到MyBatis</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/javaweb-xue-xi-zhi-maven-huan-jing-da-jian/">
+              <h3 class="post-title">
+                JavaWeb学习之Maven环境搭建
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

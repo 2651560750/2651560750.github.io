@@ -1,0 +1,420 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyBatis学习之第一个MyBatis程序 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1619096191129">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="MyBatis学习之第一个MyBatis程序 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="创建数据库
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1619096191129" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              MyBatis学习之第一个MyBatis程序
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-19
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="创建数据库">创建数据库</h1>
+<pre><code class="language-SET">-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `pwd` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('8130310', '邓贝', '123456');
+INSERT INTO `user` VALUES ('8130311', '岁东航', '234567');
+INSERT INTO `user` VALUES ('8130312', '黄哲浩', '345678');
+</code></pre>
+<h1 id="新建项目">新建项目</h1>
+<ol>
+<li>新建一个Maven项目</li>
+<li>删除src</li>
+<li>导入依赖</li>
+</ol>
+<pre><code>  &lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;8.0.23&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+        &lt;version&gt;3.5.6&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;junit&lt;/groupId&gt;
+        &lt;artifactId&gt;junit&lt;/artifactId&gt;
+        &lt;version&gt;4.12&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<ol start="4">
+<li>配置xml文件</li>
+</ol>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF8&quot; ?&gt;
+&lt;!DOCTYPE configuration
+       PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+       &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+   &lt;environments default=&quot;development&quot;&gt;
+       &lt;environment id=&quot;development&quot;&gt;
+           &lt;transactionManager type=&quot;JDBC&quot;/&gt;
+           &lt;dataSource type=&quot;POOLED&quot;&gt;
+               &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+               &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatis?useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;serverTimezone=GMT&amp;amp;nullCatalogMeansCurrent = true&amp;amp;useSSL=true&quot;/&gt;
+               &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+               &lt;property name=&quot;password&quot; value=&quot;2001526dbdsg&quot;/&gt;
+
+           &lt;/dataSource&gt;
+       &lt;/environment&gt;
+   &lt;/environments&gt;
+   &lt;mappers&gt;
+       &lt;mapper resource=&quot;com/deng/Dao/UserDao.xml&quot;/&gt;
+   &lt;/mappers&gt;
+&lt;/configuration&gt;
+</code></pre>
+<ol start="5">
+<li>编写JAVA工具类</li>
+</ol>
+<pre><code>package com.deng.Util;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class MybatisUtil {
+    private static SqlSessionFactory sqlSessionFactory;
+    static {
+        try {
+            String resource = &quot;mybatis.xml&quot;;
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+           sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static SqlSession getSqlSession() {
+
+        return sqlSessionFactory.openSession();
+    }
+}
+
+</code></pre>
+<ol start="6">
+<li>编写实体类</li>
+</ol>
+<pre><code>package com.deng.pojo;
+
+public class User {
+    private int id;
+    private String name;
+    private int pwd;
+
+    public User() {
+    }
+
+    public User(int id, String name, int pwd) {
+        this.id = id;
+        this.name = name;
+        this.pwd = pwd;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPassword() {
+        return pwd;
+    }
+
+    public void setPassword(int pwd) {
+        this.pwd = pwd;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;User{&quot; +
+                &quot;id=&quot; + id +
+                &quot;, name='&quot; + name + '\'' +
+                &quot;, password=&quot; + pwd +
+                '}';
+    }
+}
+
+</code></pre>
+<ol start="7">
+<li>Dao接口</li>
+</ol>
+<pre><code>package com.deng.Dao;
+
+import com.deng.pojo.User;
+
+import java.util.List;
+
+public interface UserDao {
+    List&lt;User&gt; getUserList();
+    User getUserById(int id);
+}
+</code></pre>
+<ol start="8">
+<li>实现类接口由Userimpl转变为xml的配置文件</li>
+</ol>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.deng.Dao.UserDao&quot;&gt;
+&lt;!--    打卡搜破--&gt;
+&lt;select id=&quot;getUserList&quot; resultType=&quot;com.deng.pojo.User&quot;&gt;
+    select * from mybatis.user
+&lt;/select&gt;
+    &lt;select id=&quot;getUserById&quot; resultType=&quot;com.deng.pojo.User&quot;&gt;
+    select * from mybatis.user where id=#{id}
+&lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<ol start="9">
+<li>测试类</li>
+</ol>
+<pre><code>package com.deng.Dao;
+
+import com.deng.Util.MybatisUtil;
+import com.deng.pojo.User;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Test;
+
+import java.util.List;
+
+public class UserDaoTest {
+    @Test
+    public void test(){
+//        获取SqlSession对象
+        SqlSession sqlSession= MybatisUtil.getSqlSession();
+//        执行SQL语句
+      UserDao userDao= sqlSession.getMapper(UserDao.class);
+        List&lt;User&gt; userList= userDao.getUserList();
+        for (User user : userList) {
+            System.out.println(user);
+        }
+        sqlSession.close();
+    }
+    @Test
+    public void getUserById(){
+        //        获取SqlSession对象
+        SqlSession sqlSession= MybatisUtil.getSqlSession();
+//        执行SQL语句
+        UserDao userDao= sqlSession.getMapper(UserDao.class);
+        User user= userDao.getUserById(1);
+        System.out.println(user);
+    }
+}
+</code></pre>
+<ol start="10">
+<li>资源导出</li>
+</ol>
+<pre><code>  &lt;build&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.properties&lt;/include&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;
+            &lt;/resource&gt;
+
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/java&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.poroperties&lt;/include&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+&lt;/build&gt;
+</code></pre>
+<h1 id="注意想要xml文件中实现中文注解要将开头的utf-8改为utf8遇到输出时字段缺少是数据库中字段定义出现问题">注意***想要xml文件中实现中文注解，要将开头的UTF-8改为UTF8,遇到输出时字段缺少，是数据库中字段定义出现问题！！！</h1>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93">创建数据库</a></li>
+<li><a href="#%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AE">新建项目</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8F%E6%83%B3%E8%A6%81xml%E6%96%87%E4%BB%B6%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%AD%E6%96%87%E6%B3%A8%E8%A7%A3%E8%A6%81%E5%B0%86%E5%BC%80%E5%A4%B4%E7%9A%84utf-8%E6%94%B9%E4%B8%BAutf8%E9%81%87%E5%88%B0%E8%BE%93%E5%87%BA%E6%97%B6%E5%AD%97%E6%AE%B5%E7%BC%BA%E5%B0%91%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E5%AD%97%E6%AE%B5%E5%AE%9A%E4%B9%89%E5%87%BA%E7%8E%B0%E9%97%AE%E9%A2%98">注意***想要xml文件中实现中文注解，要将开头的UTF-8改为UTF8,遇到输出时字段缺少，是数据库中字段定义出现问题！！！</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-jian-jie/">
+              <h3 class="post-title">
+                MyBatis学习之简介
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

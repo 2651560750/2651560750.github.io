@@ -1,0 +1,216 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyBatis学习之配置优化解析 | Gridea</title>
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1619096191129">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="MyBatis学习之配置优化解析 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="1核心配置文件
+mybatis-config.xml
+MyBatis 的配置文件包含了会深深影响 MyBatis 行为的设置和属性信息。 配置文档的顶层结构如下：
+configuration（配置）
+properties（属性）
+setti..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://2651560750.github.io">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1619096191129" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              MyBatis学习之配置优化解析
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-04-20
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="1核心配置文件">1核心配置文件</h1>
+<p>mybatis-config.xml</p>
+<p>MyBatis 的配置文件包含了会深深影响 MyBatis 行为的设置和属性信息。 配置文档的顶层结构如下：</p>
+<pre><code>configuration（配置）
+properties（属性）
+settings（设置）
+typeAliases（类型别名）
+typeHandlers（类型处理器）
+objectFactory（对象工厂）
+plugins（插件）
+environments（环境配置）
+environment（环境变量）
+transactionManager（事务管理器）
+dataSource（数据源）
+databaseIdProvider（数据库厂商标识）
+mappers（映射器）
+</code></pre>
+<h1 id="2-环境配置environments">2、环境配置（environments）</h1>
+<p>MyBatis 可以配置成适应多种环境</p>
+<p>不过要记住：尽管可以配置多个环境，但每个 SqlSessionFactory 实例只能选择一种环境。</p>
+<p>学会使用配置多套运行环境</p>
+<p>Mybatis的默认事务管理器就是JDBC，连接池：POOLED</p>
+<h1 id="3-属性properties">3、属性（properties）</h1>
+<p>我们可以通过properties属性来实现应用配置文件</p>
+<p>这些属性可以在外部进行配置，并可以进行动态替换。既可以在典型的 Java 属性文件中配置这些属性，也可以在 properties 元素的子元素中设置。【db.propertis】</p>
+<p>编写一个配置文件<br>
+db.properties</p>
+<p>driver=com.mysql.jdbc.Driver<br>
+url=jdbc:mysql://localhost:3306/mybatis?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8<br>
+username=root<br>
+password=root<br>
+在核心配置文件中引入</p>
+<!--引入外部配置文件-->
+<properties resource="db.properties">
+    <property name="username" value="root"/>
+    <property name="password" value="root"/>
+</properties>
+<p>可以直接引入外部文件</p>
+<p>可以在其中增加一些属性配置</p>
+<p>如果两个文件有同一个字段，优先使用外部配置</p>
+<h1 id="注意在properties文件中的url路径符号后面不需要加上apm">注意，在properties文件中的url路径&amp;符号后面不需要加上apm;</h1>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#1%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">1核心配置文件</a></li>
+<li><a href="#2-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEenvironments">2、环境配置（environments）</a></li>
+<li><a href="#3-%E5%B1%9E%E6%80%A7properties">3、属性（properties）</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8F%E5%9C%A8properties%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84url%E8%B7%AF%E5%BE%84%E7%AC%A6%E5%8F%B7%E5%90%8E%E9%9D%A2%E4%B8%8D%E9%9C%80%E8%A6%81%E5%8A%A0%E4%B8%8Aapm">注意，在properties文件中的url路径&amp;符号后面不需要加上apm;</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-wang-neng-de-map/">
+              <h3 class="post-title">
+                MyBatis学习之王能的Map
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://2651560750.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
