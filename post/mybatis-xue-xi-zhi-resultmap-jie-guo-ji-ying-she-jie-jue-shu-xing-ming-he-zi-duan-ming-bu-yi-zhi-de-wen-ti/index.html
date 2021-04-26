@@ -2,28 +2,23 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>JavaWeb学习之Tomcat服务器详解 | Gridea</title>
+<title>MyBatis学习之resultMap结果集映射（解决属性名和字段名不一致的问题）） | Gridea</title>
 <link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1619437096146">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="JavaWeb学习之Tomcat服务器详解 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="MyBatis学习之resultMap结果集映射（解决属性名和字段名不一致的问题）） | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="安装Tomcat
-官网：https://tomcat.apache.org/download-10.cgi
-下载压缩包：
-
-
-
-
-
-
-
-
-
-..." />
+    <meta name="description" content="1、问题
+新建一个项目，拷贝之前的，测试实体类字段不一致的情况
+public class User {
+private int id;
+private String name;
+private String password;
+}
+测试出现..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -86,11 +81,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              JavaWeb学习之Tomcat服务器详解
+              MyBatis学习之resultMap结果集映射（解决属性名和字段名不一致的问题））
             </h2>
             <div class="post-info">
               <span>
-                2021-04-14
+                2021-04-24
               </span>
               <span>
                 1 min read
@@ -100,23 +95,41 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <h1 id="安装tomcat">安装Tomcat</h1>
-<p>官网：https://tomcat.apache.org/download-10.cgi<br>
-下载压缩包：<br>
-<img src="https://2651560750.github.io/post-images/1618405988993.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618406062734.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618406301231.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618406550738.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618406874087.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618406923223.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618407053429.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618407059092.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618407595729.png" alt="" loading="lazy"></p>
-
+                <h1 id="1-问题">1、问题</h1>
+<p>新建一个项目，拷贝之前的，测试实体类字段不一致的情况<br>
+public class User {<br>
+private int id;<br>
+private String name;<br>
+private String password;<br>
+}<br>
+测试出现问题<br>
+解决方法：<br>
+起别名<br>
+<select id="getUserById" resultType="com.kuang.pojo.User" parameterType="int"><br>
+select id,name,pwd as password from mybatis.user where id=#{id}<br>
+</select></p>
+<h1 id="2-resultmap">2、resultMap</h1>
+<p>结果集映射<br>
+id name pwd<br>
+id name password</p>
+<!--结果集映射-->
+<resultMap id="UserMap" type="User">
+    <!--column数据库中的字段，property实体类中的属性-->
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="pwd" property="password"/>
+</resultMap>
+<select id="getUserById" resultMap="UserMap">
+    select * from mybatis.user where id=#{id}
+</select>
+resultMap 元素是 MyBatis 中最重要最强大的元素
+ResultMap 的设计思想是，对简单的语句做到零配置，对于复杂一点的语句，只需要描述语句之间的关系就行了
+ResultMap最优秀的地方在于，虽然你已经对它相当了解了，但是根本就不需要显式地用到他们
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
-<li><a href="#%E5%AE%89%E8%A3%85tomcat">安装Tomcat</a></li>
+<li><a href="#1-%E9%97%AE%E9%A2%98">1、问题</a></li>
+<li><a href="#2-resultmap">2、resultMap</a></li>
 </ul>
 
               </div>
@@ -127,9 +140,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://2651560750.github.io/post/javaweb-xue-xi-zhi-web-fu-wu-qi/">
+            <a href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-pei-zhi-jie-xi/">
               <h3 class="post-title">
-                JavaWeb学习之web服务器
+                MyBatis学习之配置解析
               </h3>
             </a>
           </div>

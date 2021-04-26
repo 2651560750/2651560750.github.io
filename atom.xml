@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://2651560750.github.io</id>
     <title>Gridea</title>
-    <updated>2021-04-24T06:19:37.798Z</updated>
+    <updated>2021-04-26T11:38:19.985Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://2651560750.github.io"/>
     <link rel="self" href="https://2651560750.github.io/atom.xml"/>
@@ -10,6 +10,43 @@
     <logo>https://2651560750.github.io/images/avatar.png</logo>
     <icon>https://2651560750.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[MyBatis学习之resultMap结果集映射（解决属性名和字段名不一致的问题））]]></title>
+        <id>https://2651560750.github.io/post/mybatis-xue-xi-zhi-resultmap-jie-guo-ji-ying-she-jie-jue-shu-xing-ming-he-zi-duan-ming-bu-yi-zhi-de-wen-ti/</id>
+        <link href="https://2651560750.github.io/post/mybatis-xue-xi-zhi-resultmap-jie-guo-ji-ying-she-jie-jue-shu-xing-ming-he-zi-duan-ming-bu-yi-zhi-de-wen-ti/">
+        </link>
+        <updated>2021-04-24T06:59:02.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1-问题">1、问题</h1>
+<p>新建一个项目，拷贝之前的，测试实体类字段不一致的情况<br>
+public class User {<br>
+private int id;<br>
+private String name;<br>
+private String password;<br>
+}<br>
+测试出现问题<br>
+解决方法：<br>
+起别名<br>
+<select id="getUserById" resultType="com.kuang.pojo.User" parameterType="int"><br>
+select id,name,pwd as password from mybatis.user where id=#{id}<br>
+</select></p>
+<h1 id="2-resultmap">2、resultMap</h1>
+<p>结果集映射<br>
+id name pwd<br>
+id name password</p>
+<!--结果集映射-->
+<resultMap id="UserMap" type="User">
+    <!--column数据库中的字段，property实体类中的属性-->
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="pwd" property="password"/>
+</resultMap>
+<select id="getUserById" resultMap="UserMap">
+    select * from mybatis.user where id=#{id}
+</select>
+resultMap 元素是 MyBatis 中最重要最强大的元素
+ResultMap 的设计思想是，对简单的语句做到零配置，对于复杂一点的语句，只需要描述语句之间的关系就行了
+ResultMap最优秀的地方在于，虽然你已经对它相当了解了，但是根本就不需要显式地用到他们]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MyBatis学习之配置解析]]></title>
         <id>https://2651560750.github.io/post/mybatis-xue-xi-zhi-pei-zhi-jie-xi/</id>
@@ -56,6 +93,60 @@ password=root<br>
 <p>可以直接引入外部文件</p>
 <p>可以在其中增加一些属性配置</p>
 <p>如果两个文件有同一个字段，优先使用外部配置</p>
+<h1 id="4别名">4别名</h1>
+<p>类型别名可为 Java 类型设置一个缩写名字<br>
+它仅用于 XML 配置，意在降低冗余的全限定类名书写</p>
+<!--可以给实体类起别名-->
+<typeAliases>
+    <typeAlias type="com.kuang.pojo.User" alias="User"/>
+</typeAliases>
+可以指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean
+<p>扫描实体类的包，他的默认别名就为这个类的 类名，首字母小写<br>
+<typeAliases><br>
+<package name="com.kuang.pojo"/><br>
+</typeAliases><br>
+在实体类比较少的时候，使用第一种方式</p>
+<p>如果实体类比较多，建议使用第二种</p>
+<p>第一种可以DIY别名，第二种则不行，如果非要改，需要在实体类增加注解<br>
+@Alias(&quot;user&quot;)</p>
+<h1 id="映射器">映射器</h1>
+<p>MapperRegistry：注册绑定我们的Mapper文件<br>
+方式一：【推荐使用】</p>
+<!--每一个Mapper.xml都需要在Mybatis核心配置文件中注册-->
+<mappers>
+    <mapper resource="com/kuang/dao/UserMapper.xml"/>
+</mappers>
+方式二：使用class文件绑定注册
+<!--每一个Mapper.xml都需要在Mybatis核心配置文件中注册-->
+<mappers>
+    <mapper class="com.kuang.dao.UserMapper"/>
+</mappers>
+注意点：
+接口和他的Mapper配置文件必须同名
+接口和他的Mapper配置文件必须在同一个包下
+方式三：使用扫描包进行注入绑定
+<!--每一个Mapper.xml都需要在Mybatis核心配置文件中注册-->
+<mappers>
+    <package name="com.kuang.dao"/>
+</mappers>
+注意点：
+<p>接口和他的Mapper配置文件必须同名<br>
+接口和他的Mapper配置文件必须在同一个包下</p>
+<h1 id="生命周期和作用域">生命周期和作用域</h1>
+<p>作用域和生命周期类别是至关重要的，因为错误的使用会导致非常严重的并发问题</p>
+<p>SqlSessionFactoryBuilder</p>
+<p>一旦创建了 SqlSessionFactory，就不再需要它了<br>
+局部变量<br>
+SqlSessionFactory</p>
+<p>说白了就是可以想象为：数据库的连接池<br>
+SqlSessionFactory 一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例<br>
+因此 SqlSessionFactory 的最佳作用域是应用作用域<br>
+最简单的就是使用单例模式或者静态单例模式。<br>
+SqlSession</p>
+<p>连接到连接池的一个请求<br>
+SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域<br>
+用完之后赶紧关闭，否则资源被占用<br>
+这里面的每一个Mapper，就代表一个具体的业务</p>
 ]]></content>
     </entry>
     <entry>
@@ -584,24 +675,6 @@ Tomcat是Apache软件基金会（(Apache Software Foundation)的Jakarta项目中
 Servlet和SP规范总是能在Tomcat 中得到体现，因为Tomcat 技术先进、性能稳定，而且免费，因而深受Java爱好者的喜爱并得到了部分软件开发商的认可，成为目前比较流行的Web应用服务器。<br>
 Tomcat 服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试$P程序的首选。对于一个ava初学web的人来说，它是最佳的选择<br>
 Tomcat 实际上运行S页面和Servlet。 Tomcat最新版本为9.0。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaWeb学习之JavaWeb的概念]]></title>
-        <id>https://2651560750.github.io/post/javaweb-xue-xi-zhi-javaweb-de-gai-nian/</id>
-        <link href="https://2651560750.github.io/post/javaweb-xue-xi-zhi-javaweb-de-gai-nian/">
-        </link>
-        <updated>2021-04-14T12:14:49.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="a什么是javaweb">a)什么是JavaWeb</h1>
-<p>JavaWeb是指，所有通过Java语言编写可以通过浏览器访问的程序的总称，叫JavaWeb。javaweb是基于请求和响应来开发的。</p>
-<h1 id="b什么是请求">b)什么是请求</h1>
-<p>请求是指客户端给服务器发送数据，叫请求Request。</p>
-<h1 id="c什么是响应">c)什么是响应</h1>
-<p>响应是指服务器给客户端回传数据，叫响应Response。</p>
-<h1 id="d请求和响应的关系">d)请求和响应的关系</h1>
-<p>请求和响应是成对出现的，有请求就一定有响应。<br>
-<img src="https://2651560750.github.io/post-images/1618402769615.png" alt="" loading="lazy"><br>
-<img src="https://2651560750.github.io/post-images/1618404995702.png" alt="" loading="lazy"></p>
 ]]></content>
     </entry>
 </feed>

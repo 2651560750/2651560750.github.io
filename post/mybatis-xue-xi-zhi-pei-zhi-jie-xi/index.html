@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MyBatis学习之配置解析 | Gridea</title>
-<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1619245172374">
+<link rel="shortcut icon" href="https://2651560750.github.io/favicon.ico?v=1619437096146">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://2651560750.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="MyBatis学习之配置解析 | Gridea - Atom Feed" href="https://2651560750.github.io/atom.xml">
@@ -26,7 +26,7 @@ setti..." />
       <div class="main-content">
         <div class="site-header">
   <a href="https://2651560750.github.io">
-  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1619245172374" alt="">
+  <img class="avatar" src="https://2651560750.github.io/images/avatar.png?v=1619437096146" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -86,7 +86,7 @@ setti..." />
                 2021-04-20
               </span>
               <span>
-                2 min read
+                4 min read
               </span>
               
             </div>
@@ -133,6 +133,60 @@ password=root<br>
 <p>可以直接引入外部文件</p>
 <p>可以在其中增加一些属性配置</p>
 <p>如果两个文件有同一个字段，优先使用外部配置</p>
+<h1 id="4别名">4别名</h1>
+<p>类型别名可为 Java 类型设置一个缩写名字<br>
+它仅用于 XML 配置，意在降低冗余的全限定类名书写</p>
+<!--可以给实体类起别名-->
+<typeAliases>
+    <typeAlias type="com.kuang.pojo.User" alias="User"/>
+</typeAliases>
+可以指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean
+<p>扫描实体类的包，他的默认别名就为这个类的 类名，首字母小写<br>
+<typeAliases><br>
+<package name="com.kuang.pojo"/><br>
+</typeAliases><br>
+在实体类比较少的时候，使用第一种方式</p>
+<p>如果实体类比较多，建议使用第二种</p>
+<p>第一种可以DIY别名，第二种则不行，如果非要改，需要在实体类增加注解<br>
+@Alias(&quot;user&quot;)</p>
+<h1 id="映射器">映射器</h1>
+<p>MapperRegistry：注册绑定我们的Mapper文件<br>
+方式一：【推荐使用】</p>
+<!--每一个Mapper.xml都需要在Mybatis核心配置文件中注册-->
+<mappers>
+    <mapper resource="com/kuang/dao/UserMapper.xml"/>
+</mappers>
+方式二：使用class文件绑定注册
+<!--每一个Mapper.xml都需要在Mybatis核心配置文件中注册-->
+<mappers>
+    <mapper class="com.kuang.dao.UserMapper"/>
+</mappers>
+注意点：
+接口和他的Mapper配置文件必须同名
+接口和他的Mapper配置文件必须在同一个包下
+方式三：使用扫描包进行注入绑定
+<!--每一个Mapper.xml都需要在Mybatis核心配置文件中注册-->
+<mappers>
+    <package name="com.kuang.dao"/>
+</mappers>
+注意点：
+<p>接口和他的Mapper配置文件必须同名<br>
+接口和他的Mapper配置文件必须在同一个包下</p>
+<h1 id="生命周期和作用域">生命周期和作用域</h1>
+<p>作用域和生命周期类别是至关重要的，因为错误的使用会导致非常严重的并发问题</p>
+<p>SqlSessionFactoryBuilder</p>
+<p>一旦创建了 SqlSessionFactory，就不再需要它了<br>
+局部变量<br>
+SqlSessionFactory</p>
+<p>说白了就是可以想象为：数据库的连接池<br>
+SqlSessionFactory 一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例<br>
+因此 SqlSessionFactory 的最佳作用域是应用作用域<br>
+最简单的就是使用单例模式或者静态单例模式。<br>
+SqlSession</p>
+<p>连接到连接池的一个请求<br>
+SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域<br>
+用完之后赶紧关闭，否则资源被占用<br>
+这里面的每一个Mapper，就代表一个具体的业务</p>
 
               </div>
               <div class="toc-container">
@@ -140,6 +194,9 @@ password=root<br>
 <li><a href="#1%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">1核心配置文件</a></li>
 <li><a href="#2-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEenvironments">2、环境配置（environments）</a></li>
 <li><a href="#3-%E5%B1%9E%E6%80%A7properties">3、属性（properties）</a></li>
+<li><a href="#4%E5%88%AB%E5%90%8D">4别名</a></li>
+<li><a href="#%E6%98%A0%E5%B0%84%E5%99%A8">映射器</a></li>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F">生命周期和作用域</a></li>
 </ul>
 
               </div>
